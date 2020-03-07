@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input,Checkbox, Button} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {reqLogin} from '../../api/index'
 import logo from '../../assets/logo.jpg'
 import './login.less'
 
@@ -8,7 +9,34 @@ import './login.less'
 
 const Item=Form.item
 class Login extends Component {
-    formRef = React.createRef()
+    constructor(props){
+        super(props);
+        this.input = React.createRef();
+    }
+    
+    onFinish = values => {
+        console.log('v',values)
+        console.log(this.input.current)
+        const {username,password} = values
+        reqLogin(username,password).then(response => {
+            console.log('成功',response.data)
+        }).catch(error => {
+            console.log('登录失败')
+        })
+
+    }
+    // validatePwd = (rule,value,callback) => {
+    //     if(!value) {
+    //         callback('请输入用户名!')
+    //     } else if(value.length<4) {
+    //         callback('用户名至少4位')
+    //     } else if(value.length>8) {
+    //         callback('用户名最多8位')
+    //     } else if(/^[a-zA-Z0-9_]+$/.test(value)) {
+    //         callback('用户名必须是英文、字母或下划线组成')
+    //     }
+    //     callback()
+    // }
     render() {
         return (
             <div className="login">
@@ -22,7 +50,8 @@ class Login extends Component {
                         <Form
                             name="normal_login"
                             className="login-form"
-                            ref={this.formRef}>
+                            onFinish={this.onFinish}
+                            ref={this.input}>
                             <Form.Item
                                 name="username"
                                 rules={[
