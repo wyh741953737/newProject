@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流-防抖</title>
+</head>
+<body>
+    <input type="text" id="search"/>
+    <div id="content" style="height:180px;line-height:180px;text-align:center;background-color:yellowgreen;color:#fff;font-size: 50px;"></div>
+    <script>
+        let num = 1
+        let content = document.getElementById('content')
+        function count() {
+            content.innerHTML = num++
+        }
+        //输入完毕过2秒查询
+        function debounce(func,await) {
+            let timeout
+            return function() {
+                if(timeout) clearTimeout(timeout)
+                timeout = setTimeout(() => {
+                    func.apply(this)
+                }, await);
+            }
+        }
+        //输入完立即查询，过2秒之后才能查。
+        function delayDebounce(func,await) {
+            let timeout
+            return function() {
+                if(timeout) clearTimeout(timeout) //如果有定时器，将定时器清空
+                let callNow = !timeout //callNow的真假：没有定时器为真，有定时器为假
+                timeout = setTimeout(() => { //因为2秒内再次触发就得重新计时，所以将timeout置为空
+                    timeout = null
+                }, await);
+                if(callNow) func.apply(this) //如果callNow为真，执行防抖
+            }
+        }
+
+        //节流：n秒内只会执行一次
+        function throttle(func,await) {
+            let timeout
+            return function() {
+               if(!timeout) {
+                    timeout = setTimeout(() => {
+                        timeout = null
+                        func.apply(this)
+                    }, await);
+               }
+            }
+        }
+        //时间戳来实现节流
+        function timeThrottle(func,await) {
+            let pre = 0
+            return function() {
+                let now = Date.now()
+                if(now-pre >await) {
+                    func.apply(this)
+                    pre = now
+                }
+            }
+        }
+        content.onmousemove = timeThrottle(count,1000)
+    </script>
+</body>
+</html>

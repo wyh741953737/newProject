@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json with padding(填充)</title>
+</head>
+<body>
+    <button id="btn">Click Me</button>
+    <button id="btn2">Click you</button>
+    <!--
+    jsonp绕过浏览器的同源限制，利用src，只能发送get请求，参数要拼接在请求地址的后面，
+     1：创建script标签，将请求地址写在src里面
+     2：服务器响应的数据必须是函数调用，直接写会在服务器端被调用，所以服响应一个包含函数的字符串，将响应数据作为实参返回给客户端
+     3：在客户端全局作用域下定义函数，而且要写在script上面。
+    -->
+    <script>
+        btn.onclick = function() {
+            jsonp({
+            url:'http://localhost:3001/test',
+            data:{
+                name:'Eileen',
+                age:12
+            },
+            success: function(receData) {
+                console.log('123')
+                console.log(receData)
+            }
+            })
+        }
+        btn2.onclick = function() {
+            jsonp({
+            url:'http://localhost:3001/test',
+            success: function(receData) {
+                console.log('456')
+                console.log(receData)
+            }
+            })
+        }
+        function jsonp(options) {
+           var script = document.createElement('script')
+           //将接收数据的函数放在这就不是全局函数了（可以挂载到window），而且匿名（在window下创建一个函数
+           //产生一个0-1之间的随机数，0.933，转化为字符串去掉.,而且，函数名不能是个纯数字，加上一个字符串
+           var fnName = 'jsonp'+Math.random().toString().replace('.','')
+           //函数名后写覆盖先写，让函数名变成一个随机名
+           //点后面跟的得是个属性，点后面不能跟变量，但是fnName是个变量，不能点，变量用[]存放
+           window[fnName] = options.success
+           //拼接参数：属性名=属性值&属性名=属性值
+           var params = ''
+           for(var attr in options.data) {
+               params += '&' + attr + '=' + options.data[attr]
+           }
+           script.src = options.url+'?callback='+fnName +params
+           document.body.appendChild(script)
+           script.onload = function () {
+               document.body.removeChild(script)
+           }
+        }
+    </script>
+</body>
+</html>

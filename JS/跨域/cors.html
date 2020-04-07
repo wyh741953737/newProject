@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coss-origin-resource-sharing跨域资源共享</title>
+</head>
+<body>
+    <!--
+    1：它允许浏览器向跨域服务器发送ajax请求，克服了Ajax只能同源使用的限制
+    2：服务器允许你跨域访问就可以访问，不允许就不能，只需要在服务器端配置
+    3：发送请求时，浏览器发现跨域就会在请求头加上origin字段，字段值就是当前请求域信息（当前网站地址）
+    服务器根据字段值决定是否同意这次请求，不管同不同意，服务端都会给客户端返回一个正常的响应，如果服务器同意，在响应头加Access-Control-Allow-Origin
+    浏览器根据是否有这个字段来判断是否同意Access访问 control 控制 Allow允许 origin源
+        Access-Control-Allow-Origin:'http://localhost:3000'
+        Access-Control-Allow-Origin:''
+    -->
+    <button id="btn">点击</button>
+    <script src="./ajax.js"></script>
+    <script>
+        var btn = document.getElementById('btn')
+        btn.onclick = function () {
+            ajax({
+                type:'get',
+                url:'http://localhost:3001/cross',
+                success: function(data) {
+                    console.log(data)
+                }
+            })
+        }
+    </script>
+</body>
+</html>

@@ -112,7 +112,7 @@ for(var i=0;i<10;i++){
       console.log(j)
    }
 }
-continue跳过当次循环，默认只会对离它最近的循环起作用，也可以使用label：循环语句
+continue跳过当次循环，继续执行下次。默认只会对离它最近的循环起作用，也可以使用label：循环语句
 作用：比如筛选质数，提高性能
 for(var i=2;i<100;i++){
    for(var j=2;j<i;j++){
@@ -219,6 +219,7 @@ ES6之前程序员能直接操作显示原型，但是不能操作隐式原型
 typeof 返回数据类型的字符串表达，声明一个变量未定义，typeof返回'undefined' 数字/字符串/布尔值/undefined/function。不能判断null与Object，Object和Array
 var a=function (){} //typeof a （'function'）
 
+
 instancef 判断对象的具体类型
 ===/== null/undefined
 
@@ -317,6 +318,24 @@ TypeError：类型错误
 
 
 
+
+
+
+
+
+Socket.io
+   http协议实现通信，只能浏览器发起，服务器不能像浏览器发请求，不平等（浏览器进攻）
+   h5 websocket可以实现客户端和服务器端双向通信。
+   轮循：服务器无法主动发信息给客户端，客户端就要不断的去问服务器有没有数据。
+   socketio包装的是h5 websocket和轮循。教新的浏览器内部使用websocket，不支持的内部就会采用轮循
+
+
+React中为什么一定要在constructor中调用super？
+super是一个函数，而且它是父类的构造器，子类中的super其实就是父类中constructor构造器的一个引用，
+如果一个子类通过extends关键字继承了父类，那么子类的constructor中必须优先调用以下super
+
+
+
 Hook钩子，函数，你可以在不使用class情况下使用state，或者生命周期，hook从组件中提取状态逻辑，使这些逻辑可以单独测试和复用
 复用状态逻辑。hook不能在class组件中使用
 hook将组件中互相关联的部分拆分为更小的函数
@@ -338,3 +357,6 @@ const [count,setCount] = useState(count)
 用[]，数组解构，意味着同时创建count，setCount两个变量
 
 如果只是想在更新DOM之后运行部分代码，如：网络请求，手动更新DOM，等无需清除的操作
+
+冒泡排序：一组数据，两个两个进行比较，如果位置错误交换位置，直到没有需要交换的数据
+   比如有5个数据[5,3,7,1,2] 一共要走length-1趟，每一趟交换length-i-1次。
