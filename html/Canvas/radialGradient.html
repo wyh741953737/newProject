@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+            padding-top: 60px;
+        }
+        canvas{
+            box-shadow: 0 0 10px #333;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1600" height="1000"></canvas>
+    <script>
+           
+            if(canvas.getContext) {
+                console.log('支持')
+                var canvas=document.getElementById("canvas");
+                var ctx=canvas.getContext("2d");
+                var img = new Image()
+                img.src='1.jpeg'
+            } else {
+                alert('不支持')
+            }
+    
+        // 线性渐变
+        // var grd=ctx.createLinearGradient(45,45,10,52,50,30);
+        // grd.addColorStop(0,"#FF0000");
+        // grd.addColorStop(0.5,"#00FF00");
+        // grd.addColorStop(0.5,"#FF0000");
+        // var grd2=ctx.createLinearGradient(105,105,20,112,50);
+        // grd2.addColorStop(0,"#FF0000");
+        // grd2.addColorStop(0.9,"#00FF00");
+        // grd2.addColorStop(1,"#FF0000");
+        // ctx.fillStyle=grd2;
+        // ctx.fillRect(0,0,150,150);
+        // ctx.fillStyle =grd
+        // ctx.fillRect(0,0,150,150)
+
+        /*图片*/
+        // var img = new Image()
+        // img.src='./address.png'
+        // img.onload = function() {
+        //     var ptrn = ctx.createPattern(img,'repeat')
+        //     ctx.fillStyle=ptrn
+        //     ctx.fillRect(0,0,600,600)
+        // }
+
+        /*文字阴影*/
+            // var grd=ctx.createLinearGradient(100,200,300,200);
+            // grd.addColorStop(0.5,'#cc6677');
+            // grd.addColorStop(1,'#000');
+            // ctx.shadowColor = 'Orange'
+            // ctx.shadowBlur = 10
+            // ctx.shadowOffsetX = 20
+            // ctx.shadowOffsetY = 20
+            // ctx.font = 'bold italic 120px arial'
+            // ctx.fillStyle=grd;
+            // ctx.fillText('Hello',400,200)
+            /*画图片中的某个部分*/
+            //ctx.drawImage(this,0,0,120,100,150,50,100,50) //图片，x轴，y周，宽，高，绘制x轴，绘制y轴，绘制宽度，绘制高度
+
+
+
+    </script>
+</body>
+</html>

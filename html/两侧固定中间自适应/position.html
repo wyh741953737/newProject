@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定位实现三栏中间自适应</title>
+</head>
+<style>
+    .main{
+        position: relative;
+        background: greenyellow;
+    }
+    .center{
+        margin: 0 200px;
+        background-color: rgb(228, 169, 169);
+    }
+    .left{
+        left: 0;
+    }
+    .right{
+        right: 0;
+    }
+    .left,.right{
+        position: absolute;
+        top: 0;
+        min-width: 200px;
+        background-color: rgb(201, 74, 74);
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="layout left">左边</div>
+        <div class="layout center">中间</div>
+        <div class="layout right">右边</div>
+    </div>
+</body>
+</html>

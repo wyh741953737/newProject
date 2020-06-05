@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>矩形</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+            padding-top: 60px;
+        }
+        canvas{
+            box-shadow: 0 0 10px #333;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body onload="draw()">
+    <canvas id="canvas" width="1800" height="1000"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas')
+        
+        function draw() {
+                var canvas=document.getElementById("canvas");
+                var ctx = canvas.getContext('2d')
+                var img=new Image();
+                img.src="1.jpeg";
+                img.onload = function(){                    
+                    // ctx.drawImage(img,0,0); 
+                    // ctx.fillStyle = '#fff' 
+                    // ctx.fillRect(90,205,70,22)                    
+                    // ctx.font='14px Arial'
+                    // ctx.strokeText('你好',90,222)                 
+                    // ctx.stroke()
+
+                    ctx.beginPath()
+                    ctx.arc(400,300,150,0,Math.PI*2)
+                    ctx.fill()
+                    ctx.clip()//clip 属性剪裁绝对定位元素
+                    ctx.drawImage(this,70,100)
+                }
+            /*矩形*/
+            // ctx.fillRect(150,150,140,140)
+            // ctx.clearRect(170,170,100,100)
+            // ctx.strokeRect(180,180,80,80)
+                
+            // /*三角形*/
+            // ctx.beginPath()
+            // ctx.moveTo(0,0) //起始点x=75，y=50
+            // ctx.lineTo(120,50)//第一个点x=120，y=50
+            // ctx.lineTo(0,50)//第三个点 x=0,y=50
+            // // ctx.fill()
+            // ctx.closePath()
+            // ctx.stroke()
+
+            // /*圆形*/
+            // ctx.beginPath()
+            // ctx.strokeStyle = 'orange'
+            // ctx.lineWidth = 10
+            // ctx.arc(400,300,150,0,Math.PI/2,true)//圆心x，y，半径，开始角度，结束角度，顺/逆时针
+            // ctx.stroke()            
+           
+            // for(var i=0;i<4;i++) {
+            //     for(var j=0;j<3;j++) {
+            //         ctx.beginPath()
+            //         var x = 25 + j * 100
+            //         var y = 25 + i * 100
+            //         var radius = 20
+            //         var startAngle = 0
+            //         var endAngle = Math.PI + (Math.PI * j) / 2
+            //         var anticlockwise = (i % 2) == 0 ? false : true
+            //         ctx.arc(x,y,radius,startAngle,endAngle,anticlockwise)
+            //         if(i>1) {
+            //             ctx.stroke()
+            //         } else {
+            //             ctx.fill()
+            //         }
+
+            //     }
+            // }
+
+            // /*线性渐变*/
+            // var lingrad = ctx.createLinearGradient(0,0,0,150) //起点，终点
+            // lingrad.addColorStop(0,'#cc6677')
+            // lingrad.addColorStop(0.5,'#fff')
+            // lingrad.addColorStop(0.5,'c6c776')
+            // var lingrad2 = ctx.createLinearGradient(0,50,0,90)
+            // lingrad2.addColorStop(0.5,'#000')
+            // lingrad2.addColorStop(1,'rgba(0,0,0,0')
+            // ctx.fillStyle=lingrad
+            // ctx.fillRect(10,10,130,130)
+            // ctx.strokeStyle=lingrad2
+            // ctx.strokeRect(50,50,50,50)
+        }
+    </script>
+</body>
+</html>

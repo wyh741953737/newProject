@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .wrap{
+        height: 700px;
+        width: 700px;
+        background-color: #f8b3b3;
+    }
+
+    .box{
+        box-sizing: border-box;
+        width: 100px;
+        height: 100px;
+        background-color: #bbfb95;
+    }
+    /* 第一种：flex */
+    /* .father{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } */
+
+    /* 第二种：flex延升：父盒子用flex，子元素margin:auto */
+    /* .father{
+        display: flex;
+    }
+    .son{
+        margin: auto;
+    } */
+
+    /* 第三种：flex延申：子元素align-self脱离父元素控制，配合margin */
+    /* .father{
+        display: flex;
+    }
+    .son{
+        align-self:center;
+        margin: auto;
+    }  */
+    /* 第四种使用display：grid一个个的格子 */
+    /* .father{
+        display: grid;
+    }
+    .son{
+        margin: auto;
+    } */
+
+    /* 第五种:使用grid配合align-item和justify-content */
+    /* .father{
+        display: grid;
+    }
+    .son{
+        justify-self: center;
+        align-self: center;
+    } */
+
+    /* 第六种:cacl计算 */
+    /* .son{
+        margin:calc(50%-50px) auto 0 auto;
+    } */
+
+    /*第七种：绝对定位,会相对根元素水平垂直居中,相对根元素*/
+    /* .son{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    } */
+
+    /* 第八种：transform:translate(),相对根元素 */
+    /* .son{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    } */
+
+    /* 第九种：display：table-cell */
+    .father{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .son{
+        display: inline-block;
+    }
+
+    /*第十种：*/
+</style>
+<body>
+   <div class="wrap father">
+      <div class="box son" id="box"></div>
+   </div>
+    <!-- <script>
+        let html = document.documentElement,
+            winW = html.clientWidth,
+            winH = html.clientHeight,
+            boxW = box.offsetWidth,
+            boxH = box.offsetHeight;
+        box.style.position = "absolute"
+        box.style.left = (winW - boxW) / 2 + 'px'
+        box.style.top = (winH - boxH) / 2 + 'px'     
+    </script> -->
+    <!--
+        盒子水平垂直居中
+        这种需求在平时些项目的过程中是非常常见的，
+        一开始我学css的时候，只知道用定位来实现，
+        css3之后，flex很好用，有一次我在看掘金的时候看到一种方案display：table-cell虽然不常用，也能实现，所以就记下来了。
+    1: 缺点：必须知道盒子的宽高。
+        position:absoluto;
+        margin-top:自身高度一半；
+        margin-left：自身宽度一半；
+        top：50%；
+        left：50%；
+    2：要有宽高，不必关心具体值。
+        position：absolute；
+        top：0；
+        left：0
+        bottom：0；
+        right：0；
+        margin：auto
+    3：css3有个transform：translate（-50%，-50%）缺点：兼容性不是很好。
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%)
+    4：给父容器加display:flex;justify-content:center;align-items:center;缺点：兼容性不好。
+    5:给父级元素设置:父元素必须是固定宽高
+        display:table-cell;
+        vartical-align:middle;
+        text-align:center//宽高不能是百分比。
+    6:javascript
+盒模型：分为标准box-sizing：content-box（真实内容的宽高），怪异
+，css3的flex弹性伸缩模型，columns多列布局
+我们最常用的就是标准盒子模型：也就是box-sizing为content-box代表内容宽高，不代表盒子宽高，盒子宽高包括内边距，外边距，边框。但是这样在项目开发过程中会遇到
+问题：比如我们想要构建100*100的盒子，但是设置了width和height是100，我加border的时候不改变width和height会变大。
+CSS3提供了一个方式：box-sizing：border-box，也就是怪异盒模型（width和height是指盒子的大小，不是内容大小，
+真实项目中都在用box-sizing：border-box，我看。。。的源码也是用的ie盒模型），
+Flex盒模型：
+        给父容器设置display：flex，这个盒子就会变成弹性盒子。在这个盒子里有两条轴，main axis主轴和cross axis交叉轴。
+
+-->
+</body>
+</html>

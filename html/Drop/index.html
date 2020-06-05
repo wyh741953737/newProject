@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽</title>
+</head>
+<style type="text/css">
+    #div1 {width:198px; height:66px;padding:10px;border:1px solid #aaaaaa;}
+    </style>
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    function drag(ev) {
+        ev.dataTransfer.setData("Text",ev.target.id)
+    }
+    function drop(ev) {
+        ev.preventDefault()
+        var data = ev.dataTransfer.getData("Text")
+        ev.target.appendChild(document.getElementById(data))
+    }
+</script>
+<body>
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <br/>
+    <div id="drag1" draggable="true" ondragstart="drag(event)">Hello</div>
+</body>
+</html>
+<!--
+    ondragstart 拖拽开始
+    ondrag  拖拽中
+    ondragend 拖拽结束
+    --------------
+    ondragenter 元素进入目标元素（根据鼠标决定）
+    ondragover 在目标元素中移动
+    ondrop 在目标元素里呆着
+    ondragleave 离开目标元素
+-->
