@@ -17,7 +17,7 @@
     <script>
         btn.onclick = function() {
             jsonp({
-            url:'http://localhost:3001/test',
+            url:'http://localhost:3001/jsonp',
             data:{
                 name:'Eileen',
                 age:12
@@ -30,7 +30,7 @@
         }
         btn2.onclick = function() {
             jsonp({
-            url:'http://localhost:3001/test',
+            url:'http://localhost:3001/jsonp',
             success: function(receData) {
                 console.log('456')
                 console.log(receData)

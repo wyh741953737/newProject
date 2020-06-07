@@ -4,7 +4,7 @@ function ajax(options) {
         url:'',
         data:{},
         header:{
-            'Content-Type':'application/x-www-form-urlencode'
+            'Content-Type':'application/x-www-form-urlencoded'
         },
         success:function(){},
         error:function(){},

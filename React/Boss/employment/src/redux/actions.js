@@ -7,18 +7,20 @@ import {
     reqUser,
     reqUserList,
     reqChatMsgList,
-    reqReadMsg
-} from '../api/index'
+    reqReadMsg,
+    uploadLicense
+} from '../api'
 import {
     AUTH_SUCCESS,
-    ERROR_MSG,
-    RECEIVE_USER,
-    RESET_USER,
-    RECEIVE_USER_LIST,
-    RECEIVE_MSG_LIST,
-    RECEIVE_MSG,
-    MSG_READ
-} from './action-types'
+     ERROR_MSG,
+     RECEIVE_USER,
+     RESET_USER,
+     RECEIVE_USER_LIST,
+     RECEIVE_MSG_LIST,
+     RECEIVE_MSG,
+     MSG_READ,
+     CHANGE_LICENSE
+    } from './action-types'
 
 /*单例对象，
 *1：创建对象前 判断对象是否存在，不存在才创建
@@ -59,57 +61,56 @@ if(result.code===0){
     dispatch(receiveMsgList({users,chatMsgs,userid}))
 }
 }
-//授权成功的同步actions
 const authSuccess= (user) => ({ type:AUTH_SUCCESS,data:user})
-//错误信息提示的同步action
 const errorMsg = (msg) => ({type:ERROR_MSG,data:msg})
-//接收用户的同步action
+
 const receiveUser = (user) => ({type: RECEIVE_USER,data:user})
-//重置用户的同步action
 export const resetUser = (msg) => ({type:RESET_USER,data:msg})
-//
 export const receiveUserList =(userList) =>({ type:RECEIVE_USER_LIST,data:userList })
-
-
-/**注册*/
-export const register = (user) => {
-    const {username, password,password2,type} = user
+export const changeLiscence = (data) => ({type:CHANGE_LICENSE,data:data})
+export const register=( user ) =>{
+    const {username, password,password2,type}=user
     if(!username){
         return errorMsg('用户名不能为空')
-    } else if(password !== password2){
+    }
+   else if(password!==password2){
         return errorMsg('密码不一致')
     }
     return async dispatch => {
-        const response = await reqRegister({username,password,type})
-        const result = response.data
-        if(result.code === 0){
-        // getMsgList(dispatch,result.data._id)
-            dispatch(authSuccess(result.data))
+        //发送注册的异步请求
+       //user是注册接口传过来的参数。
+        //函数执行返回到结果是promise对象,用then取数据，传回调函数太麻烦， 
+    const response= await reqRegister({username,password,type})
+    const result=response.data  //这里的data包含了codedata，msg，就是后台传过来的数据
+        if(result.code===0){//如果成功了，分发成功action
+            getMsgList(dispatch,result.data._id)
+            dispatch(authSuccess(result.data))//传result.data
         }else{
             dispatch(errorMsg(result.msg))
         }
     }
 }
-/**登录 */
-export const login = (user) => {
-const {password,username} = user
-    if(!username) {
+export const login=(user) =>{
+const {password,username}=user
+    if(!username){
         return errorMsg('用户名不能为空')
-    } else if(!password) {
+    }
+   else if(!password){
         return errorMsg('密码不能为空')
     }
     return async dispatch => {
-        const response= await reqLogin(user)
-        const result=response.data 
+  
+    const response= await reqLogin(user)
+    const result=response.data 
         if(result.code===0){
-            //  getMsgList(dispatch,result.data._id)
-             dispatch(authSuccess(result.data))
+            getMsgList(dispatch,result.data._id)
+            dispatch(authSuccess(result.data))//传result.data
         }else{
-             dispatch(errorMsg(result.msg))
+            dispatch(errorMsg(result.msg))
         }
     }
 }
-/**更新用户完善的信息 */
+
 export const updateUser=(user) => {
     return async dispatch => {
         const response = await requpdateUser(user)
@@ -149,11 +150,21 @@ export const readMsg=(from,to) =>{
     return async dispatch =>{
         const response=await reqReadMsg(from)
         const result=response.data
-        if(result.code===0){
+        if(result.code === 0){
             const count=result.data
             console.log('count',count)
             dispatch(msgRead({count,from,to}))
         }
+    }
+}
+export const saveLicense = (base64) => {
+    return async dispatch => {
+        const response = await uploadLicense(base64)
+        const result = response.data
+        console.log('我是result',result)
+        // if(result.code === 0) {
+        //     dispatch(changeLiscence(result.data))
+        // }
     }
 }
 const msgRead =({count,from,to}) => ({ type:MSG_READ,data:{count,from,to}})

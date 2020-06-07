@@ -4,7 +4,7 @@ import EmployeeInfo from '../employee/employeeInfo'
 import BossInfo from '../boss/bossInfo'
 import Boss from '../boss/boss'
 import Employee from '../employee/employee'
-import Message from '../messagge/message'
+import Message from '../message/message'
 import Personal from '../personal/personal'
 import NotFount from '../../components/not-fount/not-fount'
 import {
@@ -14,16 +14,16 @@ import {
 import { connect } from 'react-redux'
 import { getRedirect } from '../../utils'
 import Cookies from 'js-cookie'
-// import Footer from '../../components/footer/footer'
+import Footer from '../../components/footer/footer'
 import { getUser } from '../../redux/actions'
-// import ChatDetail from '../chatDetail/chatDetail'
-// import InfoDetail from '../infoDetail/infoDetail'
+import ChatDetail from '../chatDetail/chatDetail'
+import InfoDetail from '../infoDetail/infoDetail'
 
-// import EmployeeDetail from '../employeeDetail/employeeDetail' 
-// import MapInfo from '../../components/mapinfo/mapinfo'
-// import Wei from '../../containers/personal-route/wei/wei'
-
-import '../../assets/css/index.less'
+import EmployeeDetail from '../employeeDetail/employeeDetail' 
+import MapInfo from '../../components/mapinfo/mapinfo'
+import Wei from '../../containers/personal-route/wei/wei'
+import BossAllName from '../boss/bossAllName'
+import '../../assets/css/index.css'
  class Main extends Component {
    //给组件对象添加属性，包含所有导航组件相关信息
    navList=[
@@ -80,8 +80,8 @@ componentDidMount(){
     if(!userid){//如果cookie没有userid 重定向登陆界面
       return <Redirect to='/login'/>
     }
-    const { user } =this.props
-    // console.log('我是未读信息',unReadCount)//打印当前未读数量
+    const { user,unReadCount} =this.props
+    console.log('我是未读信息',unReadCount)//打印当前未读数量
     //debugger
     if(!user._id){//如果cookie中有userid，读取redux中user，如果user中没有_id,暂时返回null
       return null
@@ -91,7 +91,7 @@ componentDidMount(){
          path=getRedirect(user.type,user.header)
           return <Redirect to={path}/>
         }
-    }
+      }
 
       const { navList} =this
       const path=this.props.location.pathname
@@ -119,19 +119,20 @@ componentDidMount(){
         }
         <Route path='/employeeInfo' component={EmployeeInfo}/>
         <Route path='/bossInfo' component={BossInfo}/>
-        {/* <Route path='/chatDetail/:userid' component={ChatDetail}/>
+        <Route path='/chatDetail/:userid' component={ChatDetail}/>
         <Route path='/infoDetail/:userid' component={InfoDetail}/>
-        <Route path='/employeeDetail/:userid' component={EmployeeDetail}/> */}
-        {/* <Route path='/mapinfo' component={MapInfo}/> */}
-        {/* <Route path='/wei' component={Wei}/> */}
+        <Route path='/employeeDetail/:userid' component={EmployeeDetail}/>
+        <Route path='/mapinfo' component={MapInfo}/>
+        <Route path='/wei' component={Wei}/>
+        <Route path='/bossAllName' component={BossAllName}/>
         <Route component={NotFount}/>
       </Switch>
-      {/* {currentNav ? <Footer navList={navList} unReadCount={unReadCount}/>:null} */}
+      {currentNav ? <Footer navList={navList} unReadCount={unReadCount}/>:null}
       </div>
     )
   }
 }
 export default connect(
-  state => ({ user:state.user}),
+  state => ({ user:state.user,unReadCount:state.chat.unReadCount}),
   {getUser}
 )(Main)

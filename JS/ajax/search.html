@@ -29,7 +29,7 @@
         var listBox = document.getElementById('list-box')
         searchInp.oninput = function() {
             var key = this.value
-            ajax({
+            $ajax({
                 type:'get',
                 url:'http://localhost:3000/searchAutoPrompt',
                 data:{

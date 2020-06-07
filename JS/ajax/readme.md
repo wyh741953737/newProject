@@ -137,5 +137,20 @@ ajaxWrap({
 
 
 FormData的作用
-    1：模拟html表单，自动将表单对象的数据拼接成请求参数的格式
+    1：模拟html表单，自动将表单对象的数据拼接成请求参数的格式(querystring)
     2：异步上传二进制文件
+不用给表单控件添加id属性，也没有获取表单控件和值，将值拼接成一定的格式。这些都有formdata做好了
+
+
+xhr参数
+   1：xhr.onloaded 监听请求完成事件
+   2：xhr.tiomout 监听请求超时
+   3：xhr.onload 监听请求成功
+   4：xhr.onerr 监听请求失败
+   5：xhr.onabort 监听请求终止
+   6：xhr.onprogress 监听数据传输进行中事件
+   7：xhr.onloadstart 监听开始事件
+   8：xhr.upload 该属性指向XMLHTTPREQUEST上传对象
+   9：xhr.withcredentials 跨域请求是否提供凭证cookie，http认证以及
+
+   普通ajax不能像服务传递二进制文件，比如图片，使用formdata就可以解决

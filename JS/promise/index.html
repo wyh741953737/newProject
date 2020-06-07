@@ -8,13 +8,74 @@
 </head>
 <body>
     <script>
-        const p = new Promise((resolve,reject) => {
-            resolve(1)
-        })
-        p.then(
-            value =>{},
-            reason =>{}
-        )
+    //    const p = new Promise((resolve,reject) => {
+    //        setTimeout(() => {
+    //          reject(1) 
+    //        }, 1000);
+    //    }).then(
+    //        value => {
+    //            console.log('onResolved1()',value)
+    //        },
+    //        reason => {              
+    //            console.log('onRejected1()',reason)
+    //            return new Promise((resolve,reject) => reject('出错'))
+    //        }
+    //    ).then(
+    //        value => {
+    //            console.log('onResolved2()',value)
+    //        },
+    //        reason => {
+    //            console.log('onRejected2()',reason)
+    //        }
+    //    ).catch(reason => {
+    //        console.log('onRejected3()',reason)
+    //        return new Promise(() => {})
+    //    }).then(
+    //        value => {
+    //            console.log('onResolved4()',value)
+    //        },
+    //        reason => {
+    //            console.log('onRejected4()',reason)
+    //            throw 5
+    //        }
+    //    ).then(
+    //        value => {
+    //            console.log('onResolved5()',value)
+    //        },
+    //        reason => {
+    //            console.log('onRejected5()',reason)
+    //        }
+    //    )
+       const p1 = Promise.resolve(1)
+       const p2 = Promise.resolve(Promise.resolve(2))       
+       const p3 = Promise.resolve(Promise.reject(3))
+       const p4 = new Promise((resolve,reject) => {
+           setTimeout(() => {
+               reject(4)
+           }, 1000);
+       })
+       const p6 = Promise.resolveDelay(66,2000)
+       const p7 = Promise.rejectDelay(77,1000)
+       const pAll = Promise.all([p4,p1,p2])
+       pAll.then(
+          value => {
+               console.log('race onResolved',value)
+           },
+           reason => {
+               console.log('race.onRejected',reason)
+           }
+       )
+       const pRace = Promise.race([p1,p2,p3,p4])
+       pRace.then(
+           value => {
+               console.log('race onResolved',value)
+           },
+           reason => {
+               console.log('race.onRejected',reason)
+           }
+       )
+        p6.then(value => {console.log('p6',value)})
+        p7.catch(reason => {console.log('p7',reason)})
     </script>
 </body>
 </html>

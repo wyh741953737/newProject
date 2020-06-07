@@ -1,11 +1,5 @@
-promise是JS中进行异步编程的新方案。从语法上来说是个构造函数，从功能上来说promise对象用来封装一个异步操作并且可以获取其结果
-promise中的状态·pending/resolve/rejected。promise只能改变一次。
-为什么用promise？
-   1，指定回调函数的方式更加灵活。
-     旧的方案必须在启动异步任务前指定回调函数。
-     promise：启动异步任务=》返回promise对象=》给promise对象绑定回调函数
-   2，支持链式调用，可以解决回调地狱
-     回调地狱：回调函数嵌套使用，外部回调函数异步执行的结果是嵌套的回调函数执行的条件。缺点：不便于阅读和异常处理
+excutor函数：执行器：(resolve,reject) => {}
+excutor会在Promise内部立即同步回调，异步操作在执行器中执行,执行器函数同步回调。
      
 回调地狱方案
      dosomething(function(result) {
@@ -107,12 +101,13 @@ new Promise((resolve,reject) =>{
 2：如果先改变状态，那当指定回调时，回调函数就会被调用，得到数据
 （1）：
 new Promise((resolve,reject) =>{
-      resolve(1) //先改变状态（同时指定数据） （同步执行，因为整个resolve,reject（执行器）函数是同步的）
+      resolve(1) //先改变状态（同时指定数据） （同步执行，因为整个res
+      olve,reject（执行器）函数是同步的）
 }).then( //后指定回调，异步执行回调函数。
 //.then也是同步的，.then和回调函数不是一回事，.then是去指定回调函数的，同步改的状态，同步指定的回调函数，执行回调函数的条件就有了)
     value=>{},reason=>{} //这两个是回调函数，异步的。即使条件已经满足也不是立即执行的
     )
-
+同步操作直接在then里面return，异步操作return一个新的Promise（promise封装异步操作）。
 promise.then()返回的新promise的结果由什么决定？
 （1）简单表达：由then（）指定和回调函数的结果决定
 （2）详细

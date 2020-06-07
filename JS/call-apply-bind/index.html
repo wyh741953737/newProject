@@ -9,7 +9,7 @@
     <script>
         /*call*/
         Function.prototype.myCall = function(ctx) {
-            ctx = ctx || window
+            ctx = ctx || window  //没有传递就window
             ctx.fn = this //动态添加一个属性
             let args = [...arguments].slice(1);
             let result = ctx.fn(...args)
@@ -18,7 +18,7 @@
         }
         /*apply*/
         Function.prototype.myApply = function(ctx) {
-            ctx = ctx || window
+            ctx = ctx || window 
             ctx.fn = this
             let result
             if(arguments[1]) {
@@ -58,19 +58,22 @@
             this.test='我是测试数据'
             console.log(this.value,name,age)
         }
-        fun.prototype.proto = '原型数据'
-        var instanBind = fun.mybind(obj,"Jack")
-        var newBind = new instanBind(22)
-        console.log(newBind.__proto__.proto,fun.prototype.proto)
-        newBind.__proto__.proto = '篡改原型' //通过隐式原型修改了显示原型
-        console.log(newBind.__proto__ === fun.prototype) //false
-        console.log(newBind.__proto__.proto,fun.prototype.proto)
+        // fun.prototype.proto = '原型数据'
+        // var instanBind = fun.mybind(obj,"Jack")
+        // var newBind = new instanBind(22)
+        // console.log(newBind.__proto__.proto,fun.prototype.proto)
+        // newBind.__proto__.proto = '篡改原型' //通过隐式原型修改了显示原型
+        // console.log(newBind.__proto__ === fun.prototype) //false
+        // console.log(newBind.__proto__.proto,fun.prototype.proto)
 
         //测试call
         fun.myCall(obj,3,2)
 
         //测试apply
         fun.myApply(obj,[3,2])
+
+
+        //使用call可以防止调用对象的原型方法被改变比如[].slice.call(数组名)
     </script>
 </body>
 </html>

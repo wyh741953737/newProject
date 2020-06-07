@@ -1,44 +1,56 @@
-function ajax(options) {
-    var defaults = {
-        type:'get',
-        url:'',
-        data:{},
-        header:{
-            'Content-Type':'application/x-www-form-urlencode'
-        },
-        success: function() {},
-        error:function() {}
-    }
-    Object.assign(defaults,options)
-    var xhr = new XMLHttpRequest()
-    var params = ''         
-    for(var attr in defaults.data) {
-        params += attr +'=' + defaults.data[attr] + '&'
+function $ajax(options) {
+    options = Object.assign(
+        {
+            methods:'post',
+            url:'',
+            data:{},
+            headers:{'Content-Type':'application/x-www-form-urlencoded'},
+            success: function() {},
+            error:function() {}
+        },options)
+    let xhr = new XMLHttpRequest()
+    let params = ''
+    for(let atr in options.data) {
+        params += atr + '=' + options.data[atr] + '&'
     }
     params = params.substr(0,params.length-1)
-    if(defaults.type == 'get') {
-        defaults.url = defaults.url + '?' +params
+    if(options.methods == 'get') {
+        options.url = url + '?' + params
     }
-    xhr.open(defaults.type,defaults.url)
-    if(defaults.type == 'post') {
-        //由于Content-Type中带了-，-如果不是字符串，在js中就不合法。所以放在[]
-        var contentType = options.header['Content-Type']
+    console.log('参数',params)
+    xhr.open(options.methods,options.url)
+    if(options.methods == 'post') {
+        let contentType = options.headers['Content-Type']
         xhr.setRequestHeader('Content-Type',contentType)
-        if(contentType == 'application/json') {
+        if(options.headers['Content-Type'] == 'application/json') {
             xhr.send(JSON.stringify(options.data))
-        } else {
-            xhr.send(params)
         }
+        xhr.send(params)
     } else {
         xhr.send()
-    }    
-    xhr.onload() = function() {
-        var contenttype = xhr.getResponseHeader('Content-Type')
-        if(contenttype.includes('application/json')) {
-            defaults.success(xhr.responseText)
-        } else {
-            defaults.error(xhr.responseType,xhr)
-        }
     }
-    
+    xhr.onload = function() {
+        let contentType = xhr.getResponseHeader('Content-Type')
+        let responseText = xhr.responseText
+        if(contentType.includes('application/json')) {
+            responseText = JSON.parse(responseText)
+        }
+        if(xhr.status == 200) {
+            options.success(responseText,xhr)
+        } else {
+            options.error(responseText,xhr)
+        }
+    }    
+}
+function $formdatFileName(filename) {
+    let dotIndex = filename.lastIndexOf('.')
+    let name = filename.substring(0,dotIndex)
+    let suffix = filename.substring(dotIndex+1)
+    //name = md5(name) + new Date().getTime()
+        name = name + new Date().getTime()
+    return {
+        hash:name,
+        suffix,
+        filename:`${name}.${suffix}`
+    }
 }
