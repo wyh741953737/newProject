@@ -14,9 +14,9 @@ webpack-cli可以使用指令操作
 引用多个loader使用use数组，一个就直接loader
 use数组中的loader执行顺序从右边到左边，从下面到上面，依次执行
 style-loader创建style标签，将js中的样式资源插入页面进行，添加到head中生效
-css-loader将css文件变成commonjs模块加载到js中
+css-loader将css文件变成commonjs模块加载到js中（用于在js中impore，require等方法引入css）
 less-loader将less编译成css文件
-
+postcss 将css加上浏览器Hack的loader
 
 打包html----------------------------------------------------------------------------------------------------
     npm i html-webpack-plugin -D
@@ -35,7 +35,7 @@ less-loader将less编译成css文件
     使用exclude排除
 
 devServer：---------------------------------------------------------------------------------------------------
-    自动化（自动编译，自动打开浏览器，自动刷新浏览器）自会在内存中编译打包，不会有任何输出（中止运行又会把内存的东西删掉/）
+    自动化（自动编译，自动打开浏览器，自动刷新浏览器）自动在内存中编译打包，不会有任何输出（中止运行又会把内存的东西删掉/）
     contentBase:resolve(__dirname,'build'),//项目构建后路径
     compress:true,//启动gizp压缩
     open:true //自动打开浏览器
@@ -289,6 +289,7 @@ webpack详细配置-------------------------------------------------
         特殊用法
             entry：{
                 jquery:['jquery'],//打包成一个
+                
                 react:['react','react-router-dom']//多个打包成一个
             }
     ***output
