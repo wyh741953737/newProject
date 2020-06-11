@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .father{
+            width: 200px;
+            height: 200px;
+            background-color: rgb(253, 188, 188);
+            margin-top: 50px;
+        }
+        .son{
+            width: 80px;
+            height: 80px;
+            background-color: rgb(105, 61, 209);
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 外边距塌陷：父子都设置了margin-top，子设的margin-top无效，紧贴父元素。
+    解决办法：1.给父元素添加边框
+             2.给父元素加内边距
+             3.给父元素添加overflow：hidden    -->
+    <div class="father">
+        <div class="son">儿子</div>
+    </div>
+</body>
+</html>

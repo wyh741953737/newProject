@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .main{
+        display: flex;
+        justify-content: space-between;
+        background: greenyellow;
+    }
+    .center{
+        background-color: rgba(60, 49, 223, 0.404);
+        flex: 1;
+    }
+    .left{
+        width:200px;
+        height: 200px;
+        background-color: rgb(201, 74, 74);
+    }
+    .right{
+        width:200px;
+        height: 200px;
+        background-color: rgb(247, 184, 37);
+    }
+    .left,.right{
+        flex: 0 0 200px;
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="layout left">左边</div>
+        <div class="layout center">中间</div>
+        <div class="layout right">右边</div>
+    </div>
+</body>
+</html>

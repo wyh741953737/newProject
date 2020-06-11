@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单独</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            width: 750px;
+            background-color: rgb(221, 127, 127);
+            margin: 0 auto;
+        }
+        li{
+            list-style: none;
+        }
+        .container ul li {
+            float:left;
+            height: 30px;
+            width: 93.75px;
+            background-color: rgb(240, 129, 129);;
+        }
+        @media screen and (max-width: 767px) {
+            .container{
+                width: 100%;
+            }
+            .container ul li {
+                width: 33.33%;
+            }
+        }
+        /* @media screen and(min-width: 768px) {
+            .container{
+                width: 750px;
+            }
+        }
+        @media screen and(min-width: 992px) {
+            .container{
+                width: 970px;
+            }
+        }
+        @media screen and(min-width: 1200px) {
+            .container{
+                width: 1170px;
+            }
+        } */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+            <li>导航栏</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box1{
+            width: 100px;
+            height: 100px;
+            background-color: rgb(221, 155, 155);
+            margin-bottom: 30px;
+        }
+        .box2{
+            width: 100px;
+            height: 100px;
+            background-color: rgb(53, 128, 226);
+            /* margin-top: 80px; */
+            margin-top: 20px;
+        }
+        .father{
+            width: 200px;
+            height: 200px;
+            background-color: rgb(253, 188, 188);
+            margin-top: 50px;
+            /* border: 1px solid red; */
+            /* padding: 1px; */
+            /* overflow: hidden; */
+            /* float: left; */
+            /* position: absolute; */
+            /* position: fixed */
+        }
+        .son{
+            width: 80px;
+            height: 80px;
+            background-color: rgb(105, 61, 209);
+            margin-top: 50px;
+        }
+        .shadow{
+            margin-top: 100px;
+            width: 200px;
+            height: 200px;
+            background-color: rgb(109, 248, 44);
+            box-shadow: 10px 10px 10px -4px #7a7a7a rgba(0,0,0,0,.3);
+        }
+        .float{
+            /* margin-top: 200px; */
+            width: 280px;
+            /* height: 280px; */
+            border:1px solid green; 
+            /* overflow: hidden;            */
+        }
+        /* .clear{
+            clear: both;
+        } */
+        /* 在父元素内部的最右边（后面）加高度为0的标签 */
+        /* .float{
+            content:'';
+            height:0;
+            display: block;
+            clear: both;
+            visibility: hidden;
+        } */
+        /* .float{
+            *zoom: 1;
+        } */
+        /* 双伪元素 */
+        .float:before,.float:after{
+            content:'';
+            display: table;
+        }
+        .float::after{
+            clear: both;
+        }
+        .float{
+            *zoom: 1;
+        }
+        .left{
+            width: 100px;
+            height: 100px;
+            background-color:green;
+            float: left;
+        }
+        .right{
+            width: 100px;
+            height: 130px;
+            background-color: #77ffe6;
+            float:right;
+        }
+        span {
+            width: 60px;
+            height: 200px;
+            border: 1px solid red;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="father">
+        <div class="son">儿子</div>
+    </div>
+    <!-- <div>
+        <div class="box1"></div>
+        <div class="box2"></div>
+    </div> -->
+
+    <div class="shadow"></div>
+
+    <div class="float">
+        <div class="left"></div>
+        <div class="right"></div>
+        <!-- <span>nihao</span> -->
+        <!-- <div class="clear"></div> -->
+    </div>
+</body>
+</html>

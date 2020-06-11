@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cacl</title>
+    <style type="text/css">
+        .layout{
+         float: left;
+        }
+        .left {
+            width: 200px;
+            background: red;
+        }
+        .right{
+            width: 200px;
+            background: blue;
+        }
+        .content{
+            width: calc(100% - 400px);
+            background-color: rgb(151, 71, 158);
+        }
+    </style>
+   <body>
+   <div class="main">        
+       <div class="layout left">左边</div>
+       <div class="layout content">中间</div>
+       <div class="layout right">右边 </div>
+   </div>
+</body>
+</html>
