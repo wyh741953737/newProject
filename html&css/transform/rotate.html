@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        ul {
+            margin: 100px;
+        }
+        ul li {
+            float: left;
+            width: 120px;
+            height: 35px;
+            margin: 0 5px;
+            list-style: none;
+            perspective: 500px;
+        }
+        .box {
+            position: relative;
+            width: 120px;
+            height: 35px;
+            transform-style: preserve-3d;
+            transition: all .4s;
+        }
+        .box:hover {
+            transform: rotateX(90deg);
+        }
+        .front,.back {
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+        .front {
+            z-index: 1;
+            background-color: blueviolet;
+        }
+        .back {
+            background-color: #7a7676;
+            transform: translateY(17.5px) rotateX(-90deg)
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <div class="box">
+                <div class="front">前面</div>
+                <div class="back">后面</div>
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
