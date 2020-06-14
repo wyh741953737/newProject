@@ -13,7 +13,6 @@
     }
 
     .box{
-        box-sizing: border-box;
         width: 100px;
         height: 100px;
         background-color: #bbfb95;
@@ -82,16 +81,26 @@
     } */
 
     /* 第九种：display：table-cell */
-    .father{
+    /* .father{
         display: table-cell;
         vertical-align: middle;
         text-align: center;
     }
     .son{
         display: inline-block;
-    }
+    } */
 
     /*第十种：*/
+    .father{
+        position: absolute;
+        left: 50%;
+        margin-left: -200px;  
+    }
+    .son{
+        position: absolute;
+        left: 50%;
+        margin-left: -50px;        
+    }
 </style>
 <body>
    <div class="wrap father">

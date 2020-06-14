@@ -64,11 +64,10 @@ textrea，rows显示行数,cols每行多少个字
      input+button因为input和button都是行内快元素，放在一起会有间隙
      解决：浮动就不会有间隙，input和button都加浮动left
      button默认有边框，border：0去掉
-     
+
 元素显示模式转换：display:block|inline|inline-block
 
 
-emmet语法快速生成html，格式化文档
 
 
 CSS选择器：
@@ -141,9 +140,12 @@ border，padding会影响盒子的大小（会把原来盒子撑大）
 
 
 css盒子模型：
-关键：宽高是否代表盒子本身的宽高，盒子有margin，border，padding，content内容组成
-IE（怪异盒模型）：宽度为内容本身的宽度box-sizing：border-content
-标准盒子模型：宽度为内容，padding，border合起来的宽度。box-sizing：border-box
+标准box-sizing：content-box（真实内容的宽高），怪异
+，css3的flex弹性伸缩模型，columns多列布局
+我们最常用的就是标准盒子模型：也就是box-sizing为content-box代表内容宽高，不代表盒子宽高，盒子宽高包括内边距，外边距，边框。但是这样在项目开发过程中会遇到
+问题：比如我们想要构建100*100的盒子，但是设置了width和height是100，我加border的时候不改变width和height会变大。
+CSS3提供了一个方式：box-sizing：border-box，也就是怪异盒模型（width和height是指盒子的大小，不是内容大小，
+真实项目中都在用box-sizing：border-box，我看。。。的源码也是用的ie盒模型），
 
 让块级盒子水平居中：
 （1）定宽度：margin：auto
@@ -167,6 +169,10 @@ IE（怪异盒模型）：宽度为内容本身的宽度box-sizing：border-cont
     浮动的盒子中间是没有间隙的，紧挨着
     浮动盒子只会影响后面的盒子，不会影响前面，一浮全浮
 
+绝对定位和固定定位会完全压住盒子，包括文字图片
+浮动只会压住它下面标准流的盒子，但是不会压住下面标准流盒子里面的文字（图片
+为什么浮动不会压住下面标准流所有内容？
+    浮动设计初衷是为了做文字环绕效果的（文字环绕浮动元素
 浮动的副作用：父元素高度坍塌，父元素没有设置高度，子元素设置了浮动，浮动脱离文档流，不占原有位置，影响其他元素
 清除浮动（本质是清除浮动造成的影响）：
     1、额外标签法（隔墙法），W3C推荐（必须是块级元素）
@@ -202,6 +208,59 @@ IE（怪异盒模型）：宽度为内容本身的宽度box-sizing：border-cont
         缺点：照顾低版本
         代表：腾讯，小米
 
+display:
+    none隐藏后不占用原来的位置
+    block除了变为快元素还可以显示
+    inline|inline-block
+    table|table-cell|table-column|table-row
+visiblity：visible元素可见
+            hidden隐藏，占用原来的位置
+
+overflow auto需要时剪切内容并添加滚动条，溢出才显示滚动条
+        scroll总是显示滚动条，不溢出也显示滚动条
+        hidden 溢出隐藏
+定位：
+static：静态定位，正常文档流排列
+相对定位：相对原理位置定位，不脱标，原来位置继续保留。
+绝对定位：如果没有祖先元素或者祖先元素没有定位，以浏览器为准
+         如果祖先元素有定位（相对，绝对，固定），就以最近的有定位的祖先元素为参考点
+        绝对定位脱标，原来位置不保留
+固定定位：fixed，相对于可视窗口进行定位
+sticky：粘性定位，下拉到一定程度固定，距离topleftrightbottom中一个多少的时候固定，既有相对定位的原理位置保留，又有fixed的固定定位
+固定在网页的右侧：可视区域的一般，margin-left网页的一半
+
+
+精灵图：将网页中一些小的背景图片整合到一张大图中，这样服务器就可以请求一次就行
+精灵图也叫雪碧图sprites的使用：主要针对小的背景图，
+    移动背景图片的位置，使用background-position，移动的距离就是这个目标图片的x和y坐标。
+    精灵图代码：
+        background:url(image.png) no-repeat -123px -113px
+    精灵图缺点：图片文件还是比较大的、图片本身放大缩小会失真、一旦图片制作完成想要更换非常复杂、
+    一种新技术解决这个问题：字体图标：iconfont
+    iconfont展示的是图标，本质是字体，
+    优点：灵活性：放大缩小不失真，可以改大小，阴影
+          轻量级：一个图标字体比一系列的图像小，一旦字体加载了，图标马上会展示出来，减少了服务器请求
+            兼容性：完全兼容各大浏览器
+    虽然字体图标有这么多优点，不能代替精灵图，结构样式简单用字体图标。遇到复杂的图片还是要用精灵图
+    iconmoom：字体图标追加：把压缩包里的selection.json重新上传，重新选择，下载，替换
+
+    CSS三角形：border-top-color:10px solid red;
+              border-botton-color:10px solid green;
+              border-left-color:10px solid pink;
+              border-right-color:10px solid yellow;\
+    或者：border:10px solid transparent
+           border-top-color:red
+
+鼠标 样式：
+cursor:pointer小手  
+cursor:default小白（默认）
+cursor:move移动
+cursor:text文本
+cursor:not-allowed禁止
+
+轮廓线：outline：给表单（input,textarea）添加outline：0或者outline：none之后，就可以去掉默认蓝色边框
+防止文本域拖拽：textarea{resize:none}
+
 
 
 图片：常见图片格式
@@ -209,6 +268,47 @@ IE（怪异盒模型）：宽度为内容本身的宽度box-sizing：border-cont
     png：新兴的网络图像格式，结合了GIF和PEG的优点，具有存储形式丰富的特点，能够保持透明背景，如果要切成背景透明的图片用png格式
     gif：最多只支持256色，通常用来显示简单图像及字体，但是可以保存透明背景和动画效果，实际经常用于一些小动画效果
     PSD：是photoshop的专用格式，可以存放图层，通道，遮罩等多种设计稿，对我们来说最大的优点可以之间从上面复制文字，获得图片，测量大小和距离
+
+
+水平垂直居中
+
+vartical-align垂直居中，
+只针对行内元素或者行内快元素有效
+    vartical-align:baseline(父元素基线上) | top | middle（父元素中部 | bottom
+
+    图片和文字实现垂直居中：display：inline-block；vertical-align：middle
+    解决图片底部默认空白间隙的问题：
+    bug：图片底侧有一个空白间隙，原因是行内快元素会和文字基线对齐。
+    解决：vertical-align：buttom | middle | top 只要不是基线就可以（提倡）
+        2：把图片转化为块元素（不提倡）
+
+两个盒子排在一排，相邻边框重合？
+    float;left;
+    margin-lfet：-1px；
+    第一个盒子往左1px，第二个先浮动靠紧第一个，然后-1px就可以了
+鼠标悬浮边框颜色改变
+    position:relative;//盒子没有定位，就relative。万一要加absolute了就不能relative，
+    z-index：1，如果li都有定位就提高层级
+左边图片，右边文字的布局：文字环绕图片形成左右结构布局
+    float:left
+
+
+
+溢出文字省略：
+    单行文本：
+        white-space：normal// 如果文字一行显示不开，自动换行，
+       1： white-space：nowrap //强制不换行一行显示
+       2：overflow：hidden //溢出的藏起来
+       3：text-overflow：ellipsies 溢出就用省略号
+    多行文本：
+    有较大兼容性问题，适合webkit浏览器或移动端（大部分webkai内核）
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-line-clamp:2
+        -webkit-box-orident:vertical;
+
+
 
 
 写CSS属性顺序：
@@ -245,13 +345,17 @@ div {
     //复合属性 font:font-style font-weight font-size font-family 不能颠倒顺序
     font:italic 500 18px 'Microsoft yahei'
 }
-
--------------------------------------------文本------------------------------------------------------------------------：
+字体：黑体：\9ED1\4F53要变为unicode编码，有效避免浏览器解析CSS出现乱码
+    宋体\5B8B\4F53
+    微软雅黑\5FAE\8F6F\96C5\9ED1
+-------------------------------------------文本------------------------------------：
 color:red,#fff,reg(255,0,0,0)
 text-align:对齐center,left,right
 text-decoration,添加装饰线，underline,overline,line-througn
 text-indent文本首行缩进 10px
 line-height控制文字与行之间的距离（怎么控制居中？行间距为上间距+文本高度+下间距，真正改变的是行间距
+line-style
+
 行高的上间隙和下间隙把文字挤到中间了，行高小于盒子高度，文字偏上，大于盒子高度文字偏下
 
 ----------------------------------------background-----------------------------------------------------------
@@ -289,6 +393,50 @@ Ctrl+（+或者-）可以放大缩小
 按住空格，鼠标可以变成小手 ，拖动ps试图
 用选区拖动，可以测量大小
 
+--==============================================================
+HTML5新特性增加了一些新的标签、新的表单，新的表单属性，这些新特性都有兼容性，ie9以上才支持
+1、与语义化标签：
+    header，nav,article,aside,section，footer
+
+2、多媒体标签：video，audio使用方式基本相似
+    video只支持三种视频格式，mp4，webm，ogg
+        IE，Chrome，FireFox（21以上版本，linux从30开始），safari，Opera都支持mp4格式，
+        video属性：
+            autoplay自动播放（chrome考虑到消耗用户流量不自动播放，添加muted解决自动播放问题
+            controls向用户显示播放控件（循环和设置大小属性
+            loog循环播放
+            preload：auto预先加载视频，none不加载
+            poster加载等待的动画图片
+            muted：'muted'静音播放
+
+    audio音频，支持mp3，ogg，Wav三种音频格式，mp3主流浏览器都支持，Wav，IE不支持
+        audio属性：
+            autoplay
+            loop
+            controls
+            chrome禁止了自动播放，要通过js解决
+3、新增表单input类型（必须使用表单提交域）
+    type='email'
+    type='url'
+    type='date'日期
+    type='time'时间
+    type='month'月
+    type='week'
+    type='number'
+    type='tel'
+    type='search'搜索框
+    type='color'生成一个颜色选择表单
+
+4、新增input属性：
+    required
+    placeholader
+    autofocus
+    autocomplat默认打开
+    multiple可以多选文件提交
+
+
+
+
 
 
 CSS3新增属性：
@@ -302,3 +450,93 @@ box-shadow：h-shadow v-shadow blur spread color insert
            insert 改为内阴影，这样就看不见了.默认outset
            阴影不占空间
 text-shadow h-shadow v-shadow blur color 
+
+新增选择器：
+    类选择器、属性选择器，伪类选择器权重都是10
+    属性选择器input[value]
+        选择属性名为 div[class='box']
+        选择以..开头 div[class^='box']
+        选择以..结尾 div[class$='boss]
+        选择包含... div[class*='box']
+        
+    结构伪类选择器 ：
+      n可以是1，关键字（技术偶数），计算
+        根据文档结构来选择元素，常用于根据父级选择器里的子选择器
+        E:first-child 选择父元素的第一个子元素
+            ul li:first-child{}选择ul中第一个叫li的元素
+        E:last-child 选择父元素的最后一个子元素
+        E:nth-child(n) 选择父元素的第n个子元素,nth-child会把所有的盒子都排序列号
+            nth-child(n)执行的时候section div:nth-child会先把section的第一个孩子p选择出来，和div一对比，不符合，就选不出来。（先找孩子，再找类型）
+            nth-of-type(n) 会选择类型一样的第一个孩子（先找类型再找孩子）
+            <section>
+                <p></p>
+                <div></div>
+            <scetion>
+          ol li:nth-child(odd) 偶数
+          ol li:nth-child(even) 奇数
+          ol li:nth-child(n) 选择所有的孩子
+          ol li:nth-child(2n) 选择0，4，6，8偶数孩子
+          ol li:nth-child(2n+1) 选择1，3，5，奇数孩子
+          ol li:nth-child(n+5) 选择 5，6，7，8后面的孩子
+
+        E:first-of-type 指定类型E的第一个
+        E:last-of-type 指定类型E的第一个
+        E:nth-of-type(n) 指定类型E的第n个
+        需求：排行榜前三名红色，其余灰色 
+
+    元素伪类选择器（伪元素）
+        ::before,::after创建一个元素，但是属于行内元素，新创建的这个元素再文档树中找不到，所以称为伪元素
+        before和after在父元素内容的前面或者后面必须有content属性，伪元素和标签选择器一样，权重为1。
+        使用场景：做字体图标>或者<
+                鼠标放上去有半透明覆盖
+        .tudou::before {content:'',display:none;position:absolute;top:0;left:0;width:100%;height:100%'background-color:rgba(0,0,0,.4)}
+        .tudoi:hover::before {display:block}
+        清除浮动：
+        额外标签法的升级：
+            div:after{ //单冒号照顾ie8低版本浏览器
+                display:block;
+                content:'';
+                height:0;
+                visibility:hidden;
+                clear:both;
+            }
+        双伪元素：
+        div:before,div:after {
+            content:'';
+            display:table; //转化为块级排在一行。插入的元素必须是块级元素，默认排在一列，我们要把他门排在一行，table表格，就排在一行
+        }
+        div:after{
+            clear:both;
+        }
+
+新增border-box
+
+模糊图片：
+    filter:函数（）；
+    filter:blur(5px);blur模糊处理 数值越大越模糊
+
+计算盒子宽度calc
+    width:calc(100%-25px)
+CSS过度 
+    transition在不使用flash和js情况下实现动画（从一个状态变为另一种状态。
+    经常和hover搭配一起用。
+    transition：要过度的属性 花费时间 运动曲线 何时开始
+    liner线性
+    ease慢下来
+    ease-in加速
+    ease-out减速
+    ease-in-out先加速再减速
+    transition:width 0.5s ease-in 1s
+    transition:width 0.5s ease,height 1s ease-in
+    要所以属性都变化用all：transition：all .5s
+
+
+HTML5侠义说法：HTML5结构本身
+HTML5广义说法：HTML5+CSS+Js，虽然不被某些浏览器支持，是发展趋势
+
+*{
+    padding:0;
+    margin:0;
+}
+和html,body,ul,li,p,h1,h2,h3,fieldset,legend,img {margin:0;padding:0}哪个效率高？
+后面的效率高，

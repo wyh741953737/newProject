@@ -1,0 +1,118 @@
+/* 版心 */
+@font-face {font-family: "iconfont";
+    src: url('iconfont.eot?t=1592060009547'); /* IE9 */
+    src: url('iconfont.eot?t=1592060009547#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAKAAAsAAAAABjgAAAI2AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcApAXwE2AiQDCAsGAAQgBYRtBzEbhgURBUTJPlJb3ZFTZVHcxMPXWvn+dM9e38xdgFilIgkUIBqxkUCKhAEWMkowqtjs1nQM90ZFqC7Z89Sz/I/86kgvTRnncRplQEiExCfunf5RQIHMB5TLGIPGmjSpC6iLAynAvbBNVkIZN4xd8ALPE2hMsUisXb9hhyKzpwXiwtnTR5WCX5ZZqgidhrVZ3FQr1aXqgxvR9+OnxVGo1IldseXUuhNWfhnhZKRur+tAQAgQ0OYaCYuQiR2N8U2SYKykiWczOFZp8GVErxfYxFHNgv11dvEAmAQTwZcR3lQBKnisvkZg3KQnECOOX16w69bFx1dG79x9+8rD7qgdD/5/GD/s1++7k9ZOuvvFVj+MhcXAMCuhn6WZ1RSBYOW9538PD136r7QZvGz7z0ambJiTsg9H8C+kA1uyIbetVdakjZ2VEeeoajTowe4R3kw1jD5xOhSjJzj7TM6QFLPIzFyEWmsJOop0BRoLdZtbI7G9yP1Y4AUQhnmjMsQLJMN8ycz8oTbGHx3DIqGxK0bu2ZoTZ9UaRi3owDwhWZq8axcVlx4xrIPmvDxiX5GXFIK6qMqpDifkJRYst9CIePBMIxzAZTgMBDNTRitFFJnbsvRNbyosjRtlDYY0gRxgPIHEIhMfdBeq8vkjFKwGGnc01QWvEFukwUGtUA0gO800qOlRrlncBA0hPOAxMgIHMAoNBgTMzaMyZIlCnBCdtUqnnR+qKbbXjX+3Bxq2sQpnaNJ3LulJaN1sAA==') format('woff2'),
+    url('iconfont.woff?t=1592060009547') format('woff'),
+    url('iconfont.ttf?t=1592060009547') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+    url('iconfont.svg?t=1592060009547#iconfont') format('svg'); /* iOS 4.1- */
+  }
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+.w {
+    width: 1200px;
+    margin: 0 auto;
+}
+.shortcut {
+    height: 31px;
+    line-height: 31px;
+    background-color: #f1f1f1;
+}
+.shortcut li {
+    float: left;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.style_red {
+    color: red;
+}
+.fr ul li:nth-child(even) {
+    width: 1px;
+    height: 12px;
+    background-color: #666;
+    margin: 9px 15px 0;
+}
+.arrow_icon::after {
+    font-family: "iconfont" !important;
+    content: "\e612";
+    margin-left: 6px;
+}
+.header {
+    position: relative;
+    height: 105px;
+}
+.logo {
+    position: absolute;
+    top: 25px;
+    width: 134px;
+    height: 42px;
+    background-color: skyblue;
+}
+.logo a {
+    display: block;
+    width: 134px;
+    height: 42px;
+    /* font-size: 0 */
+    text-indent: -9999px;
+    overflow: hidden;
+    background: url(../images/jd.png) no-repeat;
+}
+.search {
+    position: absolute;
+    left: 346px;
+    top: 25px;
+    width: 538px;
+    height: 32px;
+    border: 2px solid #b1191a;
+}
+.search input {
+    float: left;
+    width: 454px;
+    height: 32px;
+    padding-left: 10px;
+}
+.search button {
+    float: left;
+    width: 84px;
+    height: 32px;
+    background-color: #b1191a;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+}
+.hotwords {
+   position: absolute;
+   top: 66px;
+   left: 346px; 
+}
+.hotwords a {
+    margin:  0 10px;
+}
+.shopcar {
+    position: absolute;
+    right: 60px;
+    top: 25px;
+    width: 140px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border: 1px solid #dfdfdf;
+    background-color: #f7f7f7;
+}
+.shopcar::before {
+    content: '购';
+    padding-right: 6px;
+}
+.shopcar::after {
+    content: '》';
+    padding-left: 6px;
+}

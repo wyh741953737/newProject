@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        video {
+            width: 800px;
+            height: 600px;
+            margin: 60px auto;
+        }
+        input {
+            outline: none;
+        }
+        input[value] {
+            color: pink;
+        }
+        div[class^="icon"] {
+            color: red;
+        }
+        div[class$="-1"] {
+            color: rgb(241, 184, 27);
+        }
+        div[class*='box'] {
+            font-size: 20px;
+        }
+        ol li:nth-child(odd) { 
+            color: yellowgreen;
+        }
+        section div:nth-child(1) {
+            color: pink;
+        }
+        section div:nth-of-type(1) {
+            color: red;
+        }
+        .wei::before {
+            content: '是佩奇'
+        }
+        .apply {
+            width: 300px;
+            height: 30px;
+            position: relative;
+            border: 1px solid red;
+        }
+        .apply::after {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+            content: '>';
+            color: red;
+            font-size: 18px;
+        }
+        .border {
+            width: 300px;
+            height: 300px;
+            box-sizing: border-box;
+            background-color: yellowgreen;
+            padding: 10px;
+        }
+        .border1 {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            box-sizing: content-box;
+            overflow:auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .gress {
+            width: 150px;
+            height: 15px;
+            border: 1px solid red;
+            border-radius: 7px;
+        }
+        .bar {
+            width: 50%;
+            height: 100%;
+            background-color: red;
+        }
+        .bar:hover {
+            width: 100%;
+            transition: width .6s;
+        }
+    </style>
+</head>
+<body>
+    <video src="radio/mi.mp4" type='video/mp4' autoplay='autoplay' poster="radio/m.jpg" controls='controls' loop='loop' muted='muted' ></video>
+    <!-- <video src="radio/mi.ogg" type='video/ogg' autoplay='autoplay' poster="radio/m.jpg" controls='controls' loop='loop' muted='muted' ></video>
+    您的浏览器不支持video标签 -->
+    <audio src="radio/a.mp3"  controls='controls'></audio>
+
+    <form action="">
+        邮箱：<input type="email">
+        时间：<input type="time">
+        月：<input type="week">
+        手机号：<input type="tel" value="请输入手机号">
+        搜索：<input type="search">
+        颜色：<input type="color">
+        数字：<input type="number">
+        提交:<input type="submit"/>
+    </form>
+    <form action="">
+        <input type="text" required placeholder="请输入" autofocus autocomplate name='sub'>
+        <input type="submit">
+    </form>
+    <!-- css新增 -->
+    <!-- 属性选择器 -->
+    <input type="text" value="请输入">
+    <input type="text">
+
+    <div class="ficon">
+        <div class="icon1">1</div>
+        <div class="icon2">2</div>
+        <div class="icon3">3</div>
+        <div class="djy">打酱油</div>
+    </div>
+    <div class="aicon">
+        <div class="icon1-1">1</div>
+        <div class="icon2-1">2</div>
+        <div class="icon3-1">3</div>
+        <div class="wdjy">打酱油</div>
+    </div>
+    <div>
+        <div class="box1">box1</div>
+        <div class="box2">box2</div>
+        <div class="box3">box3</div>
+    </div>
+    <!-- 排行榜前三名红色，其余灰色 -->
+    <div>
+        <ol>
+            <li class="list">1</li>
+            <li class="list">2</li>
+            <li class="list">3</li>
+            <li class="list">4</li>
+            <li class="list">5</li>
+            <li class="list">6</li>
+        </ol>
+        <section>
+            <p>光头强</p>
+            <div>熊大</div>
+            <div>熊二</div>
+        </section>
+    </div>
+    <!-- 伪元素 -->
+    <div class="wei">我是</div>
+    <div class="apply">
+    </div>
+    <div class="border">
+        <div class="border1">冒冒失失难逢的机会会更好傻瓜共和国更多</div>
+    </div>
+    <div class="gress">
+        <div class="bar"></div>
+    </div>
+</body>
+</html>

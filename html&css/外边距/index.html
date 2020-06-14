@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,112 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .box1{
-            width: 100px;
-            height: 100px;
-            background-color: rgb(221, 155, 155);
-            margin-bottom: 30px;
-        }
-        .box2{
-            width: 100px;
-            height: 100px;
-            background-color: rgb(53, 128, 226);
-            /* margin-top: 80px; */
-            margin-top: 20px;
-        }
         .father{
-            width: 200px;
-            height: 200px;
-            background-color: rgb(253, 188, 188);
-            margin-top: 50px;
-            /* border: 1px solid red; */
-            /* padding: 1px; */
-            /* overflow: hidden; */
-            /* float: left; */
-            /* position: absolute; */
-            /* position: fixed */
+            width: 400px;
+            border: 1px solid red;
+            background-color: rgb(246, 168, 168);
         }
-        .son{
-            width: 80px;
-            height: 80px;
-            background-color: rgb(105, 61, 209);
-            margin-top: 50px;
+        .son1 {
+            width: 100px;
+            height: 100px;
+            float: left;
+            background-color: blue;
         }
-        .shadow{
-            margin-top: 100px;
-            width: 200px;
-            height: 200px;
-            background-color: rgb(109, 248, 44);
-            box-shadow: 10px 10px 10px -4px #7a7a7a rgba(0,0,0,0,.3);
+        .son2 {
+            width: 100px;
+            height: 100px;
+            float: right;
+            background-color: rgb(123, 245, 53);
         }
-        .float{
-            /* margin-top: 200px; */
-            width: 280px;
-            /* height: 280px; */
-            border:1px solid green; 
-            /* overflow: hidden;            */
-        }
+        /* 1,添加空标签，clear：both 添加多余标签结构化不太好*/
         /* .clear{
             clear: both;
         } */
-        /* 在父元素内部的最右边（后面）加高度为0的标签 */
-        /* .float{
+        /* 2.父元素overflow：hidden，代码简单，溢出隐藏 */
+        /* .father{
+            overflow: hidden;
+        } */
+        /* 3.伪元素 */
+        /* .father::after {
             content:'';
-            height:0;
-            display: block;
+            display:block;
+            height: 0;
             clear: both;
             visibility: hidden;
         } */
-        /* .float{
-            *zoom: 1;
-        } */
-        /* 双伪元素 */
-        .float:before,.float:after{
+        /* 4.双伪元素 */
+        .father:before,
+        .father:after{
             content:'';
-            display: table;
+            display:table;
         }
-        .float::after{
-            clear: both;
+        .father:after{
+            clear:both
         }
-        .float{
-            *zoom: 1;
-        }
-        .left{
-            width: 100px;
+        .father {*zoom:1}
+        .margin1{
             height: 100px;
-            background-color:green;
-            float: left;
-        }
-        .right{
             width: 100px;
-            height: 130px;
-            background-color: #77ffe6;
-            float:right;
+            background-color: blueviolet;
+            margin-bottom: 20px;
         }
-        span {
-            width: 60px;
-            height: 200px;
-            border: 1px solid red;
-            float: left;
+        .margin2{
+            height: 100px;
+            width: 100px;
+            margin-top: 30px;
+            background-color: rgb(114, 253, 188);
+        }
+        .pad1{
+            height: 30px;
+            width: 30px;
+            margin-top: 20px;
+            background-color: rgb(238, 183, 133);
+        }
+        .padding{
+            height: 100px;
+            width: 100px;
+            margin-top: 30px;
+            /* border: 1px solid red; */
+            /* float: left; */
+            /* position: absolute; */
+            /* position: fixed; */
+            background-color: rgb(114, 253, 188);
         }
     </style>
 </head>
 <body>
     <div class="father">
-        <div class="son">儿子</div>
-    </div>
-    <!-- <div>
-        <div class="box1"></div>
-        <div class="box2"></div>
-    </div> -->
-
-    <div class="shadow"></div>
-
-    <div class="float">
-        <div class="left"></div>
-        <div class="right"></div>
-        <!-- <span>nihao</span> -->
+        <div class="son1"></div>
+        <div class="son2"></div>
         <!-- <div class="clear"></div> -->
+    </div>
+    <br>
+    <div class="margint">
+        <div class="margin1"></div>
+        <div class="margin2"></div>
+    </div>
+    <div class="padding">
+        <div class="pad1"></div>
     </div>
 </body>
 </html>

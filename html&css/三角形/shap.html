@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box1{
+            width: 0;
+            height: 0;
+            border-top: 10px solid red;
+            border-bottom:  10px solid rgb(255, 255, 255);
+            border-right: 10px solid rgb(255, 255, 255);
+            border-left: 10px solid rgb(255, 255, 255);
+        }
+        .spansjx{
+            position: absolute;
+            height: 0;
+            width: 0;
+            /* 下面两句为了照顾兼容性 */
+            font-size: 0;
+            line-height: 0;
+            border: 50px solid transparent;
+            border-bottom-color: pink;
+        }
+        .zjrec{
+            width: 0;
+            height: 0;
+            /* border: 100px solid transparent; */
+            /* border-bottom: 100px solid red;
+            border-right: 100px solid red; */
+            /* border-top: 100px solid pink;
+            border-right: 50px solid skyblue;
+            border-bottom: 50px solid blue;
+            border-left: 50px solid green; */
+            border-color: transparent red transparent transparent;
+            border-style: solid;
+            border-width: 100px 50px 0 0;
+            
+        }
+        .price {
+            width: 160px;
+            height: 24px;
+            line-height: 24px;
+            font-weight: 700;
+            text-align: center;
+            border: 1px solid red;
+            margin: 0 auto;
+        }
+        .miaosha {
+           position: relative;
+           float: left;
+           width: 90px;
+           height: 100%;
+           color: #fff;
+           background-color:red; 
+        }
+        .miaosha i {
+            position: absolute;
+            width: 0;
+            height: 0;
+            right: 0;
+            top: 0;
+            border-color: transparent white transparent transparent;
+            border-style: solid;
+            border-width: 24px 10px 0 0;
+        }
+        .origin {
+            font-size: 12px;
+            color: gray;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="box1"></div> -->
+    <!-- <span class="spansjx"></span> -->
+    <!-- 直角三角形 -->
+    <div class="zjrec"></div>
+
+    <br>
+    <br>
+    <br>
+    <div>
+        <div class="price-box">
+            <div class="price">
+                <span class="miaosha">
+                    ￥1650
+                    <i></i>
+                </span>
+                <span class="origin">￥1900</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

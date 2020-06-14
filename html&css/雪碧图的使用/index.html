@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 460px;
+            height: 460px;
+            margin: 100px auto;
+            background: url(bg.jpg) no-repeat;
+            background-position: 1 0;
+        }
+        .box2{
+            width: 60px;
+            height: 60px;
+            padding-left: 240px;
+            line-height: 106px;
+            height: 108px;
+            background: url(sprite.png) no-repeat -2px -349px;
+            /* background-position: 1 0; */
+        }
+    </style>
+</head>
+<body>
+    <!-- 当你网页中有很多图片的时候，每张图片都要请求一次服务器会给服务器造成很大的压力，使用精灵图减少http请求来减轻服务器压力 -->
+    <div class="box"></div>
+    <div class="box2"></div>
+</body>
+</html>
