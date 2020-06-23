@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    .active {
+        color:red
+    }
+    table {
+        border:1px solid #9e9e9e;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    th,td {
+        padding:8px 16px;
+        border:1px solid #9e9e9e;
+        text-align: left;
+    }
+    th {
+        background-color: #f7f7f7;
+        color: #5c6b77;
+        font-weight: 600;
+    }
+</style>
+<body>
+    <div id="app">
+        <input type="text" @keyUp.enter='enter'/>  
+        <ul>
+            <li v-for='(item,index) in list' :class='currentIndex === index?"active":""' @click='changeColor(index)'>{{item}}</li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>书籍名称</th>
+                    <th>出版日期</th>
+                    <th>价格</th>
+                    <th>购买数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in books">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.price | showPrice}}</td>
+                    <td>
+                        <button @click='decrement(index)' :disabled='item.count <= 1'>-</button>
+                        {{item.count}}
+                        <button @click='increment(index)'>+</button>
+                    </td>
+                    <td><button @click='remove(index)'>移除</button></td>
+                </tr>
+            </tbody>
+            <h2>总价：￥{{totalPrice}}</h2>
+        </table>
+        <input v-model='message'/>
+        <p>{{message}}</p>
+        <input :value='bindMessage' v-on:input='valucChange'/>
+        <p>{{bindMessage}}</p>
+
+        <label for='male'>
+            <input type="radio" value="男" v-model='sex'>男
+        </label>
+        <label for='female'>
+            <input type="radio" value="女" v-model='sex'>女
+        </label>
+        <br>
+        <!--chuekbox单选框-->
+        <label>
+            <input type="checkbox" v-model="fruits" id="">香蕉
+        </label>
+        <h2>你选的是：{{fruits}}</h2>
+        <button :disabled="!fruits">下一步</button>
+        <!--多选框-->
+        <label>
+            <input type="checkbox" value="篮球" v-model='hobbies'>篮球
+            <input type="checkbox" value="羽毛球" v-model='hobbies'>羽毛球
+            <input type="checkbox" value="乒乓球" v-model='hobbies'>乒乓球
+        </label>
+        <p>你的爱好是：{{hobbies}}</p>
+
+        <!--多选后面加multiple-->
+        <!-- <select name="abc" id=""  v-model='qihou' multiple>
+            <option value="晴天">晴天</option>
+            <option value="阴天">阴天</option>
+            <option value="雨天">雨天</option>
+        </select> -->
+        <label for="" v-for='item in list'>
+            <input type="checkbox" :value="item" v-model="hobbies">
+        </label>
+
+    </div>
+    <script>
+       const app = new Vue({
+            el:'#app',
+            data: {
+                list: ['魔幻森林','海贼王','潘多拉'],
+                inputShow:true,
+                currentIndex:0,
+                message:'',
+                books: [
+                    {
+                        id: 1,
+                        name: '《算法》',
+                        date: '2019-10',
+                        price: 85.00,
+                        count: 1
+                    },
+                    {
+                        id: 1,
+                        name: '《编程》',
+                        date: '2019-10',
+                        price: 85.00,
+                        count: 1
+                    },
+                    {
+                        id: 1,
+                        name: '《计算机》',
+                        date: '2019-10',
+                        price: 85.00,
+                        count: 1
+                    },
+                    {
+                        id: 1,
+                        name: '《语法》',
+                        date: '2019-10',
+                        price: 85.00,
+                        count: 1
+                    },
+                    {
+                        id: 1,
+                        name: '《算法》',
+                        date: '2019-10',
+                        price: 85.00,
+                        count: 1
+                    },
+                ],
+                bindMessage:'hello',
+                sex:''  ,
+                fruits:false ,
+                hobbies:[],
+                qihou:'晴天'
+            },
+            methods: {
+                enter() {
+                    console.log('enter')
+                },
+                changeColor(index) {
+                    this.currentIndex = index
+                },
+                increment(index) {
+                    console.log(index)
+                    this.books[index].count++
+                },
+                decrement(index) {
+                    if(this.books[i].count>0) {
+                        this.books[inde].count--
+                    }
+                },
+                remove(index) {
+                    this.books.splice(index,1)
+                },
+                valucChange(event) {
+                    this.bindMessage = event.target.value
+                }
+            },
+            computed: {
+                //计算属性一般没有set方法，只读属性
+                fullName: {
+                    // return this.name+''+this.age //简化的
+                    set: function(newValue){
+                        const name = newValue.split(' ')
+                        this.firstname = name[0]
+                        this.secname = name[1]
+                    },
+                    get: function() {//复杂的
+                        return this.name+''+this.age
+                    }
+                },
+                total() {
+                    let result
+                    for(let i of this.price) {
+                        return result+=i
+                    }
+                },
+                totalPrice() {
+                    let totalPrice = 0
+                    // for(let value of this.books) {
+                    //     totalPrice += value.price
+                    // }
+                    return this.books.reduce((pre,cur) => {
+                        return pre + cur.price*cur.count
+                    },0)
+                },
+
+            },
+            filters : {
+                    showPrice(price) {
+                        return '￥'+price.toFixed(2)
+                    }
+                }
+        })
+    </script>
+</body>
+</html>

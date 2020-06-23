@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 3，使用 -->
+    <div id='app'>
+        <cpn2></cpn2>
+    </div>
+    <script>
+        //1，创建组件构造器(子组件)
+        const cpnC1 = Vue.extend({
+            template:`
+                <div>
+                   <h1>你好</h1>
+                </div>`
+        })
+        //（父组件）
+        const cpnC2 = Vue.extend({
+            template:`
+             <div>
+              <p>hello</p>  
+              <cpn1></cpn1>  
+            </div>
+            `,
+            components: { //组件构造器1在组件构造器2里注册组件
+                cpn1: cpn1
+            }
+        })
+        //2，注册组件（全局，可以在多个Vue实例下使用）
+        Vue.component('Com',myComponent1)
+            const app = new Vue({
+                el: '#app',
+                data: {},
+                methods: {},
+                components: { //组件构造器2在注册组件里注册
+                    cpnC2:cpnC2
+                }
+            })
+    </script>
+    <script>
+        //全局组件语法糖注册全局组件,不需要通过Vue.extends因为vue内部还是调用的Vue.extends
+        Vue.component('cpn1',{
+            template:`
+             <div>
+                <h2>hello</h2>
+            </div>`
+        })
+
+        //注册局部组件语法糖,这样cpn1和cpn2都可以一起使用
+        const app = new Vue({
+            el: '#app',
+            data: {},
+            components: {
+                'cpn2': {
+                    template: `
+                    <div>
+                       <h2>你好</h2>
+                    </div>`
+                }
+            }
+        })
+    </script>
+
+   <!--1... 通过script标签 -->
+    <script type="text/x-template" id="cpn">
+        <div>
+            <h2>Hello Eileen</h2>
+        </div>
+    </script>
+
+    <!--通过template模板-->
+    <template id="cpn">
+        <div>
+            <h2>Hello Eileen</h2>
+            <p>{{username}}</p> 
+            <!--username报错， 组件内部不能访问实例里面数据 -->
+        </div>
+    </template>
+    <script>
+        //注册一个全局组件
+        Vue.component('cpn',{
+            template: '#cpn',
+            data() { //这里的data不能是对象类型，要是个函数，Vue设计的时候，为什么要设计成一个函数？
+
+                return {
+                    username:'Eileen'
+                }
+            }   
+        })
+        const app = new Vue({
+            el: '#app',
+            data: {
+                username:'John'
+            },
+            components: {
+                'cpn2':{
+                    template: '#cpn'
+                }
+            }
+        })
+    </script>
+    
+    <template id='cpnid'>
+        <div>
+            <h2>当前技术：{{count}}</h2>
+            <button @click='decrement'></button>
+        </div>
+    </template>
+    <script>
+        Vue.component('cpn4',{
+            template: '#cpnid',
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            
+        })
+    </script>
+</body>
+</html>

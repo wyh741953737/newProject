@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <cpn>
+            //在这里，我想渲染不同款式的组件显示形式，就想办法拿到子组件中的language在父组件中展示，这就是作用域插槽做的事
+            <span v-for="item in language">{{item}}</span>这样拿不到，我们现在在Vue实例中，就会去找Vue中的变量language，找不到
+            //拿不到就要想办法让子组件传过去，用:data
+            Vue2.5.X以下用template
+            <template slot-scope="slot">
+                <span v-for="item in slot.data">{{item}}-</span>
+                <span>{{slot.data.join('-')}}</span>
+            </template>
+
+        </cpn>
+    </div>
+    <template id='cpn'>
+        <div>
+            <slot :data='language'></slot>
+        </div>
+    </template>
+    <script>
+        const app = new Vue({
+            el:'#app',
+            data() {
+                return {
+                    message:'hello'
+                }
+            },
+            components:{
+                cpn: {
+                    template:'#cpn'
+                },
+                data() {
+                    return {
+                        languages: ['js','C++','java']
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
