@@ -1,3 +1,23 @@
+生命周期：
+new Vue() --->
+进行一些初始化，Events和lifeCycle--->
+之后调用beforeCreate………………………………………………………………………………………………>
+执行完·初始化injections（注入，引入）和reactivity--->
+调用created………………………………………………………………………………………………………………………>
+判断有el吗----------->有挂载el
+判断是template吗-------有编译template成render函数
+               -------没有意味着已经编译为render函数
+调用beforeMounted………………………………………………………………………………………………………>
+之后用vm.$el替换el（意味着之前template挂载到DOM上了）
+之后调用mounted函数……………………………………………………………………………………………………>
+当数据发生变化，会调用beforeUpdated-…………………………………………………………………………
+打补丁然后重新渲染虚拟DOM----->
+调用updated意味着渲染完成……………………………………………………………………………………>
+如果组件不再使用，先调用beforeDestroy意思是我将要被销毁……………………>
+执行回收操作（回收监听者，组件等）--->
+调用destoryed销毁完成……………………………………………………………………………………………………
+     
+
 计算属性：computed
     内部其实是set和get，但是一般不用set，只读
     computed：{
@@ -17,7 +37,7 @@
     }
     
 methods和computed对比：
-相同的功能，要渲染的内容不管变不变，methods调用的次数为渲染的次数，computed内部会缓存，所以相同内容只会调用一次
+相同的功能，只要渲染的内容不管变不变，methods调用的次数为渲染的次数，computed内部会缓存，所以相同内容只会调用一次
 methods相对来说性能低一点
 
 $event获取浏览器event
@@ -41,7 +61,7 @@ $event获取浏览器event
     .once只触发一个回调
    <button @click.once='doThis'></button>
 
-    lazy:默认情况下，v-model默认是在input事件中同步输入框数据的，一旦数据改变，对应的data自动改变，lazy修饰符可以让数据在市区焦点或者回车时才更新。
+    lazy:默认情况下，v-model默认是在input事件中同步输入框数据的，一旦数据改变，对应的data自动改变，lazy修饰符可以让数据在失去焦点或者回车时才更新。
    <input v-model.number='agge'>
     
     number修饰符：默认情况下，在输入框无论我们输入的是字母还是数字，都会被当作字符串类型处理，但是如果我们希望处理的是数字，就用number修饰符
@@ -50,10 +70,6 @@ $event获取浏览器event
 
     trim修饰符可以过滤内容左右（首尾）空格
    <input v-model.trim='agge'>
-
-v-if
-v-else-if
-v-else
 
 问题：在有输入框的时候，切换类型，两个类型都有input，在第一个输入框输入了值之后切换到第二个类型，输入框内容不变
 答：因为Vue在进行DOM渲染时，出于性能考虑，尽可能复用已经存在的元素，而不是重新创建新的元素
@@ -457,9 +473,352 @@ CLI (@vue/cli) 是一个全局安装的 npm 包，提供了终端里的 vue 命�
 1.安装vue脚手架
 npm i -g @vue/cli
 
-如果你要用2.x版本的cli，要初始化就：
+如果你要用2.x版本的cli，要初始化：
     npm i @vue/cli-init -g
 
 脚手架2.x初始化项目：vue init webpack my-project
 脚手架3.x初始化项目：vue create my-project
+
+
+区别只在main.js
+runtime-only:   1,没有注册，直接render:h => h(App),2:不可以使用template。h代表createElement。
+runtime-compiler：1，在new Vue里面注册components：{App}，2：可以使用template：'<App/>'
+
+
+runtime-compiler中template传给Vue的时候，会保存在Vue.options，把template进行parse（解析），解析成一个抽象语法树（abstract syntax tree）ast，之后编译compiler成render函数。通过render函数把template翻译为虚拟DOM，最后渲染为真实DOM。
+
+template->ast->render函数->虚拟DOM->真实DOM
+
+runtime-only没有template，直接render函数到虚拟DOM，性能更高，代码量更少。因为没有template-ast-renader的过程。
+
+runtime-only中引入的App.vue有template是谁解析的？
+由我们之前安装的Vue vue-tempalte-compiler编译的。
+
+npm run build过程：1，找到入口文件 --》config/index.js--》生产环境参数 --》NODE_ENV：'production
+                           |
+                           |
+                    build/webpack.prod.conf--->build.utils -->1.计算资源的存放路径，
+                           |                                  2.生成cssLoader用于加载vue中的样式
+                           |                                  3.生成styleLoader加载不在Vue中的样式 
+                           |
+         build/webpack.base.conf --->定义了入口,出口，编译规则，插件相关配置.上面两个文件合并，其实就是我们单独用webpack打包编译需要的文件
+                           |
+                           |
+                    build/vue-loader.js
+                           |
+                           |
+                        导出一些vue配置选项相关 
+
+修改1webpack配置：webpack.base.conf.js起别名
+resolve: {
+    extensions:['.js','.vue','.json'],
+    alias: {
+        '@':resolve('src'),
+        'pages':resolve('src/pages'),
+        'common':resolve('src/common'),
+        'components':resolve('src/components')
+        'network':resolve('src/network')
+    }
+} 
+
+vue-cli3是基于webpack4打造的，vue-cli2还是webpack3打造
+vue-cli3设计原则：‘0配置‘，移除配置文件根目录下的build和config等目录
+vue-cli3提供了vue ui 命令，提供了配置可视化图像界面，更加人性化。
+vue-cli3移除了static文件夹，新增了public文件夹，并且index.html移到public中
+
+在package.json中"@vue/cli-service"又帮我们管理了很多其他依赖包（隐藏起来了—
+
+new Vue({
+    el:'app'
+})
+new Vue({
+    render: h => h(App)
+}).$mount('app')
+一样,没什么区别，el:'app'最终还是执行$mount('app')
+
+安装vue ui，npm i @vue/cli -g的时候会安装vue，会包含vue-ui，可以启动一个本地服务
+
+执行vue ui就可以启动（本地服务器）之后会出现界面。
+
+你可以在vue.config.js中配置，vue之后默认会和藏起来的配置合并起来
+
+路由：路由、转送。输入端-输出端。
+路由表：映射表，决定数据包的指向。
+vue-router 
+
+前端渲染：前端通过html，css
+
+后端渲染：以前网页开发都是jsp，php，浏览器要请求网页，浏览器会把url发导服务器，服务器拿到地址后解析，在后台通过jsp技术，（html+css+java通过从数据库中读取数据，并将它动态的放在页面中。），所以我们浏览器拿到的只有html，css。
+
+后端路由：后端处理url和页面之间的映射关系
+一个网址那么多页面，服务器如何处理？
+每个页面有自己的url，服务器通过正则对该url进行匹配，最后交给一个Controller处理，最终生成html或者数据，返回给前端，这样就完成了IO操作。这就是后端路由。
+
+后端路由缺点：整个页面的模块由后端人员写和维护，前端如果要开发页面需要通过java，php语言来编写代码。而且，通常情况下html和数据以及对应的逻辑会混合在一起，编写和维护都是很糟糕的事情。
+
+后来进入第二个阶段：前后端分离：通过ajax请求，
+后端只负责数据，不负责任何阶段的内容。前端：html+css在浏览器渲染，js执行$.ajax()获取到数据在前端渲染。
+优势：前后端责任分析，前端专注于交互和可视化，后端专注于数据。并且当移动端（IOS/Android）出现后，后端不需要进行任何处理，依然使用之前的一套API即可，目前很多网址依然采用这种模式开发。
+
+第三个阶段：单页面富应用阶段：
+    SPA最大特点就是在前后的分离基础上加了一层前端路由，也就是前端来维护一套路由规则。
+    SPA整个网页只有一个html页面，那在静态资源服务器只有一个html，+css+css，你请求的时候一个index.html,css,js全部请求过来了，一次性请求那么多会卡顿，假如一个页面有三个按钮，点击一个按钮，就把对应的资源从整个资源中抽取出来，相当于有多个页面一个按钮一个页面。这就是前端路由来做支撑。
+    当你点其中一个按钮，会生成一个url，这个url通过js判断从整个资源中抽取对应的资源，在vue中就是一个个组件。SPA必须有前端路由支撑。
+    url和页面对应的归前端管理的。
+
+前端路由的核心：改变url，但是页面不进行整体刷新
+如何实现？
+1：url的hash：改变url的hash，页面不整体刷新，location.hash=
+2：html5里的history，history.pushState({},'','home').类似栈结构。
+history.back()将栈顶的路由移除
+history.replaceState({},'','home') 彻底替代，不能再前进后退。
+history.go（-1）回退到上一个历史url，等价于history.back(),history.go(-2),history.go(1),前进。history.forward(1),前进
+
+安装路由：npm i vue-router --save
+1,Vue.use(VueRouter)
+2.创建路由实例，并且传入路由的映射配置
+3.在vue实例中挂载创建的路由实例。
+
+import VueRouter from 'vue-router'
+import vue from 'vue'
+//创建的路由组件
+import Home from './home'
+import About from './about'
+
+//改变url标签
+
+
+Vue.use(VueRouter)
+
+//配置路由组件之间的应用关系
+const routes = [
+    路由默认路径
+    {
+        这样有点小问题
+        <!-- path: '',
+        redirect:'/home'重定向，每匹配上路径就重定向到home -->
+    },
+    {
+        path: '/home',
+        component: Home
+    },
+    {
+        path: '/about',
+        component: About
+    }
+]
+const router = new VueRouter({
+    routes，
+    mode:'history'这样就可以把路由中的#去掉（默认hash改为history）
+    linkActiveClass:'active'//点击时候的样式。
+})
+export default router
+
+在main.js中new Vue({
+    el:'app',
+    router,
+    render: h => h(App)
+})
+
+
+在App.vue中加路由切换渲染标签：router-link是路由的组件，会被渲染为a标签，
+<template>
+    <div>
+       <router-link to='/home'>首页</router-link>
+       <router-link to='/about'>关于</router-link>
+       <router-view></router-view>占位，要渲染的在下面渲染，放上面就在上面显示
+    </div>
+</template>
+
+路由默认路径
+
+router-link的属性to还有tag，可以把to的a标签渲染为你tag写的标签，比如tag='button'，写replace路由就不能前进后退。active-class=''改选中的样式，一般不这样，在路由中：const router = new VueRouter({中})linkActiveClass
+
+如果你不想用router-link
+<button @click="btnclick">首页</button>
+
+methods: {
+    btnclick() {
+        history.pushState()//不要这样跨过路由改路径
+        通过this.$router.push('/home')
+        this.$router.replace('/about')      
+    }
+}
+
+路由携带参数：
+{
+    path:'/home/:userid',
+    component:Home
+}
+
+<router-link :to='/home/'+userid>主页</router-link>
+
+this.$route谁处于活跃就是谁
+this.$router获取的是VueRouter实例
+
+$route.params参数
+computed: {
+    userid() {
+        return this.$route.params.userid
+    }
+}
+
+路由懒加载：打包构建的时候，js包会很大，影响页面加载（有些用户电脑出现短暂的空白，如果我们把不同路由对应的组件分割成不同代码块，然后当路由被访问的时候才加载对应组件，这样更高效。
+js文件夹有三个文件，app.dsfsf8sd.js（我们写的业务代码）,manifest.wr34453ffsdfd.js（底层导入导出支持），vendor.haere453csh.js第三方。文件没有分包
+
+路由懒加载做了什么？
+将路由对应的组件打包成一个个js代码块，只有在这个路由被访问时候才加载对应的组件。
+
+懒加载写法：
+ const routes
+  = [
+      {
+          path:'/home',
+          component: () => import('../components/Home')
+      },
+      {
+          path:'/about',
+          component: () => import('../components/About')
+      }
+  ]
+
+这样写了之后，js文件就变成很多js文件：0.er43423434.js、1.3r224dsfrg.js、app.ddfd2f.js、manifest.fdi3huhg.js、vendor.siehferuhy4g4.js
+
+懒加载方式：
+一、结合Vue的异步组件和webpack的代码分析：
+    const Home = resolve => {require.ensure(['../components/Home.vue'],() => {
+        resolve(require('../components/Home.vue'))
+    })}
+二。AMD写法：
+    const About = resolve => require(['../components/About.vue'].resolve)
+三、在es6中
+    const About = () => import('../components/About.vue')
+
+路由嵌套：
+1.children:[
+    {
+        path:'News',//子路由不加/
+        component: () => import('../components/Home/News'),
+        meta: {
+            title:'新闻'
+        }
+    }
+]
+2.在Home首页加router-link
+<template>
+    <div>
+        <router-link to="/home/news">新闻</router-link>
+        <router-link to="/home/message">消息</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+
+传参数：
+1:
+<router-link :to="{path:'/profile',query:{name:'wyh',age:23}}"></router-link>
+query会拼接在url上，获取：$router.query.name
+
+<button @click='go'>跳转</button>
+
+go() {
+    this.$router.push('/user/'+this.userId)
+}
+gos() {
+    this.$router.push({
+        path:'/aboyt',
+        query: {
+            name:'eileen'
+        }
+    })
+}
+1.query类型：
+配置路由/router
+传递方式：query
+传递后形成的路径：/router?id=123
+
+2.params类型：
+配置路由/router/:id
+传递方式：path后面根对应的值
+传递后形成的路径：/router/123
+
+$router和$route的区别：
+$route就是你配置的{path:'/home',component:Home},活跃的路由，可以获取name，path，query，params
+$router就是VueRouter实例，想要导航到不同url，使用$router.push方法
+
+全局导航守卫：对跳转过程进行监听。
+导航守卫：改变document.title的名字生命周期用导航守卫实现：
+
+前置钩子
+router.beforeEach(function(to,from,next) {
+    document.title = to.matched[0].meta.title
+    next()
+})
+在react中使用：export default withRouter(App）
+可以根据路由切换浏览器的title属性，对props.history进行监听，切换路由的时候获取当前的路由路径，同时可以根据不同的路由设置不同的浏览器title标题。
+meta元数据，描述数据的数据。
+metaclass元类
+ 
+ afterEach后置钩子，不用调用next
+ 还有路由独享守卫 {path:'/foo',component:Foo,beforeEnter:(to,from,next) => {}}
+ 、组件内的守卫:const Foo = {
+     template:...
+     beforeRoutEnter(to,from,next) {
+         不能获取到组件实例this，当守卫执行前，组件实例还没被创建
+     }
+     beforeRouteUpdate(to,from,next) {
+
+     }
+     beforeRouteLeave(to,from,next) {
+
+     }
+ }
+Vue生命周期：
+
+
+
+
+ keep-alive：是vue内置组件，可以使被包含组件保留状态。比如有新闻和消息两个列表，当你点击新闻显示新闻列表，点击消息显示消息列表，你每次切换的时候都会重新创建组件，如果你想把状态保留下来，不想重新创建组件，就用keep-alive
+ router-view也是一个组件，如果直接被包在keep-alive里面，所有路径匹配到的视图组件都会被缓存。
+
+ 
+ Vue2.0/3.0双向数据绑定的实现原理
+    2.0 ES5：Object.defineProperty实现数据拦截
+    3.0 proxy
+
+MVC和MVVM区别
+没什么区别。vue的mvvm双向数据绑定，什么是双向》数据更改视图会变化，视图变化，数据也会变化，视图变化数据怎么变化》无外乎监听onchange，oninput事件，监听拿到最新至，数据一改，就影响了视图。只要我们能让数据影响视图。如果非要有区别，vue帮我们把onchange和oninput做好了，react要我们自己实现。
+
+MVC单向数据改变，mvc默认只实现了数据的更改控制视图
+MVVM双向数据改变，mVVM实现了数据的更改控制视图，视图改变数据，onchange/oninput
+
+react中自己实现：
+state = {
+    name:''
+}
+componentDidMount() {
+    this.setState({
+        name:'hello'
+    })
+}
+render() {
+    return(
+        性名:<sapn>{name}</sapn>
+        <input value={name} onChange={e =>this.setState({name:e.target.value})} />
+    )
+}
+
+
+
+
+
+在你进入某个界面，默认选中某个路由
+router-link
+activated活跃函数
+this.$router.push(this.path)
+deactivated不活跃函数
+组件内路由导航：
+beforeRouterLeave（to,from,next) {
+    this.path = this.$route.path
+}
+
 

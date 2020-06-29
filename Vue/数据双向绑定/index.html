@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    姓名：<span id="spanName"></span>
+    <br/>
+    <input type="text" id="inpName">
+</body>
+<!-- Vue2.0使用defineProperty实现数据双向绑定 1,对原始数据克隆，2：需要分别给每个对象中每个属性设置监听-->
+<!-- <script>
+    let obj = {
+        name: ''
+    }
+    let newObj = JSON.parse(JSON.stringify(obj))
+    Object.defineProperty(obj,'name',{
+        get() {
+            return newObj.name
+        },
+        set(val) {
+            newObj.name = val
+            observe()
+        }
+    })
+    function observe() {
+        spanName.innerHTML = newObj.name
+        inpName.value = newObj.name
+    }
+    inpName.oninput = function() {
+        obj.name = this.value
+    }
+</script> -->
+
+<!-- Vue3.0使用实现数据双向绑定 -->
+<script>
+    let obj = {}
+    obj = new Proxy(obj,{
+        get(target,prop) {
+            return target[prop]
+        },
+        set(target,prop,value) {
+            target[prop] = value
+            observe()
+        }
+    })
+    function observe() {
+        spanName.innerHTML = obj.name
+        inpName.value = obj.name
+    }
+    inpName.oninput = function() {
+        obj.name = this.value
+    }
+</script>
+</html>
