@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a name="myanchor">Hello world!</a>
+    <script>
+        
+        // console.log(String()) //不打印
+        // console.log(String(undefined))//undefined
+        // console.log(String(null))//null
+        // console.log(String(true))//true
+        // console.log(String(false))//false
+        // console.log(String(0))//0
+        // console.log(String(-1))//-1
+        // console.log(String(1))//1
+        // console.log(String(NaN))//NaN
+        // console.log(String(Infinity))//Infinity
+        // console.log(String(-Infinity))//-Infinity
+        // console.log(String(1))//1
+//        console.log(String({})) //[object Object]
+//        console.log(String({name:'Eileen'})) //[object Object]
+//        console.log(String([])) //空串
+//        console.log(String([0])) //0
+//        console.log(String([1,2])) //1,2
+//        console.log(String(['1','2'])) //1,2
+//        console.log(String(new Date(2020,7,5)))//Sun Jul 05 2020 21:31:03 GMT+0800 (中国标准时间)
+//    console.log(String(null))
+//    console.log(String(undefined))
+
+        // console.log('-------------------------')
+        // console.log(Boolean()) //false
+        // console.log(Boolean(0))//false
+        // console.log(Boolean(+0))//false
+        // console.log(Boolean(-0))//false
+        // console.log(Boolean(NaN))//false
+        // console.log(Boolean(""))//false
+        // console.log(Boolean(" "))//false
+        // console.log(Boolean(null))//false
+        // console.log(Boolean(undefined))//false
+        // console.log(Boolean({name:'eli'}))//true
+        // console.log(Boolean(new Boolean(false)))//true
+        // console.log(Boolean([1,2,3]))//true
+
+        // console.log('----------------------')
+
+        // console.log(Number()) //0
+        // console.log(Number(-1))//-1
+        // console.log(Number(0X6))//6
+        // console.log(Number('12b'))//NaN
+        // console.log(Number(true)) //1
+        // console.log(Number(false))//0
+        // console.log(Number(undefined))//NaN
+        // console.log(Number(null))//0
+        // console.log(Number(NaN))//NaN
+        // console.log(Number(""))//0
+        // console.log(Number(" "))//0
+        // console.log(Number('12b'))//NaN
+        // console.log(Number("+0"))//0
+        // console.log(Number("-0"))//-0
+        // console.log(Number("0"))//0
+        // console.log(Number("0x12"))//18
+        // console.log(Number("+0"))//0
+        // console.log(Number('000123'))//123
+        // console.log(Number('-000123')) //-123
+        // console.log('-----------------------------')
+//   console.log([].valueOf().toString()) //[0,1]
+//   console.log([0,1].valueOf().toString())//0,1
+//   console.log({}.valueOf().toString())
+//   console.log({age:1}.valueOf().toString())
+        // console.log(Number({}))  //NaN
+        // console.log(Number({name:'Eileen'})) //NaN
+        // console.log(Number([])) //0
+        // console.log(Number([0])) //0
+        // console.log(Number([1,2])) //NaN
+        // console.log(Number(function name(params) {})) //NaN
+        // console.log(Number(new Date(2020,7,05))) //1596556800000
+//  console.log(new Date().valueOf().toString())
+
+        // console.log(parseFloat("3 12ab1"))//3
+        // console.log(parseFloat("3.14"))//3.14
+        // console.log(parseFloat("-12.3"))//-12.3
+        // console.log(parseFloat("070"))//0
+
+
+
+        // console.log(toString()) //[object Undefined]
+        // // console.log(null.toString())
+        // // console.log(toString(undefined))
+        // console.log(true.toString()) //true
+        // console.log(false.toString())//false
+        // console.log('0'.toString())//0
+        // console.log('-1'.toString())//-1
+        // console.log(NaN.toString())//NaN
+        // console.log(Infinity.toString())//Infnity
+        // console.log(-Infinity.toString())//-Infnity
+
+        
+
+        // console.log(new Number(1)) //{1}
+        // console.log(new String('hello'))//{'hello'}
+        // console.log(new Boolean(false))//{false}
+        // console.log(new Array(1,2,3))//[1,2,3]
+
+        // var txt="Hello world!"
+        // document.write(txt.anchor("myanchor"))
+
+        //----------------------------------------
+        // console.log('string'.valueOf()) //string
+        // console.log((1).valueOf()) //1
+        // console.log({name:'Eia'}.valueOf())//{name:'eia'}
+        // console.log([1,2,3].valueOf())//[1,2,3]
+        // console.log((3 === '3').valueOf()) //true
+        // console.log(false.valueOf()) //false
+        // console.log(new Date(2019,10,21).valueOf())//1574265600000
+        // console.log(null.valueOf())
+        // console.log(undefined.valueOf())
+        // let arr = [1,2,3]
+        // console.log(arr.toString()) // 1,2,3
+        // console.log(arr.valueOf()) // [1,2,3]
+        // console.log('-------------------------------------')
+
+        // let obj = {name:'eileen'}
+        // console.log(obj.toString()) //[object Object]
+        // console.log(obj.valueOf()) //{name:'eileen'}
+        // console.log('-------------------------------------')
+
+
+        // let str = 'Eileen'
+        // console.log(str.toString()) // Eileen
+        // console.log(str.valueOf()) // Eileen
+        // console.log('-------------------------------------')
+
+
+        // let num = 1
+        // console.log(num.toString()) //1
+        // console.log(num.valueOf()) //1
+        // console.log('-------------------------------------')
+
+        
+        // let bool = true
+        // console.log(bool.toString()) //true
+        // console.log(bool.valueOf()) //true
+        // console.log('-------------------------------------')
+
+        console.log(Boolean(Infinity))
+        // let date = new Date()
+        // console.log(date.toString()) //Sun Jul 05 2020 19:07:02 GMT+0800 (中国标准时间)
+        // console.log(date.valueOf()) //1593947232678
+        // console.log('-------------------------------------')
+        console.log(Number("1bb"))
+        console.log(JSON.stringify(null)) //null
+        console.log(JSON.stringify(undefined)) //undefined
+        console.log(JSON.stringify(true)) //true
+        console.log(JSON.stringify(false)) //false
+        console.log(JSON.stringify(0)) //0
+        console.log(JSON.stringify('str')) //"str"
+        console.log(JSON.stringify([1,2,3])) //[1,2,3]
+        console.log(JSON.stringify({name:'Eileen'}))//{"name":"Eileen"}
+        console.log(JSON.stringify(new Date())) //"2020-07-05T03:51:02.582Z"
+        console.log(JSON.stringify({m:undefined,n:Object,o:Symbol("")})) //{}
+        console.log(JSON.stringify([undefined,Object,Symbol("")]))//[null,null,null]
+    </script>
+</body>
+</html>
