@@ -24,9 +24,9 @@
 function CreatePerson(name, job) {
     this.name = name
     this.job = job
-    this.getJob = function () {
-        console.log(this.name+' is a '+this.job)
-    }
+}
+CreatePerson.prototype.getJob = function () {
+    console.log(this.name+'do'+this.job)
 }
 let eileen = new CreatePerson('Eileen', 'woman')
 let john = new CreatePerson('John', 'man')
