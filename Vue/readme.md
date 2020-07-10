@@ -5,8 +5,8 @@ new Vue() --->
 执行完·初始化injections（注入，引入）和reactivity--->
 调用created………………………………………………………………………………………………………………………>
 判断有el吗----------->有挂载el
-判断是template吗-------有编译template成render函数
-               -------没有意味着已经编译为render函数
+判断是template吗-------有-编译template成render函数
+               -------没有-意味着已经编译为render函数
 调用beforeMounted………………………………………………………………………………………………………>
 之后用vm.$el替换el（意味着之前template挂载到DOM上了）
 之后调用mounted函数……………………………………………………………………………………………………>
@@ -57,7 +57,6 @@ $event获取浏览器event
     .native 监听组件根元素的原生事件，监听组件
    <Com @click.native='clickon'></Com>
 
-
     .once只触发一个回调
    <button @click.once='doThis'></button>
 
@@ -66,8 +65,6 @@ $event获取浏览器event
     
     number修饰符：默认情况下，在输入框无论我们输入的是字母还是数字，都会被当作字符串类型处理，但是如果我们希望处理的是数字，就用number修饰符
    <input v-model.number='agge'>
-
-
     trim修饰符可以过滤内容左右（首尾）空格
    <input v-model.trim='agge'>
 
@@ -96,10 +93,7 @@ let arr = ['A','B','C','D','E','F']
 data:{letter:['a','b']}
 methods:{
     occc() {
-        <!-- this.letter.push('c','d') -->
-        <!-- this.letter.pop() -->
-        <!-- this.letter.shift() -->
-        <!-- this.letter.unshift('e','f') -->
+        <!-- this.letter.push('c','d')/pop()/unshift(e,f)/shift() -->
     }
 }
 非响应式：this.letter[0]='aa'
@@ -118,7 +112,7 @@ v-bind:
     <input :value='bindMessage'/>
     <p>{{bindMessage}}</p>//只是在第一次同步
     可以再绑定事件v-on:input='changeValue'
-    <input :value='bindMessage' :input='changeValue'/>
+    <input :value='bindMessage' @input='changeValue'/>
     在methods中声明changeValue(e){
         this.bindMessage = e.target.value
     }
@@ -143,7 +137,7 @@ Vue组件化思想：
 创建组建构造器：
 const myComponent = Vue.extend({
     template:`
-        <div><h2>组件标题</h2></div>
+        <div><h2>组件标题</h2></div>`
 })
 
 注册组件：
@@ -199,7 +193,7 @@ function test() {
 }
 多个地方引用同一个对象，某个地方修改了这个状态的数据，其他调用的都变了，这是我们不想看到的。
 
-注册全局组件语法糖：
+注册全局组件：
     Vue.Component('cpn',{
         trmplate:`
         <div>
@@ -234,13 +228,9 @@ function test() {
         </div>
     </template>
 
-
-
-
 父传子props
 const cpn = {
     template:'#cpn',
-    //props可以是数组
     props:['movies','message']
     //也可以是对象，类型验证
     props:{
@@ -348,7 +338,7 @@ this.$refs.aa就可以访问
 子访问父，开发中不太建议。这样的话子组件就不能够独立，复用性就不太强了。耦合度太高了
 访问根组件$root
 
-slot插槽，目的：让原来的设备具有扩展性。
+slot插槽，目的：让原来的设备具有扩展性。slot是组件的一块html模板，这块模板显不显示以及怎样显示由父组件决定。插槽的显示位置由子组件决定。
 
 预留位置，比如说导航栏，预留位置。
 具名插槽：
@@ -367,6 +357,11 @@ slot插槽，目的：让原来的设备具有扩展性。
 
     父组件如何拿到子组件的数据：父组件对子组件展示的东西不满意，想以另一种方式展示，但是内容还是子组件给
 
+
+
+
+
+
 模块化开发：
     在多人开发的项目中，比如小明，小红，分别创建了文件a，b
     如果小名在a中定义了变量flag=true，而小红在b中耶定义了变量flag=false
@@ -376,7 +371,7 @@ slot插槽，目的：让原来的设备具有扩展性。
     取模块的名字不一样，将模块导出。
     前端模块化有很多规范：
         CommonJS，AMD，CMD也有ES6的modules
-    模块化有两个核心，导入，到处
+    模块化有两个核心，导入导出
     CommonJS，Webpack和node都是用的CommonJS导出
     webpack底层要用node
 commonJS导出：
@@ -423,9 +418,6 @@ module.exports = {
     ]
 }
 ```
-重新打包，查看bundle.js头部，看到如下信息：
-/*!最终版权归coderwhy所有*/
-/*****/(function(modules) {})
 
 在dist创建index.html使用html-webpack-plugin
 new HtmlWebpackPlugin({
@@ -544,27 +536,7 @@ new Vue({
 
 路由：路由、转送。输入端-输出端。
 路由表：映射表，决定数据包的指向。
-vue-router 
 
-前端渲染：前端通过html，css
-
-后端渲染：以前网页开发都是jsp，php，浏览器要请求网页，浏览器会把url发导服务器，服务器拿到地址后解析，在后台通过jsp技术，（html+css+java通过从数据库中读取数据，并将它动态的放在页面中。），所以我们浏览器拿到的只有html，css。
-
-后端路由：后端处理url和页面之间的映射关系
-一个网址那么多页面，服务器如何处理？
-每个页面有自己的url，服务器通过正则对该url进行匹配，最后交给一个Controller处理，最终生成html或者数据，返回给前端，这样就完成了IO操作。这就是后端路由。
-
-后端路由缺点：整个页面的模块由后端人员写和维护，前端如果要开发页面需要通过java，php语言来编写代码。而且，通常情况下html和数据以及对应的逻辑会混合在一起，编写和维护都是很糟糕的事情。
-
-后来进入第二个阶段：前后端分离：通过ajax请求，
-后端只负责数据，不负责任何阶段的内容。前端：html+css在浏览器渲染，js执行$.ajax()获取到数据在前端渲染。
-优势：前后端责任分析，前端专注于交互和可视化，后端专注于数据。并且当移动端（IOS/Android）出现后，后端不需要进行任何处理，依然使用之前的一套API即可，目前很多网址依然采用这种模式开发。
-
-第三个阶段：单页面富应用阶段：
-    SPA最大特点就是在前后的分离基础上加了一层前端路由，也就是前端来维护一套路由规则。
-    SPA整个网页只有一个html页面，那在静态资源服务器只有一个html，+css+css，你请求的时候一个index.html,css,js全部请求过来了，一次性请求那么多会卡顿，假如一个页面有三个按钮，点击一个按钮，就把对应的资源从整个资源中抽取出来，相当于有多个页面一个按钮一个页面。这就是前端路由来做支撑。
-    当你点其中一个按钮，会生成一个url，这个url通过js判断从整个资源中抽取对应的资源，在vue中就是一个个组件。SPA必须有前端路由支撑。
-    url和页面对应的归前端管理的。
 
 前端路由的核心：改变url，但是页面不进行整体刷新
 如何实现？
@@ -584,9 +556,6 @@ import vue from 'vue'
 //创建的路由组件
 import Home from './home'
 import About from './about'
-
-//改变url标签
-
 
 Vue.use(VueRouter)
 
@@ -772,10 +741,6 @@ metaclass元类
 
      }
  }
-Vue生命周期：
-
-
-
 
  keep-alive：是vue内置组件，可以使被包含组件保留状态。比如有新闻和消息两个列表，当你点击新闻显示新闻列表，点击消息显示消息列表，你每次切换的时候都会重新创建组件，如果你想把状态保留下来，不想重新创建组件，就用keep-alive
  router-view也是一个组件，如果直接被包在keep-alive里面，所有路径匹配到的视图组件都会被缓存。
@@ -809,8 +774,6 @@ render() {
 
 
 
-
-
 在你进入某个界面，默认选中某个路由
 router-link
 activated活跃函数
@@ -822,3 +785,188 @@ beforeRouterLeave（to,from,next) {
 }
 
 
+别名，webpack.base.js中resolve
+resolve: {
+    extensions: ['.js','.vue','.json'],
+    alias: {
+        '@': resolve('src'),
+        'assets': resolve('@/assets'),
+        'components':resolve('@/components'),
+        'view': resolve('@/view')
+    }
+}
+引入的时候，html中<img src="~assets/img/p.jpg">
+
+
+
+
+vueJs给我们带来最大的便利是？响应式，
+管理：所有组件共享对象中的变量，自己可以封装，但是想让它响应式比较难。
+
+Vuex状态管理模式（集中式存储管理）
+
+状态管理包括：（单项数据流
+1）state，驱动应用的数据源 ->
+2）view，以声明式将state映射到视图->
+3）actions，响应在view上的用户输入导致状态变化->
+
+哪些状态需要共享？
+用户登录状态，头像，地理位置，商品的收藏，购物车的物品等，
+
+全局单例模式（大管家）
+将共享状态抽取出来，交给大管家进行统一管理，之后每个视图按照规定进行访问和修改，这就是vuex的思想。
+
+当你要修改store中某个状态的时候，dispatch一个action（异步操作要在action中），然后commit提交到mutation，devtools是vue开发的一个浏览器插件，记录修改（同步），mutation去修改mutate）state。
+
+单一状态树（single source of Trutch）
+只有一个store，方便维护和管理。
+
+### vuex五个核心概念：
+- state，所有的state都被添加到vue的响应式系统里面，state发生改变会被观察到，Dep-》对应很多[watcher]
+- getters：类似计算属性，某个数据需要经过一系列运算后才使用的时候使用
+- mutations：像redux的的reducer，dispatch一个action，通过reducer修改数据，vuex中commit一个action
+        更改store里面的state唯一办法是提交mutations，mutations： {add(){},mul(){}} ,thie.$store.commit('add')
+        mutation传递参数，参数是mutation的payload负荷
+        mutation提交风格：普通向上面，另一种包含type的提交。
+        this.$store.commit({
+            type:'increment',
+            count:count
+        })
+        mutations:{
+            increment(state,payload) {
+                state.counter = payload.count
+            }
+        }
+        mutation响应规则：
+            1：state是响应式的，当state发生改变，视图对应改变。前提是这个属性被添加到响应式系统，后面增加的不会同步变化。比如student对象有name，age，之后你通过state.student['hobby']='sing'无法将hobby属性添加到student上面。响应式的操作：push，pop，shift，unshift是响应式的。需要通过：Vue.set(state.student,'hobby','sing')。删掉：delete state.student.age.界面不改变，做不到响应式。需要通过：Vue.delete(state.student,'age')
+        mutation常量： 在mutation中定义了很多事件类型（也就是其中方法名称），项目越大，mutation中方法越多，需要花费更多时间记住这些方法，来回切换出错。
+        export const ADD = 'add'
+        import {ADD} from '..'
+        mutations: {
+            [ADD](state) {},
+            [increment](state){}
+        }
+        mutation同步函数：vuex要求mutation的方法必须是同步方法，主要原因是当我们使用devtools时，devtools可以帮助我们捕捉mutation快照，如果是异步操作，devtool不能很好的追踪这个操作什么时候会被完成。
+
+- action：action类似mutation，但是这个是用来替代mutation来做异步操作的。
+      
+- module：划分模块,vue使用单一状态树，意味着很多状态都会交给vuex管理，应用越复杂，store就越臃肿，module就是解决这个问题，让每个模块都有自己的state，mutation，action，getters
+
+- const ModuleA= {
+    state:{
+        hobby:'羽毛球'
+    },
+    mutations:{
+        playBox(state,payload) {
+            state.hobby = payload
+        }
+    },
+    actions: {           | context,对象解构
+        playGame({state,commit,rootState}) { //这里的context的commit只会调用自己模块里面的mutation
+            setTimeOut(()=>{
+                contex.commit('playBox','watchGame')
+            },1000)
+        }
+    },
+    getters: {
+        playTV(state) {
+
+        },
+        playAll(state,getters) {//还想用其他getter
+            return getters.playTV + state.hobby
+        },
+        playgetM(state,getters,rootState) { //还想用大模块里面的state，rootState表示根state
+            return getters.playTV + rootState.playMusic
+        }
+    }
+}
+const ModuleB= {state:{},mutations:{},...}
+
+- const store = new Vux.store({
+ -   state: {
+        counter: 1000,
+        playMusic:'玩音乐',
+        student:[
+            {id:1,name:'M',age:25},
+            {id:2,name:'E',age:20},
+            {id:3,name:'N',age:15},
+        ]
+    },
+-    mutations: {
+        increment(state) {
+            state.counter++
+        },
+        decrement(state) {
+            state.counter--
+        },
+        add(state,count) {
+            state.count += count
+        }
+    },
+-    getters: {
+        powerCount(state) {
+            return state.counter * state.counter
+        },
+        getAgeGt(state) {
+            return state.student.filter(s => s.age>20)
+        },
+        moreAge20(state) {
+            return function(age) {
+                return state.student.filter(s=>s>age)
+            }
+        },
+        addStu: function(state,stu) {
+            return state.student.push(stu)
+        }
+    },
+-    actions: {
+        asyncUpdate(context,payload) { //这里的context是store对象
+            return new Promise((resolve,reject) => {
+                setTimeOut(() => {
+                    context.commit('asyncUpate')
+                    resolve('成功')
+                },1000)
+            })
+        }
+    },
+ -   modules: {
+        a: ModuleA
+    }
+})
+
+在其他引用了store的组件中
+<h1>counter</h1>
+<h2>{{$store.getters.powerCount}}</h2>
+<h2>{{$store.getters.moreAge20(10)}}</h2>
+<button @click="update">更新</button>
+<h2>moduleA中的内容state:{{$store.state.a.hobby}}拿到a可以直接.hobby</h2>
+<h2>moduleA中的内容mutation:{{$store.state.a.hobby}}拿到a可以直接.hobby</h2>
+<button @click="changeplayBox">moduleA中的内容action</button>
+<h2>moduleA中的内容getters用法: --> {{$store.getters.playTV}} 不管getters在哪</h2>
+<button @click="asyncChangeBox">moduleA中的内容action异步修改兴趣</button>
+
+computed: {
+    counter: function() {
+        return this.$store.state.counter
+    }
+}
+methods: {
+    add: function() {
+        this.$store.commit('increment')
+    },
+    addCount: function(count) {
+        let stu = {id:4,name:'R',age:23}
+        this.$store.commit('decrement',count)
+        this.$store.commit('addStu',stu)
+    },
+    update() {
+        <!-- this.$store.dispatch('asyncUpdate','我是参数') -->
+        this.$store.dispatch('asyncUpdate',() => '我是参数').then(res => {})
+    },
+    changeplayBox() {
+        this.$store.commit('playBox','paint')
+    }，
+    asyncChangeBox（） {
+        this.$store.dispatch('playGame')
+    }
+}
