@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #text {
+            width:16rem;
+            height: 1px;
+            background: #000;
+            /* -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin:0 0 ;
+            overflow: hidden; */
+            margin-top: 1rem;
+        }
+        /* #text::after{
+            content:'';
+            width: 100%;
+            border-bottom: 1px solid red;
+            transform: scaleY(0.5);
+        } */
+        #text::after {
+            content:'';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid red;
+            border-radius: 4px;
+            -webkit-transform: scale(0.5,0.5);
+            transform: scale(0.5,0.5);
+            -webkit-transform-origin: top left;
+        }
+    </style>
+</head>
+<body>
+    <div id="text"></div>
+    <script>
+        // window.onload = function() {
+        //     // (function() {
+        //     //     var dpr = window.devicePixelRatio || 1
+        //     //     var styleNode = document.createElement('style')
+        //     //     var w = document.documentElement.clientWidth*dpr/16
+        //     //     styleNode.innerHTML = "html{font-size:"+w+"px!important"
+        //     //     document.head.appendChild(styleNode)
+
+        //     //     var scale = 1/dpr
+        //     //     var meta = document.querySelector('meta[name="viewport"]')
+        //     //     meta.content="width=device-width, initial-scale="+scale
+        //     // })()
+        // }
+    </script>
+</body>
+</html>
