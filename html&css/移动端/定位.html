@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            height: 100%;
+            overflow: hidden;
+        }
+        #wrap {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel-wrap{
+         position: relative;
+        }
+        .ul {
+          list-style: none;
+          overflow: hidden;
+          position: absolute;
+        }
+        .ul>li {
+            /* position: absolute; */
+            height: 300px;
+            float: left;
+        }
+        .ul>li>a {
+
+        }
+        .carousel-wrap,.carousel-wrap>ul>li>a,.ul>li>a>img {
+            display: block;
+        }
+        .carousel-wrap>.point-wrap {position: absolute;bottom: 0;z-index: 1;width: 100%;text-align: center;}
+        .carousel-wrap>.point-wrap>span { display: inline-block;width: 10px;
+                            height: 10px;border-radius: 50%; background: rgb(239, 248, 239); margin-left: 5px;}
+        .carousel-wrap>.point-wrap>span.active {background: rgb(245, 153, 153);}
+        .test {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="carousel-wrap">
+            <div class="point-wrap">
+            </div>
+        </div> 
+    </div>
+    <script>
+        window.onload = function(e) {
+            e = e || event
+            e.preventDefault(); //这样的话有隐患，所有滚动条失效，html设置height：100%，overflow：hidden把自己干了
+        }
+        var arr = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg"]
+        carousel(arr)
+        function carousel(arr) {
+            var carouselWrap = document.querySelector('.carousel-wrap')
+            if(carouselWrap) {
+                var ulNode = document.createElement('ul')
+                var styleNode = document.createElement('style')
+                ulNode.classList.add('ul')
+            }
+            if(pointerWrap) {
+                var spanNode = document.createElement('span')
+            }
+            for(var i =0; i<arr.length;i++) {
+                ulNode.innerHTML += '<li><a href=""><img src="'+arr[i]+'"/></a></li>'
+            }
+            styleNode.innerHTML=".ul{width:"+arr.length+"00%}.ul>li{width:"+(1/arr.length*100)+"%}"
+            carouselWrap.appendChild(ulNode)
+            document.head.appendChild(styleNode)
+            var imgNode = document.querySelector('img')
+            setTimeout(() => {
+                carouselWrap.style.height = imgNode.offsetHeight+"px"
+            }, 100);    
+
+            var pointerWrap = document.querySelector('.point-wrap')
+            if(pointerWrap) {
+                 for(var i=0;i<arr.length;i++) {
+                    pointerWrap.innerHTML += '<span></span>'
+                 }
+                 var pointsSpan = document.querySelectorAll('.carousel-wrap>.point-wrap>span')
+                 pointsSpan[0].classList.add('active')
+            }
+            var startX = 0 //手指起始位置
+            var elementX = 0 //图片距离父元素的距离
+            ulNode.addEventListener('touchstart',function(e) {
+                e =e || event
+                //获取触发事件时候手指的位置，clientX
+                //获取图片距离父元素左边距离offsetLeft
+                var TouchC = e.changedTouches[0] //触发当前事件的手指列表
+                startX = TouchC.clientX //当前手指触发时候的水平坐标                    
+                elementX = ulNode.offsetLeft //图片距离浏览器左边距离  
+            })
+            ulNode.addEventListener('touchmove',function(e) {
+                e = e || event
+                var TouchC = e.changedTouches[0]
+                var nowX = TouchC.clientX
+                var disX = nowX - startX
+                ulNode.style.left = elementX+disX+"px"               
+            })
+            ulNode.addEventListener('touchend',function(e) {
+                //判断如果位移偏移量大于图片宽度的三分之一就切换，否则不切换
+                //往左边滑 比例为-0 -- -4
+                var index = ulNode.offsetLeft/document.documentElement.clientWidth
+                index = Math.round(index)
+                if(index > 0) { //说明往右边滑，而且没有了
+                    // ulNode.style.left = 0
+                    index = 0
+                } else if(index < 1-arr.length) {
+                    console.log('sss')
+                    index = 1-arr.length
+                }
+                for(var i=0;i<pointsSpan.length;i++) {
+                     pointsSpan[i].classList.remove("active")                            
+                }
+                pointsSpan[-index].classList.add("active")
+                ulNode.style.left = index*(document.documentElement.clientWidth)+"px"
+            })
+        }
+    </script>
+
+</body>
+</html>

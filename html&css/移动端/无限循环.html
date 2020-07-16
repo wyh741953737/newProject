@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无缝滑屏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body { 
+            /* 全局禁止默认事件，移动端滚动条失效，在这里把自己干掉 */
+            height: 100%;
+            overflow: hidden;
+            touch-action: none;
+        }
+        #wrap {
+            height: 300px;overflow: hidden;
+        }
+        .carousel-wrap{  position: relative;}
+        .carousel-wrap>.list {list-style: none;overflow: hidden;position: absolute;}
+        .carousel-wrap .list>li {float: left;}
+        .carousel-wrap>.list>li>a,
+        .carousel-wrap>.list>li>a>img { display: block;}
+        .carousel-wrap>.point-wrap {position: absolute;bottom: 0;z-index: 1;width: 100%;text-align: center;}
+        .carousel-wrap>.point-wrap>span { display: inline-block;width: 10px; background: rgb(239, 248, 239); 
+                            height: 10px;border-radius: 50%;  margin-left: 5px;}
+        .carousel-wrap>.point-wrap>span.active {background: indianred;}
+
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="carousel-wrap">
+            <div class="point-wrap"></div>
+        </div>
+        
+    </div>
+    <script src="./transform.js"></script>
+    <script>
+       window.onload = function() {
+            document.addEventListener('touchstart',function(ev) {
+                ev = ev || event
+                ev.preventDefault()
+            })
+            var arr = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg"]
+            carousel(arr)
+            function carousel(arr) {
+                var carouselWrap = document.querySelector('.carousel-wrap')
+                if(carouselWrap) {
+                    var pointLength = arr.length
+                    arr = arr.concat(arr)
+                    var ulNode = document.createElement('ul')
+                    var styleNode = document.createElement('style')
+                    ulNode.classList.add('list')
+                    for(var i=0;i<arr.length;i++) {
+                        ulNode.innerHTML+='<li><a href="javascript:;"><img src="'+arr[i]+'"/></a></li>'
+                    }
+                    styleNode.innerHTML = ".carousel-wrap>.list{width:"+arr.length+"00%}.carousel-wrap>.list>li{width:"+(1/arr.length*100)+"%;}"
+                    carouselWrap.appendChild(ulNode)
+                    document.head.appendChild(styleNode)
+                    var imgNode = document.querySelector('.carousel-wrap>.list>li>a>img') //要放在后面，同步，放前面img还没添加进去
+                    setTimeout(function() {//延迟，同步的话获取不到
+                        carouselWrap.style.height = imgNode.offsetHeight+'px'
+                    }, 100);
+
+                    //圆点
+                    var pointWrap = document.querySelector('.carousel-wrap>.point-wrap')
+                    if(pointWrap) {
+                        // for(var i=0;i<arr.length;i++) {
+                            for(var i = 0; i<pointLength; i++) {
+                            pointWrap.innerHTML += '<span></span>'
+                        }
+                        var pointsSpan = document.querySelectorAll('.carousel-wrap>.point-wrap>span')
+                    }
+
+                    //滑屏
+                    var startX = 0 //手指开始位置
+                    var elementX = 0 //元素位置
+                    var translateX = 0
+                    carouselWrap.addEventListener('touchstart',function(e) {
+                        e = e || event
+                        var TouchC = e.changedTouches[0] //触发当前事件的手指列表
+                        startX = TouchC.clientX //当前手指触发时候的水平坐标                    
+                        // elementX = ulNode.offsetLeft //图片距离浏览器左边距离  
+                        elementX = damu.css(ulNode,'translateX')                  
+                    })
+                    carouselWrap.addEventListener('touchmove',function(e) {
+                        e = e || event
+                        var TouchC = e.changedTouches[0]
+                        var nowX = TouchC.clientX//获取事件触发时鼠标指针的水平坐标
+                        var disX = nowX - startX //获取移动的距离
+                        // ulNode.style.left = elementX+disX+'px' //假设dis往右边移动，left值增大，往左边移动，disX为负值
+                        // translateX = elementX+disX
+                        // ulNode.style.transform = 'translateX('+translateX+'px)'
+                        damu.css(ulNode,'translateX',disX+elementX)
+                    })
+                    carouselWrap.addEventListener('touchend',function(e) {
+                        e = e || event
+                        ulNode.style.transition = 'none'
+                        //抽象index为ul的实时位置
+                        // var index = ulNode.offsetLeft/document.documentElement.clientWidth
+                        // index = translateX/document.documentElement.clientWidth
+                        index = damu.css(ulNode,'translateX')/document.documentElement.clientWidth
+                        index = Math.round(index)
+                        //超出控制
+                        if(index > 0) {
+                            index = 0
+                        } else if(index < 1-arr.length) {
+                            index = 1-arr.length
+                        }
+                        // if(disX>0) {
+                        //     index = Math.ceil(index)
+                        // } else if (disX < 0) {
+                        //     index = Math.floor(index)
+                        // }l
+                        for(var i=0;i<pointsSpan.length;i++) {
+                            pointsSpan[i].classList.remove("active")                            
+                        }
+                        // pointsSpan[-index].classList.add("active")
+                        pointsSpan[-index%pointLength].classList.add("active") //无缝滑动，逢五进一，逢图片最大长度进一
+                        ulNode.style.transition = '1.8s left'
+                        // ulNode.style.left = index*(document.documentElement.clientWidth)+'px'
+                        // translateX = index*(document.documentElement.clientWidth)
+                        // ulNode.style.transform = 'translateX('+translateX+'px)'
+                        damu.css(ulNode,'translateX',index*(document.documentElement.clientWidth))
+                    })
+                }
+            }
+        } 
+    </script>
+</body>
+</html>
