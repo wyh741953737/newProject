@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            //获取图片列表
+            let imgs = document.querySelectorAll('img')
+            //获取到浏览器顶部的距离
+            function getTop(e) {
+                return e.offsetTop
+            }
+            //懒加载实现
+            function lazyLoad(imgs) {
+                 //可视区高度
+                let h = window.innerHeight
+                //滚动区域高度
+                let s = document.documentElement.scrollTop || document.body.scrollTop
+                for(let i = 0; i < imgs.length; i++) {
+                    //图片距离顶部的距离大于可视区域和滚动区域之和时懒加载
+                    if((h+s)>getTop(imgs[i])) {
+                        (function(i) {
+                            setTimeout(() => {
+                                let temp = new Image()
+                                temp.src = imgs[i].getAttribute('data-src')
+                                temp.onload = function() {
+                                    imgs[i].src = imgs[i].getAttribute('data-src')
+                                }
+                            }, 2000);
+                        })(i)
+                    }
+                }
+            }
+            lazyLoad(imgs)
+            window.onscroll = function() {
+                lazyLoad(imgs)
+            }
+        }
+    </script>
+</body>
+</html>

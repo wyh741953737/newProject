@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //obj需要检测的实例，Constructor构造函数
+        var instanceOfFun = function(obj,Constructor) {
+            return obj.__proto__.constructor === Constructor ? true : false
+        }
+        function Foo() {}
+        var foo = new Foo()
+        var boo = {}
+        console.log(instanceOfFun(foo,Foo))
+        console.log(instanceOfFun(boo,Foo))
+    </script>
+</body>
+</html>

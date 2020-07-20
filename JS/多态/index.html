@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //多态：不同对象调用相同方法产生不同结果
+        function Base(){}
+        Base.prototype.initial = function(){
+            this.init()
+        }
+        function SubA() {
+            this.init = function() {
+                console.log('subA init')
+            }
+        }
+        function SubB() {
+            this.init = function() {
+                console.log('subB init')
+            }
+        }
+        SubA.prototype = new Base()
+        SubB.prototype = new Base()
+        var subA = new SubA()
+        var subB = new SubB()
+        subA.initial()
+        subB.initial()
+    </script>
+</body>
+</html>

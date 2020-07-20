@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>array方法</title>
+</head>
+<body>
+    <!--不改变原来数组： ==>  concat-->
+    <script>        
+        var a = ["a", "b","c","d"];
+        var b = ["1","2","3", "4", "5"];
+        a.concat(b)
+    </script>
+    <!--不改变原数组： == >  erery 检测是否每个都符合条件，返回true/false，不对空数组检测*/--->
+    <script>    
+        var ages = [12,9,3,5,7]
+        function checkAge(age) {
+            return age > 1
+        }
+        var ererylist = ages.every(checkAge)
+        var filterList = ages.filter(checkAge)
+        var findAge = ages.find(checkAge)
+        var findIndexAge = ages.findIndex(checkAge)
+        console.log(ererylist)
+        console.log(filterList)
+        console.log(findIndexAge)
+    </script>
+    <!--/*改变原数组： ==>  fill 将原数组替换掉 */-->
+    <script>   
+        var apple = ["a1", "a2", "a3", "a4"];
+        var newfill = apple.fill("a5");
+        
+        var eachnum = [{name:'A'},{name:'B'},{name:'C'}]
+        eachnum.forEach(item => {
+          console.log(item)    
+        })
+        eachnum.unshift({name:'Q'})
+        console.log(eachnum.shift())
+    </script>
+    <!---不改变原数组 ==> filter 创建一个新数组，过滤出符合条件的那一项，没有返回一个空数组*/-->
+    <!-- 不改变原数组 ==> find 找到符合条件的第一个元素就返回那个元素，没有符合条件的元素返回undefined -->
+    <!-- 不改变原数组 ==> findIndex 返回符合条件的第一个元素的下标.只返回一个，没有返回-1*/ -->
+    <!-- 不改变原数组 ==> includes 是否包含符合条件的一项，返回布尔值-->
+    <script>           
+        var arr = [1,2,3]
+        function add(total,num) {
+            return total + num
+        }
+        function myFun(item) {
+            document.getElementById('demo').innerHTML = arr.reduce(add,0)
+        }
+    </script>
+    <!--reduce方法接收一个函数作为累加器，数组中的每个值（从右到左开始缩减，最终计算为一个值,reduce会为数组中每个值执行回调，接收四个参数（初始值（要向下传的值，当前元素，当前索引，调用reduce的数组）
+        slice（start，end），返回选定的元素
+    --->
+    <script>
+        //reduce用法1：计算每个元素出现次数
+        let arr = ['a','a','a','b','b','c']
+        let countInfo = arr.reduce((pre,cur) => {
+            if(cur in pre) {
+                pre[cur]++
+            } else {
+                pre[cur] = 1
+            }
+            return pre
+        },{})
+        console.log(countInfo)
+
+        //数组去重
+        let newArr = arr.reduce((pre,cur) => {
+            if(!pre.includes(cur)) {
+                return pre.concat(cur)
+            } else {
+                return pre
+            }
+        },[])
+        console.log(newArr)
+
+        //将二维数组转化为一维数组
+        let doubleArr = [[1,2],[3,4],[4,5]]
+        let singleArr = doubleArr.reduce((pre,cur) => {
+            return pre.concat(cur)
+        },[])
+        console.log(singleArr)
+
+        //对象里属性求和
+        let result = [
+            {
+                subject:'math',
+                score:10
+            },
+            {
+                subject:'english',
+                score:20
+            }
+        ]
+        let sum = result.reduce((pre,cur) => {
+            return pre+cur.score
+        },0)
+    </script>
+
+    <!---splice删除
+        map不改变原始数组，会遍历数组的每一项，返回一个新的数组，如果你不使用新的数组或者没有从回调函数中返回值却使用map违背map的设计初衷，请用forEach或者for...of代替
+    -->
+    <script>        
+        var arrnum = [1,2,3,4]
+        var fNum = arrnum.amp(item => {
+            return item<3
+        })
+        console.log(fNum) //[1,2,3,undefined]
+    </script>
+    <!--forEach按照升序取遍历数组的每个元素，forEach为每个数组元素执行一次回调函数,forEach有第二个参数，这个参数就是this指向-->
+    <script>  
+        /*和map（）或者reduce（）不同的是，forEach总是返回undefined值，
+        并且不可以链式调用。它的典型用例是在一个调用链的最后执行副作用
+        forEach不对未初始化的值进行操作（稀疏数组[1,2,,3]空了一个)
+        forEach除了抛异常外，无法终止或者跳出forEach循环，如果你要中止或者跳出循环，forEach不是最好的选择
+        如果你要提前终止循环，可以使用：
+            for循环或者for..in,for...of
+            Array.protopyte.every()
+            Array.prototype.some()
+            Array.prototype.find()
+            Array.prototype.findIndex()
+            如果条件允许，你也可以使用filter（）提前过滤出需要遍历的部分，再用forEach（）处理
+        */
+        function logArr(item,index,arrs) {
+            console.log('a['+index+']='+item)
+        }
+        [1,2,,4].forEach(logArr) //a[0]=1,a[1]=2,a[3]=4
+    </script>
+    <!--from返回一个新数组。从一个类数组或可迭代对象创建一个新的，浅拷贝的数组实例-->
+    <script>
+        //Array.from(ArrayLike,mapFn,thisArg) 
+        //参数1:想要转化为为数组的对象或可迭代对象(可以获取对象中的元素如Map，或者Set等等），参数2:新数组的每个元素都会执行该回调函数，参数3是执行mapFn时this对象
+        //相当于Array.from(ArrayLike).map(mapFn,thisArg)
+        console.log(Array.from('from')) //['f','r','o','m']
+        console.log(Array.from([1,2],x=>x+x)) //[2,4]
+        //从Map生成数组
+        const map = new Map([[1,2],[2,4],[4,8]])
+        Array.from(map) //[[1,2],[2,4],[4,8]]
+        const mapper = new Map([['1','a'],['2','b']])
+        Array.from(mapper.values()) //['a','b']
+        Array.from(mapper.keys()) //['1','2']
+        //从set生成数组
+        const set = new Set(['foo','bar','baz'])
+        Array.from(set) //['foo','bar','baz']
+        //从类数组对象arguments生成数组
+        function f() {
+            return Array.from(arguments)
+        }
+        f(1,2,3) //[1,2,3]
+        //数组去重合并
+        function combine() {
+            let arr = [].concat.apply([],arguments)
+            return Array.from(new Set(arr))
+        }
+        var m = [1,2,3],
+            n = [2,1,6]
+        console.log(combine(m,n)) //[1,2,3,6]
+    </script>
+    <!--改变原数组：==> copyWithin  //start开始到target部分复制到target前，复制后数组长度=原来长度，后面的删了*/-->    
+    <script>
+        var arr = ["a", "b", "c","d", "e","f","g","h","i"];
+        console.log(arr.copyWithin(3, 0,3));//target [start end) //['a','b','c','a','b','c','d','e','f']      
+        console.log(arr.copyWithin(2,0,5))
+        /*entries返回一个数组的迭代对象，该对象包含数组的键值对 (key/value)*/
+        var fruits = ["Banana", "Orange", "Apple", "Mango"];
+        var newf = fruits.entries();
+    </script>
+
+</body>
+</html>

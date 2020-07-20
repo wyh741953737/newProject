@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--工厂模式 缺点：对象的类型无法识别，所有实例指向一个原型-->
+    <script>
+        function createPerson(name) {
+            var o = new Object()
+            o.name = name
+            o.getName = function() {
+                console.log(this.name)
+            }
+            return o
+        }
+        var person1 = createPerson('Eileen')
+    </script>
+    <!--构造函数模式，可以识别实例类型，缺点：每次创建实例时，每个方法都要被创建一次-->
+    <script>
+        function Person(name) {
+            this.name = name
+            this.getName = function(){}
+        }
+        var person1 = new Person('Eileen')
+
+        //构造函数优化,解决了每个方法都要被重创建的问题
+        function Person2(name) {
+            this.name = name
+            this.getName = getName
+        }
+        function getName() {}
+        var person2 = new Person2('Eileen')
+    </script>
+    <!--原型模式,方法不会被重新创建，缺点：所有属性和方法共享，不能初始化参数-->
+    <script>
+        function Person3(name) {}
+        Person3.prototype.name = 'Eileen'
+        Person3.prototype.getName = function() {}
+        var person3 = new Person()
+        //封装性好了点，但是修改了原型，丢失了constructor
+        function Personal4(name) {}
+        Personal4.prototype = {
+            //指回原型
+            constructor:Personal4,
+            name:'Eileen',
+            getName:function() {}
+        }
+        var person5 = new person5()
+    </script>
+    <!--组合模式，构造函数和原型组合-->
+    <script>
+        function Person5(name) {
+            this.name = name
+        }
+        Person5.prototype = {
+            constructor:Person5,
+            getName:function() {}
+        }
+        var person5 = new Person5()
+    </script>
+</body>
+</html>

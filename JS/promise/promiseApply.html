@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //实现每隔一秒输出1，2，3
+        let arr = [1,2,3]
+        let result = arr.reduce((p,cur) => {
+            return p.then(() => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                    resolve(console.log(cur))
+                }, 1000);
+                })
+            })
+        },Promise.resolve())
+        arr.reduce((p, x) => 
+             p.then(() => 
+                new Promise(resolve => setTimeout(() => resolve(console.log(x)), 1000)))
+            , Promise.resolve())
+        //相当于在Promise.resolve()后面不断地加.then()
+        Promise.resolve()
+           .then(() => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(console.log(1))
+                    }, 1000);
+                })
+            .then(() => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(console.log(2))
+                    }, 1000);
+                })
+
+            })
+            .then(() => {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(console.log(3))
+                    }, 1000);
+                })
+            })
+        })
+        //then（）里面不是一个函数的话会发生透传，相当于向队列中添加三个定时器，因为定时器执行间隔都是1秒，基本同步输出
+        Promise.resolve()
+        .then(new Promise(r => {
+            setTimeout(() => {
+            r(console.log(1))
+            }, 1000)
+        }))
+        .then(new Promise(r => {
+            setTimeout(() => {
+            r(console.log(2))
+            }, 1000)
+        }))
+        .then(new Promise(r => {
+            setTimeout(() => {
+            r(console.log(3))
+            }, 1000)
+        }))
+
+        //使用Promise实现红绿灯交替复量
+        function red() {
+            console.log('红灯')
+        }
+        function yellow() {
+            console.log('黄灯')
+        }
+        function green() {
+            console.log('绿灯')
+        }
+        let light = function change(timer,cb) {
+            return new Promise((resolve,reject) => {
+                setTimeout(() => {
+                    cb()
+                    resolve()
+                }, timer);
+            })
+        }
+        let step = function () {
+            Promise.resolve().then(() => {
+                return light(3000,red)
+            }).then(() => {
+                return light(3000,yellow)
+            }).then(()=> {
+                return light(3000,green)
+            }).then(()=> {
+                return step()
+            })
+        }
+        // step()
+
+        //实现mergePromise函数,把传进去的数组按顺序先后执行，并把返回的数据先后放到数组data中
+        const time = (timer) => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                   resolve()  
+                }, timer);
+            })
+        }
+        const ajax1 = () => time(2000).then(() => {
+            console.log(1)
+            return 1
+        })
+        const ajax2 = () => time(2000).then(() => {
+            console.log(2)
+            return 2
+        })
+        const ajax3 = () => time(2000).then(() => {
+            console.log(3)
+            return 3
+        })
+        function mergePromise (ajaxArray) {
+            const data = [];
+            let promise = Promise.resolve();
+            ajaxArray.forEach(ajax => {
+                // 第一次的then为了用来调用ajax
+                promise = promise.then(ajax).then(res => {
+                data.push(res);
+                return data;
+                })
+            })
+            // 最后得到的promise它的值就是data
+            return promise;
+        }
+        mergePromise([ajax1,ajax2,ajax3]).then(data => {
+            console.log('done')
+            console.log(data)
+        })
+        //1
+        //2 
+        //3
+        //done
+        //[1,2,3]
+
+
+
+        //封装一个异步加载图片的方法
+        function loadImg(url) {
+            return new Promise((resolve,reject) => {
+                const img = new Image()
+                img.onload = function() {
+                    console.log('一张图片加载完成')
+                    resolve(img)
+                }
+                img.onerror = function() {
+                    reject(new Error('load img fail' + url))
+                }
+                img.src = url
+            })
+        }
+
+        //现在异步操作的并发个数，尽可能快的完成全部
+        // 有8个图片资源的url，已经存储在数组urls中。
+        // urls类似于['https://image1.png', 'https://image2.png', ....]
+        // 而且已经有一个函数function loadImg，输入一个url链接，返回一个Promise，该Promise在图片下载完成的时候resolve，下载失败则reject。
+        // 但有一个要求，任何时刻同时下载的链接数量不可以超过3个。
+        // 请写一段代码实现这个需求，要求尽可能快速地将所有图片下载完成。
+        var urls = [
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting1.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting2.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting3.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting4.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting5.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn6.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn7.png",
+            "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn8.png",
+        ];
+        function loadImg(url) {
+            return new Promise((resolve,reject) => {
+                const img = new Image()
+                img.onload = function() {
+                    resolve(img)
+                }
+                img.onerror = function() {
+                    reject(new Error('could not load image at'+url))
+                }
+                img.src = url
+            })
+        }
+        function limitLoad(urls,loadImg,limit) {
+            const data = [] //data用来存储所有加载结果
+            let p = Promise.resolve()
+            //handlerUrls用来获取二维数组
+            const handlerUrls = urls => { //将urls进行分组
+                const doubleDim = [] //用来存放分好的二维数组
+                const len = Math.ceil(urls.length/limit) //获取分的组数 8/3 ==》 3
+                for(let i=0;i<len;i++) {
+                    doubleDim.push(urls.slice(i*limit,(i+1)*limit))//（0，3），（3，6），（6，8）
+                }  
+                return doubleDim 
+            }
+            
+            const ajaxImage = (urlCollect) => { //将一组字符串url转化为一个加载图片的数组
+                console.log(urlCollect)
+                return urlCollect.map(url => loadImg(url))
+            }
+            const doubleDim = handlerUrls(urls) //3个url为一组的二维数组
+            doubleDim.forEach(urlCollect => {
+                p = p.then(() => Promise.all(ajaxImage(urlCollect))).then(res => {
+                    data.push(...res)
+                    return data
+                })
+            })
+            return p            
+        }
+        limitLoad(urls,loadImg,3).then(res=> {
+            console.log(res)
+            res.forEach(img => {
+                document.body.appendChild(img)
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .firstnav{
+            display: flex;
+        }
+        .tabsbox{
+            border: 1px solid red;
+        }
+        .ul-list{
+            display: flex;            
+        }
+        .ul-list li {
+            list-style:none;
+            display: flex;
+            width:70px;
+            line-height: 40px;
+            height: 40px;
+            text-align: center; 
+            border: 1px solid rgb(214, 213, 213);
+        }
+        .ul-list li div{
+            margin-left:14px;
+        }
+       .tabadd{
+           border: 1px solid rgb(90, 89, 89);
+           width: 15px;
+           height: 15px;
+           text-align: center;
+           line-height: 15px;
+           right:10px;
+           top: 10px;
+           position: absolute;
+       } 
+       .tabscon{
+           height: 140px;
+       }
+       .active{
+         background-color: rgb(245, 172, 172);
+       }
+       .conaction{
+         color: red;
+       }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="tabsbox" id="tab">
+            <nav class="firstnav">
+                <ul class="ul-list">
+                    <li class="active"><span>测试1</span><div class="delete">*</div></li>
+                    <li><span>测试2</span><div class="delete">*</div></li>
+                    <li><span>测试3</span><div class="delete">*</div></li>
+                </ul>
+                <div class="tabadd">
+                    <span>+</span>
+                </div>
+            </nav>
+            <div class="tabscon">
+                <section>试1</section>
+                <section>试2</section>
+                <section>试3</section>
+            </div>
+        </div>
+    </main>
+    <script src="./index.js"></script>
+</body>
+</html>

@@ -146,23 +146,138 @@
         // console.log(bool.valueOf()) //true
         // console.log('-------------------------------------')
 
-        console.log(Boolean(Infinity))
+      
         // let date = new Date()
         // console.log(date.toString()) //Sun Jul 05 2020 19:07:02 GMT+0800 (中国标准时间)
         // console.log(date.valueOf()) //1593947232678
         // console.log('-------------------------------------')
-        console.log(Number("1bb"))
-        console.log(JSON.stringify(null)) //null
-        console.log(JSON.stringify(undefined)) //undefined
-        console.log(JSON.stringify(true)) //true
-        console.log(JSON.stringify(false)) //false
-        console.log(JSON.stringify(0)) //0
-        console.log(JSON.stringify('str')) //"str"
-        console.log(JSON.stringify([1,2,3])) //[1,2,3]
-        console.log(JSON.stringify({name:'Eileen'}))//{"name":"Eileen"}
-        console.log(JSON.stringify(new Date())) //"2020-07-05T03:51:02.582Z"
-        console.log(JSON.stringify({m:undefined,n:Object,o:Symbol("")})) //{}
-        console.log(JSON.stringify([undefined,Object,Symbol("")]))//[null,null,null]
+       
+        // console.log(JSON.stringify(null)) //null
+        // console.log(JSON.stringify(undefined)) //undefined
+        // console.log(JSON.stringify(true)) //true
+        // console.log(JSON.stringify(false)) //false
+        // console.log(JSON.stringify(0)) //0
+        // console.log(JSON.stringify('str')) //"str"
+        // console.log(JSON.stringify([1,2,3])) //[1,2,3]
+        // console.log(JSON.stringify({name:'Eileen'}))//{"name":"Eileen"}
+        // console.log(JSON.stringify(new Date())) //"2020-07-05T03:51:02.582Z"
+        // console.log(JSON.stringify({m:undefined,n:Object,o:Symbol("")})) //{}
+        // console.log(JSON.stringify([undefined,Object,Symbol("")]))//[null,null,null]
+
+        var foo = {fruit: 'apple', sport: 'box', day: 5,  month: 7};
+        // console.log(JSON.stringify(foo,['fruit','sport'])) //
+        var arr = {
+            data: 'data', 
+            money: 200,           
+            toJSON (key) {
+                if (key)
+                    return `我是嵌套在键下的对象 '${key}'`;
+                else
+                    return this;
+            }
+        }
+    console.log(JSON.stringify(arr))// {"data":"data"}
+    console.log(JSON.stringify({ arr })) //{"arr":"我是嵌套在键下的对象 'arr'"}
+    console.log(JSON.stringify([ arr ]))//["我是嵌套在键下的对象 '0'"]
+
+// var obj = {
+//     key: 'foo'
+// };
+// var ret = JSON.stringify(obj, function (k, v) {
+//     return k === "key" ? v.toUpperCase() : v;
+// });
+// console.log(ret);//{"key":"FOO"}
+
+// var obj = {
+//     key: 'foo',
+//     toJSON: function () {
+//         return 'bar';
+//     }
+// };
+// var ret = JSON.stringify(obj);
+// console.log(ret);//"bar"
+
+// console.log([1] == 1) //true
+// console.log([1,2,3] == '1,2,3')//true
+// console.log([] == true) //false
+// console.log('1' == 1) //true
+// console.log('1' == true)//true
+// console.log(1 == true)//true
+
+// 对象：字符串，number，布尔，null，undefined，NaN，
+
+//任何值和NaN做运算都得到NaN
+//任何值和字符串做加运算都会进行字符串拼接得到字符串
+
+// console.log(null+undefined) //NaN
+// console.log(null+NaN)//NaN
+// console.log(undefined+NaN) //NaN
+
+// console.log(true+[1,2])//true1,2
+// console.log(true+'str')//truestr
+// console.log(true+1)//2
+// console.log(true+null) //1
+// console.log(true+undefined)//NaN
+// console.log(true+NaN)//NaN
+
+// console.log([]+[])//空串
+// console.log([]+'str') //str
+// console.log([]+1) //1
+// console.log([]+true)//true
+// console.log([]+null)//null
+// console.log([]+undefined)//undefined
+// console.log([]+NaN)//NaN
+
+// console.log('str'+1) //str1
+// console.log('str'+true) //strtrue
+// console.log('str'+null)//strnull
+// console.log('str'+undefined) //strundefined
+// console.log('str'+NaN)//strNaN
+
+// console.log(1+[1,2]) //11,2
+// console.log(1+'str') //1str
+// console.log(1+true) //2
+// console.log(1+null) //1
+// console.log(1+undefined) //NaN
+// console.log(1+NaN) //NaN
+
+
+
+
+// console.log(true-[1,2])//true1,2 //NaN
+// console.log(true-'str')//truestr //NaN
+// console.log(true-1)//2 0
+// console.log(true-null) //1 0
+// console.log(true-undefined)//NaN //NaN
+// console.log(true-NaN)//NaN //NaN
+
+// console.log([]-[])//空串 0
+// console.log([]-'str') //str NaN
+// console.log([]-1) //1 -1
+// console.log([]-true)//true
+// console.log([]-null)//null
+// console.log([]-undefined)//undefined
+// console.log([]-NaN)//NaN
+
+// console.log('str'-1) //str1
+// console.log('str'-true) //strtrue
+// console.log('str'-null)//strnull
+// console.log('str'-undefined) //strundefined
+// console.log('str'-NaN)//strNaN
+
+// console.log(1-[1,2]) //11,2
+// console.log(1-'str') //1str
+// console.log(1-true) //2
+// console.log(1-null) //1
+// console.log(1-undefined) //NaN
+// console.log(1-NaN) //NaN
+// console.log(typeof("2"))//string
+// console.log(typeof(+"2"))//number
+// console.log(typeof(-"2"))
+
+console.log(null+0)
+console.log('str'+0)
+console.log([1,2]+0)
     </script>
 </body>
 </html>

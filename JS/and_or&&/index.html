@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let score = 0
+        function show(score) {
+            return (score>12 && 'A') || (score >10 && 'B') || (score > 5 && 'C') || (score >0 && 'D')
+        }
+        console.log(show(3))
+
+
+        let add_step = '10'
+        var add_level={'5':1,'10':2,'12':3,'15':4}[add_step] || 0;
+        console.log(add_level)
+    </script>
+</body>
+</html>

@@ -59,8 +59,9 @@ onload和ajax状态码两种方式区别：
 301永久重定向
 302临时重定向
 304 未改变
-400 语法错误
-401 
+400：客户端请求的语法错误，服务器无法理解
+401：请求要求用户的身份认证
+403：服务端理解客户端请求，但是拒绝执行此请求
 500 服务器出错
 
 低版本IE浏览器中，ajax请求有严重缓存问题：请求地址不变情况下，只有第一次请求会真正发送到服务器端，第二次请求同一地址，即使服务器端数据更新了，服务器也还是直接从缓存中取出返回给客户端
@@ -154,3 +155,54 @@ xhr参数
    9：xhr.withcredentials 跨域请求是否提供凭证cookie，http认证以及
 
    普通ajax不能像服务传递二进制文件，比如图片，使用formdata就可以解决
+
+
+   ### 项目中遇到：
+   - 我在自己仿照商城做项目的过程中遇到的问题：比如说用户选择了某个商品要下单了，在订单页面，要查询收货地址，商品信息，这些请求都是异步的，要这些信息全都返回才能进行后续操作，说白了就是处理多个并发异步操作，
+   思路：
+   ##### 、ajax改为同步，ajax第二个参数sync设置为true就可以了,这样会卡住页面
+   
+   ##### 、回调计数，
+   let count = 0
+   function async1(){
+      ...
+      callback()
+   }
+   function async(){
+      ...callback()
+   }
+   function callback() {
+      count++
+      if(count === 2) {
+         ..//表示异步都执行完了，可以进行下一步操作了
+      }
+   }
+ ##### 想到的是Promise的all方法，all方法接收一个Promise的数组，要全部成功才成功
+Promise.all({
+   new Promise((resolve,reject) => {
+      settimeOut(()=>{
+         resolve({name:'ela',age:12})
+      },1000)
+   }),
+   mew Promise((resolve,reject) => {
+      settimeOut(()=>{
+         resolve({name:'Joa',age:12})
+      },1000)
+   }),
+}).then(result => {
+
+})
+
+#### axios库有封装好的api
+axios可以将多个网络请求合并,调用axios.spread将结果展开
+axios.all([axios({
+   url:''
+}),axios(
+   url:'',
+   params: {
+      type: 'sell',
+      page: 5
+   }
+)]).then(axios.spread(res,res2) => {
+
+})

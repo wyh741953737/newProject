@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!---->
+    <div>
+        <form action="" id="loginForm">
+            <div>
+                <label for="">用户名</label>
+                <input type="text" name="username">
+            </div>
+            <div>
+                <label for="">密码</label>
+                <input type="text" name="password">
+            </div>
+            <input type="button" value="登录" id="loginBtn">
+            <input type="button" value="检测状态" id="checkBtn">
+        </form>
+    </div>
+    <script>
+        var loginBtn=document.getElementById('loginBtn')
+        var checkBtn=document.getElementById('checkBtn')
+        var loginForm = document.getElementById('loginForm')
+        loginBtn.onclick = function() {
+            var formData = new FormData(loginForm)
+            var xhr = new XMLHttpRequest()
+            xhr.open('post','http://localhost:3001/login')
+            xhr.withCredentials = true //当发送跨域请求时携带cookie信息
+            xhr.send(formData)
+            xhr.onload = function() {
+                console.log(xhr.responseText)
+            }
+        }
+        checkBtn.onclick = function() {
+            var xhr = new XMLHttpRequest()
+            xhr.open('get','http://localhost:3001/checkLogin')
+            xhr.withCredentials = true //当发送跨域请求时携带cookie信息
+            xhr.send()
+            xhr.onload = function() {
+                console.log(xhr.responseText)
+            }
+        }
+    </script>
+</body>
+</html>

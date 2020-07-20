@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        该方法返回指定对象上一个自有属性（不用去原型找得属性）对应的属性描述符
+        Object.getOwnPropertyDescriptor(obj,prop)
+        obj要查找的目标对象，prop目标对象内的属性名
+        如果指定属性存在于对象上，就返回其属性描述符对象，否则undefined
+        属性描述符是一个记录
+        value该属性的值
+        writable是否可写
+        get获取该属性的访问器函数（getter)，没有返回undefined
+        set获取该属性的设置函数
+        configurable当且仅当指定对象的属性值可以被修改时候为true
+    -->
+    <script>
+       var o, d;
+        o = { get foo() { return 1; } };
+        d = Object.getOwnPropertyDescriptor(o, "foo");
+        console.log('d1',d)
+        o = { bar: 2 };
+        d = Object.getOwnPropertyDescriptor(o, "bar");
+        console.log('d2',d)
+        o = {};
+        Object.defineProperty(o, "baz", {
+        value: 8,
+        writable: false,
+        enumerable: false
+        });
+        d = Object.getOwnPropertyDescriptor(o, "baz");
+
+        console.log(d)
+
+    </script>
+</body>
+</html>

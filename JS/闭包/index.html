@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <ul class="nav">
+        <li>老师</li>
+        <li>学生</li>
+        <li>校长</li>
+        <li>班主任</li>
+    </ul> -->
+    <script>
+        // let lis = document.querySelector('.nav').querySelectorAll('li')
+        // for(var i=0;i<lis.length;i++) {
+        //     lis[i].index = i
+        //     lis[i].onclick = function() {
+        //         console.log(i)//4 4 4 4 
+        //         console.log(this.index) //0 1 2 3
+        //     }
+        // }
+        //使用闭包+立即执行函数实现
+        // for(var i=0;i<lis.length;i++) {
+        //     (function(i) {
+        //         setTimeout(() => {
+        //             alert(i)
+        //         }, 1000);
+        //     })(i)
+        // }
+    </script>
+    <script>
+        // var name = 'Eileen'
+        // var object = {
+        //     name:'dcx',
+        //     getFunName:function() {
+        //         var that = this
+        //         return function() {
+        //             return that.name
+        //         }
+        //     }
+        // }
+        // var object2 = {
+        //     name:'dcx',
+        //     getFunName:function() {
+        //         console.log(this)
+        //         return function() {
+        //             return this.name
+        //         }
+        //     }
+        // }
+        // console.log('d',object.getFunName()()) //dcx
+        // console.log('f',object2.getFunName()())
+
+
+        // //函数作为返回值
+        // const a = 20
+        // function create() {
+        //     const a = 10
+        //     return function() {
+        //         console.log('aa',a)
+        //     }
+        // }
+        // create()() //10
+        // let fs = create()
+        // fs() //20
+        
+        // let obj = {
+        //     a: 30,
+        //     getName: function() {
+        //         console.log(a)
+        //     }
+        // }
+        // obj.getName() //20 
+
+        //函数作为参数被传递（没有产生闭包啊）
+        // const a = 20
+        // function print(fn) {
+        //     const a = 40
+        //     fn()
+        // }
+        // function fn() {
+        //     console.log(a)
+        // }
+        // print(fn) //20
+
+        // function Pay(value) { //Pay是一个闭包
+        //     let money = value
+        //     this.getMoney = function() {
+        //         return money
+        //     }
+        //     this.setMoney = function(value) {
+        //         money = value
+        //     }
+        // }
+        // let pay = new Pay(8000)
+        // console.log(pay.money)
+        // console.log(pay.getMoney())
+        // pay.setMoney(10000)
+        // console.log(pay.getMoney())
+        // function count() {
+        //     let num = 0
+        //     return function() {
+        //         num++
+        //         return num
+        //     }
+        // }
+        // let fnf = count()
+        // console.log(fnf())
+        // console.log(fnf())
+//         for (var i = 0; i < 5; i++) {
+//        (function (i) {
+//            setTimeout(function () {
+//                console.log(i);
+//            }, 1000);
+//        })(i);
+//    }
+//    console.log(i);
+// function fn1() {
+//     var a = 1
+//     function fn2() {
+//         a++
+//         console.log(a)
+//     }
+//     return fn2
+// }
+// let f3 = fn1()
+// console.log(f3)
+// console.log(f3())
+// fn3 = null
+// function delayShow(msg,time) {
+//     setTimeout(() => {
+//         alert(msg)
+//     }, time);
+// }
+// delayShow('hello',1000)
+//  function myModule() {
+//      let msg = 'hello world'
+//      function doSomething() {
+//          console.log('dosomething'+msg.toUpperCase())
+//      }
+//      function doOtherthing() {
+//          console.log('doOtherthing'+msg.toLocaleLowerCase())
+//      }
+//      return{
+//         doSomething:doSomething,
+//         doOtherthing:doOtherthing
+//      }
+//  }
+//  let module = myModule()
+//  module.doSomething()
+//  module.doOtherthing()
+function fun(n,o) {
+    console.log(o)
+    // n = 0
+    return {
+        fun: function(m) { 
+            // m = 3
+            return fun(m,n) //fun(3,2)
+        }
+    }
+}
+var a = fun(0) //undefined
+    a.fun(1)  //0
+    a.fun(2) //0
+    a.fun(3)//0
+var b = fun(0).fun(1).fun(2).fun(3)//undefined,0,1,2
+var c = fun(0).fun(1)//undefined,0
+    c.fun(2)//1
+    c.fun(3)//1
+    </script>
+</body>
+</html>

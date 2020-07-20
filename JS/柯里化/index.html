@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--柯里化：把大范围变成小范围，提前接收部分参数，延迟执行，不立即输出结果，而是返回一个接收剩余参数的函数。
+    如何通过一个柯里化函数实现一个通用柯里化
+    柯里化：把接收多个参数的函数变换为接收单一参数的函数，并且返回接收剩余参数 ,返回结果的新函数的技术
+    使用场景：参数复用、提前确认，避免每次重复判断、延迟计算运行
+    使用柯里化让程序具有更多自由度，但是柯里化用到了arguments对象，递归，闭包，等，频繁使用会带来性能影响，只有情况变复杂采用柯里化
+    
+    
+    反柯里化：是一个泛型化的过程，使得被反柯里化的函数可以接收更多参数。
+
+-->
+    <!-- <script>
+        // function say(company,academy,name) {
+        //     console.log('我的公司是'+company+'专业是'+academy+'名字是'+name)
+        // }
+        // say('alibaba','java','Eileen')
+        // say('alibaba','java','Jone')
+        // say('alibaba','java','Angle')
+        //say里面的参数重复，我们如和把公共参数提取出来？使用柯里化实现参数复用
+            function say(company) {
+                return function (academy) {
+                    return function (name) {
+                        //这里是柯里化延迟执行
+                        console.log('我的公司是'+company+'专业是'+academy+'名字是'+name)
+                    }
+                }
+            }
+            let setInfo = say('alibaba')('java')
+            setInfo('Eileen')
+            setInfo('Jone')
+            setInfo('Angle')
+    </script> -->
+    <!--封装一个共用的柯里化函数
+    接收一个函数fn作为参数，返回一个包含剩余参数的函数，判断当前参数和fn的长度是否一样，一样执行fn，否则递归
+    -->
+    <script>
+        function curring(fn,arr=[]) {
+            let len = fn.length
+            return function(...args) {
+                let arr = [...arr,...args]
+                if(arr.length < len) {
+                    return curring(fn,arr)
+                } else {
+                    return fn(...arr)
+                }
+            }
+        }
+        function isType(type) {
+            return function(value) {
+                console.log(value)
+                return Object.prototype.toString.call(value) === `[object ${type}]`
+            }
+        }
+        let isArray = curring(isType)('Array')
+        let isObject = curring(isType)('Object')
+        console.log(isArray([1,2,3]))
+        console.log(isArray([2,3,4]))
+        // console.log(isArray('[1,2,3]'))
+        // console.log(isArray(false))
+        // console.log(isArray(null))
+        // console.log(isArray(undefined))
+        // console.log(isObject({name:'e'}))
+        // console.log(isObject(null))
+        // console.log(isObject([1,2,3]))
+    </script>
+    <!-- <script>
+     //提前确认，避免重复
+        var addEvent = function(el,type,fn,capture) {
+            if(window.addEventListener) {
+                el.addEventListener(type,function(e) {
+                    fn.call(el,e)
+                },capture)
+            } else if(window.attachEvent) {
+                el.attachEvent('on'+type,function(e) {
+                    fn.call(el,e)
+                })
+            }
+        }
+        //每次使用attachEvent为元素添加事件，if，，else都会执行，用柯里化优化只判断一次
+        var addEventCurry = (function() {
+            if(window.addEventListener) {
+                return function(el,type,fn,capture) {
+                    el.addEventListener(type,function(e) {
+                        fn.call(el,e)
+                    },capture)
+                }
+            } else if(window.attachEvent) {
+                return function(el,type,fn,capture) {
+                    el.attachEvent('on'+type,function(e) {
+                        fn.call(el,e)
+                    })
+                }
+            }
+        })()
+    </script> -->
+</body>
+</html>

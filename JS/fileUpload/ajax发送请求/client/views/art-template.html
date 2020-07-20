@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./template-web.js"></script>
+</head>
+<body>
+  <h1>使用art-template</h1>
+  <button><a href="./user.html">返回首页</a></button>
+  <div id="art"></div>
+  <script id="tpl" type="text/html">
+    <div class = 'box'><h2>name:{{username}}</h2></div>
+    <div class = 'box'><h2>age:{{age}}</h2></div>
+  </script>
+  <script>
+    var html = template('tpl',{
+      username:'zhm',
+      age:20
+    })
+    var art=document.getElementById('art')
+    art.innerHTML=html
+  </script>
+</body>
+</html>

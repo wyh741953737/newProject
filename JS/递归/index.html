@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script>
+        //求阶乘1*2*3*4*5.....*n                        
+        function jc(n) {
+            if(n == 1) {
+                return 1
+            } else {
+                return n*jc(n-1)
+            }
+        }
+        jc(3)
+        console.log(jc(3))
+    </script> -->
+    <!-- <script>
+        //斐波那契数列：1、1、2、3、5、8、13.。。。。
+        fibe_num = {1:1,2:1}        
+        function fb(n) {
+            if(n in fibe_num) {
+                return fibe_num[n]
+            }
+            return fb(n-1) + fb(n-2)
+            //fb(3) + fb(2)
+            //fb(2)+fb(1)+fb(2)
+            // 1+1+1
+        }
+        fb(4)
+        console.log(fb(4))
+    </script> -->
+    <!-- <script>
+      var  data = [
+            {
+                id:1,
+                goods: [
+                    {
+                        id:11,
+                        type:'oppo'
+                    }
+                ]
+            },
+            {
+                id:2,
+                goods:[
+                    {
+                        id:22,
+                        type:'changhong'
+                    }
+                ]
+            }
+        ]
+        function getGood(json,id) {
+            var o = {}
+            json.forEach(function(item) {
+                if(item.id == id) {
+                    o = item
+                } else if(item.goods && item.goods.length > 0) {
+                    o = getGood(item.goods,id)
+                }
+            })
+            return o
+        }
+        console.log(getGood(data,2))        
+        console.log(getGood(data,2))
+    </script> -->
+    <script>
+        
+    </script>
+</body>
+</html>

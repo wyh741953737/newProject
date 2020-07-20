@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽上传</title>
+    <script src="./ajax.js"></script>
+</head>
+<style>
+    html{
+        background-color: #f1f1f1;
+        opacity: 0.5;
+    }
+    #wrap{
+        width: 1000px;
+        background-color: #fff;
+        padding: 20px 0;
+        margin: 100px auto;
+    }
+    h1{
+        text-align: center;
+    }
+    #progress{
+        height: 40px;
+        line-height: 40px;
+        font-size: 26px;
+        color: red;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .area{
+        height: 150px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 150px;
+        background-color: #f1f1f1;
+    }
+    .upload{
+        background-color: #57970d;
+        width: 80px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        position:relative;
+        margin: 20px;
+        color: #fff;
+        float: right;
+    }
+    .list{
+        margin-top: 60px;
+    }
+    #ull{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    li{
+        height: 90px;
+        width: 90px;
+        border: 1px solid red;
+        margin: 10px;
+    }
+</style>
+<body>
+    <section id="wrap">
+        <h1>图片拖拽上传</h1>
+        <div id="progress">0%</div>
+        <section class="wrap-con">
+            <section class="area">
+                <article id="drop">请将图片拖拽到此区域</article>
+            </section>
+            <section class="info">
+                <article>
+                    <div class="upload" id="btn">开始上传</div>
+                </article>
+            </section>
+            <section class="list">
+                <ul id="ull"></ul>
+            </section>
+        </section>
+    </section>
+    <script>
+        var oDrag = document.getElementById('drop');
+        var oUI = document.getElementById('ull');
+        var oBtn = document.getElementById('btn')
+        oDrag.addEventListener('dragenter',drag,false);
+        oDrag.addEventListener('dragover',drag,false);
+        oDrag.addEventListener('dragleave',drag,false);
+        oDrag.addEventListener('drop',drag,false);
+        var arr = []
+        function drag(e) {
+           e.preventDefault();
+           switch(e.type) {
+               case 'dragenter':
+                   this.innerHTML = '请释放鼠标';
+                   break;
+               case 'dragover':
+               
+                   break;
+               case 'dragleave':
+                  
+                   break;
+               case 'drop':
+                   var aFiles = e.dataTransfer.files;
+                   [].forEach.call(aFiles,function(curr,index) {
+                       arr.push(curr)
+                      //新建一个文件对象，读取文件信息
+                      var fileRead = new FileReader()
+                      fileRead.readAsDataURL(curr)
+                      fileRead.addEventListener('load',function() {
+                        var aLi = document.createElement('li')
+                        aLi.innerHTML = '<img src="'+this.result+'"width="100%" height="100%"/>'
+                        oUI.appendChild(aLi)
+                      })
+                   })
+                   break; 
+           }
+            
+        }
+        oBtn.addEventListener('click',function() {
+            arr.forEach(eachFile => {
+                var formData=new FormData();
+                formData.append("file",eachFile);
+                console.log(formData.get('file'))
+                // let results = $ajax({
+                //     methods:'post',
+                //     url:'http://127.0.0.1:3009/drapUpload',
+                //     data:{formData},
+                //     headers:{
+                //         'Content-Type':'multipart/form-data'
+                //     },
+                //     success: function(result) {
+                //        console.log('返回的数据',result) 
+                //     }
+                // })
+
+                var xhr = new XMLHttpRequest()
+                // xhr.upload.onprogress = function(e) {
+                //     console.log(e.total+','+e.loaded);
+                    
+                // }
+                xhr.open('post','http://127.0.0.1:3009/drapUpload')
+                var formdata=new FormData();
+                formdata.append("file",eachFile);
+                console.log(formdata.get('file'))
+                xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                xhr.onload = function() {
+                    console.log(xhr.responseText)
+                }
+                xhr.send(formdata)
+                return false
+                
+
+            })
+        })
+    </script>
+</body>
+</html>

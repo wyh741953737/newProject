@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--高阶组件应用场景：在写代码过程中尽量不要破坏原有函数，给某个方法添加一个方法在他执行之前调用，把这个方法扩展到原型上
+    AOP面向切片编程(汉堡编程）（切开，放我自己的代码进去），扩展原有方法，重写原有方法，但是不破坏原有方法
+    -->
+    <script>
+        function say(who) {
+            console.log(who+'说话')
+        }
+        Function.prototype.before = function(fn) {
+            let that = this
+            return function() {
+                fn()
+                that(...arguments)
+            }
+        }
+        let newFn = say.before(function() {console.log('hello')})
+        newFn('我')
+    </script>
+    <script>
+        //多个异步请求如何同步获取最终结果，异步并发问题
+         let fs = require('fs')
+         let school = {}
+         fs.readFile('./name.txt','utf-8',function(err,data) {
+             school.name = data
+         })
+         fs.readFile('./age.txt','utf-8',function(err,data) {
+             school.age = data
+         })
+         //上面两个文件是异步读取的，如何保证上面两个函数同时获取结果？
+
+         function after(times,callback) {
+             return function () {
+                 if(--times == 0) { //当调用达到次数，执行某个回调
+                     callback()
+                 }
+             }
+         }
+         let cb = after(2,function () {
+             console.log(school)
+         })
+    </script>
+    <!--柯里化就是高阶函数-->
+</body>
+</html>

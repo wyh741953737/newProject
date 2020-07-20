@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- /*Object.assign不能拷贝继承属性和不可枚举属性*/-->
+    <script>
+        const obj = Object.create({foo:1},{ //foo是继承属性,在原型上，通过__proto__可以访问到
+            bar:{
+                value:2 //bar是不可枚举属性
+            },
+            baz:{
+                value:3,
+                enumerable:true //baz是个自身可枚举属性
+            }
+        })
+        const copy = Object.assign({},obj)
+        console.log(obj)
+        console.log(copy)
+    </script>
+    <!--原始类型会被包装为对象，null和undefined会被忽略-->
+    <script>
+        const v1 = "abc" //只有字符串的包装对象才可能有自身可枚举属性
+        const v2 = true
+        const v3 = 10
+        const v4 = Symbol("foo") 
+        const obj1 = Object.assign({},v1,v2,v3,v4)
+        console.log(obj1)
+    </script> 
+    <!--异常会打断后续拷贝任务-->
+    <script>
+       const target = Object.defineProperty({}, "foo", {
+            value: 1,
+            writable: false
+        }); // target 的 foo 属性是个只读属性。
+
+        Object.assign(target, {bar: 2}, {foo2: 3, foo: 3, foo3: 3}, {baz: 4});
+        // TypeError: "foo" is read-only
+        // 注意这个异常是在拷贝第二个源对象的第二个属性时发生的。
+
+        console.log(target.bar);  // 2，说明第一个源对象拷贝成功了。
+        console.log(target.foo2); // 3，说明第二个源对象的第一个属性也拷贝成功了。
+        console.log(target.foo);  // 1，只读属性不能被覆盖，所以第二个源对象的第二个属性拷贝失败了。
+        console.log(target.foo3); // undefined，异常之后 assign 方法就退出了，第三个属性是不会被拷贝到的。
+        console.log(target.baz);  // undefined，第三个源对象更是不会被拷贝到的。
+    </script>
+    <!--拷贝访问器-->
+    <script>
+        const obj3 = {
+            foo: 1,
+            get bar() {
+                return 2;
+            }
+        };
+        let copy3 = Object.assign({}, obj3); 
+        console.log(copy3); // { foo: 1, bar: 2 } copy.bar的值来自obj.bar的getter函数的返回值
+
+        // 下面这个函数会拷贝所有自有属性的属性描述符
+        function completeAssign(target, ...sources) {
+        sources.forEach(source => {
+            let descriptors = Object.keys(source).reduce((descriptors, key) => {
+            descriptors[key] = Object.getOwnPropertyDescriptor(source, key);
+            return descriptors;
+            }, {});
+
+            // Object.assign 默认也会拷贝可枚举的Symbols
+            Object.getOwnPropertySymbols(source).forEach(sym => {
+            let descriptor = Object.getOwnPropertyDescriptor(source, sym);//获取属性名对应的信息{value:8,writable:true,enumberiable:true}
+            if (descriptor.enumerable) {//如果这个属性的信息内容写了可枚举
+                descriptors[sym] = descriptor;
+            }
+            });
+            Object.defineProperties(target, descriptors);
+        });
+        return target;
+        }
+
+        copy4 = completeAssign({}, obj3);
+        console.log('copy4',copy4);
+    </script>
+</body>
+</html>

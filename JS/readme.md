@@ -1,5 +1,5 @@
 浏览器
-    渲染引擎：解析html/css，俗称内核
+    渲染引擎：解析html/css，俗称内核HTML解析器，CSS解析器，javascript解析器，布局layout模块
     JS引擎：读取并处理js代码
 JS组成：
     DOM：文档对象模型
@@ -21,7 +21,7 @@ JS组成：
               他会将null直接转化为"null",undefined直接转化为"undefined"(将字面量转化为字符串)
         二：将其他数据类型转化为Number
            1，使用Number()函数
-             字符串转数字（若是纯数字转为数字，非数字转为NaN，空串、空格转为0，布尔值为true转1，false转0，null0，undefined转NaN。
+             字符串转数字（若是纯数字转为数字，非数字转为NaN，空串、空格转为0，布尔值为true转1，false转0，null：0，undefined：NaN。
            2，这种方式专门用来对付字符串
               parseInt()函数将第一个字符串转化为整数（将字符串中有效整数取出来转化为Number，只会取整数，没有数字得到NaN，
                       比如123px我们想得到123，这个时候使用parseInt可以实现，Number函数只会得到NaN）
@@ -68,6 +68,8 @@ var e=20
 f=e++
 console.log(f,e)//20 21
 
+
+
 三种逻辑运算符
 与&& 运算规则：两个值中只要有一个为false就返回false，两个都为true才返回true
 或|| 两个值中有一个为true就会返回true，两个都是false才返回false，如果第一个是true就不会看第二个。
@@ -86,6 +88,9 @@ undefined衍生自null，做相等判断时会返回true。NaN不和任何值相
 === 要求值和类型都相等 与==不同，===不会进行类型转换
 ！==不全等，不进行类型转换
 运算符优先级：不确定优先级的用()来改变优先级
+
+
+
 获取水仙花数如：1^3+5^3+3^3=153
 for(var i=100;i<1000;i++){
    var bai=parseInt(i/100);
@@ -201,7 +206,7 @@ var p3=new Person('b',10,;mon)
 如果函数作为普通函数 调用，prototype没有任何作用，当函数通过构造函数被调用时，它所创建的对象中都会有一个隐含属性，指向该构造函数的原型对象，可以通过——proto——访问
 原型对象就像公共区域，所有同一个类的实例都可以访问到这个原型对象
 以后我们创建构造函数时，可以将一些共有的属性和方法，统一添加到构造函数的原型中，这样不用分别为每个对象添加，也不会影响到全局作用域，就可以使每个对象都具有这些属性和方法了
-hasOwnPrototype检查对象自身中是否含有该属性，自由对象自身中有才返回true
+hasOwnPrototype检查对象自身中是否含有该属性，只有对象自身中有才返回true
 原型对象也有原型 原型的原型就不再有原型了（直到Object对象的原型，如果找个属性一直找还找不到就返回undefined
 当我们直接在页面中打印一个对象时，实际上就是输出对象的toString（）方法的返回值[oject object]
 如果不希望在输出对象时不输出[object object]，可以为对象添加toString()方法
@@ -214,10 +219,6 @@ hasOwnPrototype检查对象自身中是否含有该属性，自由对象自身�
 对象的__proto__是在创建对象的时自动添加的
 ES6之前程序员能直接操作显示原型，但是不能操作隐式原型  
 
-
-判断数据类型：
-typeof 返回数据类型的字符串表达，声明一个变量未定义，typeof返回'undefined' 数字/字符串/布尔值/undefined/function。不能判断null与Object，Object和Array
-var a=function (){} //typeof a （'function'）
 
 
 instancef 判断对象的具体类型

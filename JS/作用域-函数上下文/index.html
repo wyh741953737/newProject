@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        1：作用域是静态的，在你写代码的时候就已经确定了，上级作用域指定义的时候的上级，不是执行位置的上级
+        2：函数执行上下文是动态的，在执行调用时才会产生，调用几次，产生几次上下文。
+        3：变量取值：到创建这个变量的函数作用域中取值，如果在当前作用域中没找到就会向上级作用域中查，直到查到全局作用域，这个查找过程形成的链条就叫作用域链
+
+    -->
+    <script>
+        var x = 10
+        function fn() {
+            console.log(x)
+        }
+        function show(f) {
+            var x = 20
+            f()  
+        }
+        show(fn) //10 自己作用域中没有x，就去上级作用域（定义时候的上级作用域）找，上级作用域是全局，       
+        var fn2 = function() {
+            console.log(fn2) // f() {console.log(fn2)}
+        }
+        fn2()
+
+        // //自己作用域中没有fn3，就去上级，上级（全局）也没有，报错，加this不报错
+        // var obj = {
+        //     fn3:function() {
+        //         console.log(fn3)
+        //     }
+        // }
+        // obj.fn3() //fn3 is not defined
+
+        // var i = 1;
+        // foo(1);
+        // function foo(i) {
+        //     if (i == 4) {
+        //         return;
+        //     }
+        //     console.log('foo() begin: ' + i); // 1
+        //     foo(i+1);
+        //     console.log('foo() end: ' + i); // ?
+        // }
+        // console.log('global end: ' + i); // ?
+        // 1，2，3，3，4，1，1
+
+
+
+
+        // fibe_num = {1:1,2:1}        
+        // function fb(n) {
+        //     if(n in fibe_num) {
+        //         return fibe_num[n]
+        //     }
+        //     return fb(n-1) + fb(n-2)
+        // }
+        // fb(4)     
+        
+    </script>
+</body>
+</html>
+<!-- 
+    一个执行上下文的生命周期可以分为：
+        创建阶段：
+           执行上下文会分别创建arguments对象，建立作用域链，以及确定this的指向（变量同名时，为防止同名函数被修改为undefined，会跳过undefined赋值。
+        执行阶段：创建完成之后，就会开始执行代码，这个时候，会完成变量赋值，函数引用，以及执行其他代码。
+
+ -->

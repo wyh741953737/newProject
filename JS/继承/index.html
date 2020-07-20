@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //类式继承问题：1：不支持父构造函数带参数，2：父类构造函数里的方法和属性都会变成公有属性
+        //给父构造函数传递了参数john但是不能传递到Father上。
+        // function Father(name) {
+        //     this.name = name
+        //     this.list = [1,2,3]
+        // }
+        // Father.prototype.getName = function () {
+        //     console.log('父类原型',this.name)
+        // }
+        // function Son1(name) {
+        //     this.subname = this.name //此时this指向son1
+        // }
+        // Son1.prototype = new Father()
+        // let son1 = new Son1('John')
+        // console.log(son1.getName) //f() {console.log('父类原型',this.name)}
+        // console.log(son1.name,son1.subname) //undefined undefined
+    </script>
+    <!-- <script>
+        //构造函数继承，父构造函数的原型方法没有继承过来
+        function Father(name) {
+            this.name = () => name
+            this.list = [1,2,3]
+        }
+        Father.prototype.getName = function () {
+            console.log('父类原型',this.name)
+        }
+        function Son2(name) {
+            Father.call(this,name)
+            this.subname = this.name
+        }
+        let son2 = new Son2('Eileen')
+        console.log(son2.getName) //undefined
+        console.log(son2.name()) //Eileen
+    </script> -->
+    <!-- <script>
+        //组合继承问题：__proto__里属性没有用，2，执行了两次构造函数
+        function Father(name) {
+            this.name = name
+            this.list = [1,2,3]
+        }
+        Father.prototype.getName = function() {
+            console.log('Father原型getName',this.name)
+        }
+        function Son3 (name) {
+            Father.call(this,name)
+            this.subname = this.name
+        }
+        Son3.prototype = new Father()
+        let son3 = new Son3('Eileen')
+        console.log(son3.getName()) //f() {console.log('父类原型',this.name)}
+        console.log(son3.name)//Eileen
+        console.log(son3.subname) //Eileen
+    </script> -->
+    <script>
+        //寄生组合继承
+        function Father(name) {
+            this.name = name
+        }
+        Father.prototype.getName = function() {
+            console.log(this.name)
+        }
+        function Son (name){
+            Father.call(this,name)
+            this.subname = name
+        }
+        function inhertProto(sonClass,FatherClass) {
+            function F(){}
+            F.prototype = FatherClass.prototype
+            sonClass.prototype = new F()
+            sonClass.prototype.constructor = Son
+        }
+        inhertProto(Son,Father)
+        let son = new Son('eileen')
+        console.log(son.getName()) //eileen
+        console.log(son.subname,son.name) //eileen eileen
+        // son.getName()
+    </script>
+
+ 
+
+</body>
+</html>

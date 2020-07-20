@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- symbol，循环引用，相同引用 -->
+    <!--深拷贝-->
+    <script>
+        var obj = {
+            id:1,
+            name:'Eileen',
+            money: null,
+            age: undefined,
+            msg:{
+                nihao:['你','好']
+            },
+            type:[{
+                    a:'a'
+            }],
+            arr:['A','B'],
+            fn:function() {
+                return '嗨'
+            }
+        }
+        function deepClone(obj) {
+            if(obj === null) return null
+            if(typeof obj !== 'object') return obj
+            if(obj instanceof RegExp) return new RegExp(obj)
+            if(obj instanceof Date) return new Date(obj)
+            let newObj = new obj.constructor  //不直接创建空对象，克隆结构和之前保存相同所属类
+            for(let key in obj) {
+                if(obj.hasOwnProperty(key)) {
+                    newObj[key] = deepClone(obj[key])                    
+                } 
+            }
+            return newObj
+        }
+        let data = deepClone(obj)
+        console.log(data)
+        // --------------------------------------------------
+        var o ={}
+        //递归方法，缺点：不能拷贝Symbol，函数
+        function deepCopy(newObj,oldObj) {
+            for(var k in oldObj) {
+                var item = oldObj[k] //对象中的每一项
+                //判断对象是否是数组,必须先判断是不是数组，因为数组属于object
+                if(item instanceof Array) {
+                    newObj[k] = []
+                    deepCopy(newObj[k],item)
+                } else if(item instanceof Object) {  //判断里面的值是不是对象，如果是，进行递归
+                    newObj[k] = {}
+                    deepCopy(newObj[k],item)
+                }else {
+                    newObj[k] = item
+                }
+            }
+            return newObj
+        }
+        var newObject = deepCopy(o,obj)
+        newObject.arr = function() { return 3}
+        console.log(obj.arr)
+        
+        // 使用JSON的方法实现深拷贝，
+        //JSON.stringify将对象转化为JSON字符串，JSON.parse把字符串解析为对象，产生新的对象，开辟新的内存空间
+        //缺点：不能处理函数,Symbol
+        // var jsonObj = JSON.parse(JSON.stringify(obj))
+        // jsonObj.name = 'Dcx'
+        // console.log(jsonObj)
+        
+    </script>
+    <!--浅拷贝-->
+    <!-- <script>
+        var obj2 = {
+            id:1,
+            name:'Eileen',
+            msg:{
+                age:12,
+                nihao:['你','好']
+            },
+            type:[{
+                    a:'a'
+            }],
+            arr:['A','B']
+        }
+       //使用assign
+        var obj2Copy1 = Object.assign({},obj2)
+       //赋值
+        var obj2Copy2 = obj2
+        
+        obj2Copy1.msg.age = 1
+        console.log(obj2Copy1)
+        console.log(obj2Copy2)
+    </script> -->
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AJAXPOST</title>
+  <script src="./ajax.js"></script>
+</head>
+<body>
+  <h2>用户注册</h2>
+  <h3>状态</h3>
+  <input type="text" placeholder="请输入用户名">
+</body>
+<script>
+  var input = document.querySelector('input')
+  input.onblur = () => {
+    const myname = input.value
+    console.log(name)
+    
+    // var xhr = new XMLHttpRequest()
+    // xhr.open('post', "http://localhost:8080/ajaxPost")
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+    // xhr.onload=()=>{
+    //   const username=JSON.parse(xhr.responseText)
+    //   console.log(username.code)
+    //   if(username.code===0){
+    //     console.log(username.name)
+    //     document.querySelector('h3').innerHTML='注册成功'
+    //     document.querySelector('h2').innerHTML=username.name
+    //     window.location.href = '/user.html'
+    //   }else if(username.code===1){
+    //     console.log(username.msg)
+    //     document.querySelector('h3').innerHTML=username.msg
+    //   }
+    // }
+    // xhr.send(`name=${input.value}`)
+
+    ajax({
+      type:'post',
+      url: 'http://localhost:8080/ajaxPost',
+      data: {
+        name: input.value
+      },
+      success: function (data, xhr) {
+        if (data.code === 0) {
+          console.log(data.name)
+          document.querySelector('h3').innerHTML = '注册成功'
+          document.querySelector('h2').innerHTML = data.name
+          window.location.href = './user.html'
+        } else if (data.code === 1) {
+          console.log(data.msg)
+          document.querySelector('h3').innerHTML = data.msg
+        }
+      }
+    })
+
+
+  }
+</script>
+</html>

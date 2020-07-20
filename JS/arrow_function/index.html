@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //箭头函数中不能使用arguments伪数组，箭头函数没有arguments对象，
+        // 毕竟匿名函数都一般不用参数或限定参数来执行。
+        // 而普通函数要进行复用就有arguements对象可以实现更灵活的操作。但是我们依然可以让箭头函数看起来有arguments的效果。
+        function normal() {
+            return () => arguments.length
+        }
+        let arr = normal(1,2,3)
+        console.log(arr())
+        // 我们在普通函数里返回一个箭头函数，普通函数有arguments，因为作用域链的关系，箭头函数保存了arguments的长度，其实是闭包
+        //我们执行arr的时候相当于执行normal(1,2,3)()
+
+
+         // 不能使用bind
+        var age = 10
+        function test(name) {
+            this.name=name
+            return this.name
+        }
+        var obj = {
+            age: 12,
+            name: 'Eileen',
+            say: () => { //箭头函数定义在对象的方法中，对象不会产生作用域，箭头函数相当于定义在全局下
+                console.log(this.age)
+            },
+            getName() {
+                setTimeout(function() {
+                    console.log(this) //window
+                }, 1000);
+                setTimeout(() => {
+                    console.log(this) //obj
+                }, 2000);
+            },
+
+        }
+        obj.say()
+        obj.getName()
+
+    </script>
+    <!-- 
+        箭头函数
+        向外层作用域中，一层层找，直到有this的定义
+        箭头函数不能使用new关键字调用构造函数，因为箭头函数在创建的时候程序没有给这个箭头函数创建[[constructor]]方法
+        意味着没有构造能力，箭头函数是匿名的，用完就丢，完全没必要给箭头函数增加可以重复使用的构造能力。
+        因此也不需要构造函数原型了。也就是不会自动生成prototype属性。
+
+        箭头函数的this在定义的时候就调用了。普通函数在被调用的时候确定
+ 
+
+
+        箭头函数和普通函数区别：
+            function() {} ,有new和原型，有arguments、super、new.target，this指向是动态的，call，apply，bind修改this值
+            () => {}      ,没有new，原型，没有arguments，可调用外围arguments，this指向在外层作用域中向上找，callapplybind不可修改this
+             
+        -->
+</body>
+</html>

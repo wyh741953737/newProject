@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li id="li">阻止事件冒泡<a href="">删除</a></li>
+        <li id="li">阻止事件冒泡<a href="">删除</a></li>
+        <li id="li">阻止事件冒泡<a href="">删除</a></li>
+    </ul>
+</body>
+<script>
+    var lis = $('li');
+    var as = $('a')
+    for(var i=0;i<lis.length;i++) {
+        lis[i].index = i
+        lis[i].onclick = function() {
+            alert('你点击了'+this.index+'次')
+        }
+        as[i].onclick = function(e) {
+            console.log(e)
+            // e.stopPropagation();//ie8以下报错，支持DOM2级事件处理程序的浏览器阻止事件冒泡的方法
+            // e.cancelBubble = true //ie8以及以前版本
+            e.stopPropagation() ? e.stopPropagation():e.cancelBubble=true
+            alert('dd')
+        }
+    }
+    function $(selector) {
+            return document.querySelectorAll(selector)
+        }
+</script>
+</html>

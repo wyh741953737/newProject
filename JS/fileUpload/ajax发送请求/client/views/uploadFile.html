@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>FormData上传二进制文件</title>
+   <style>
+      .box1 {
+         width: 506px;
+         border: 3px solid yellowgreen;
+         margin: 0 auto;
+         background-color:bisque;
+      }
+
+      #img1 {
+         width: 500px;
+         height: 300px;
+         border: greenyellow 3px solid;
+      }
+
+      .progress-bar {
+         width: 0%;
+         /* height: 30px; */
+         background-color: skyblue;
+         text-align: center;
+         border-radius: 15px;
+      }
+
+      .imgs {
+         text-align: center;
+      }
+
+      #file {
+         width: 300px;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="box1">
+      <div>
+         <h1>
+            <p style="text-align: center;">FormData上传二进制文件</p>
+         </h1>
+         <div style="margin-left: 65px; padding-bottom: 10px;">
+            <input type="file" id="file">
+         </div>
+      </div>
+      <div class="progress" id="progress">
+         <div class="progress-bar" id="bar"></div>
+      </div>
+      <br>
+      <div id="imgs">
+         <h3 id="h" style="text-align: center;">图片显示处</h3>
+      </div>
+   </div>
+   <script>
+      var file = document.getElementById('file')
+      var bar = document.getElementById('bar')
+      var imgs = document.getElementById('imgs')
+      var h = document.getElementById('h')
+      var progress = document.getElementById('progress')
+      file.onchange = function () {
+         var uploadfile = file.files[0]
+         console.log(uploadfile.name)
+         var formData = new FormData()
+         formData.append('uploadfile', uploadfile)
+         formData.append('filename', uploadfile.name)
+         var xhr = new XMLHttpRequest()
+         xhr.open('post', "http://localhost:8080/upload")
+         // onprogress事件在文件上传过程中持续触发
+         xhr.upload.onprogress = function (e) {
+            console.log(e)
+            var result = (e.loaded / e.total) * 100 + '%'
+            bar.style.width = result
+            bar.innerHTML = result
+         }
+         xhr.send(formData)
+         xhr.onload = function () {
+            if (xhr.status === 200) {
+               var result = JSON.parse(xhr.responseText)
+               console.log(result.path)
+               var img = document.createElement('img')
+               img.src = result.path
+               img.id = 'img1'
+               img.onload = function () {
+                  imgs.appendChild(img)
+                  h.innerHTML = result.name
+                  progress.appendChild(imgs)
+                  bar.innerHTML = ''
+               }
+            }
+         }
+      }
+   </script>
+</body>
+
+</html>

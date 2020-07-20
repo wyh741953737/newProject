@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //多个异步请求，如何同时获取最终结果（同步‘异步的结果）
+        let arr = []
+         let i = 0
+         function cb(data,index) {
+             arr[index] = data
+             if(++i == 2) {
+                 console.log(arr)
+             }
+         }
+         fs.readFile('./name.text','utf-8',function (err,data) {
+             cb(data)
+         })
+         fs.readFile('./age.text','utf-8',function (err,data) {
+             cb(data)
+            })
+    </script>
+    <script>
+        //多个异步请求，如何同时获取最终结果（同步‘异步的结果）
+        //使用after函数可以简化异步操作，解决异步并发：计数。也可以用Promise.all
+        let fs = require('fs')
+        function after(times,callback) {
+            let arr = []
+            return function(err,r) {
+                if(err) throw new Error(err)
+                arr.push(r)
+                if(--times === 0) {
+                    callback(arr)
+                }
+            }
+        }
+        let newFn = after(3,function(arr) {
+            console.log(arr)
+        })
+        fs.readFile('./a.text','uft-8',function(err,data) {
+            //读取完之后执行
+            newFn(err,data)
+        })
+        fs.readFile('./b.text','uft-8',function(err,data) {
+            newFn(data)
+        })
+        fs.readFile('./c.text','uft-8',function(err,data) {
+            newFn(data)
+        })
+    </script>
+    <script>
+        //观察者模式包含发布订阅
+        //像这样有多个，成功之后干某件事：发布订阅,发布订阅通过代理来做
+        //订阅和发布之间没有关系，通过Events中的callbacks和results
+        //promise，redux也是发布订阅
+        //订阅功能：收集订阅者
+        //发布功能，将信息添加到中间代理
+
+        let fs = require('fs')
+        function Events() {
+            this.callback = [] //订阅者列表
+            this.result = []  //发布的消息列表
+        }
+        Events.prototype.on = function(callback) { //订阅(s收集函数)
+            this.callback.push(callback)
+        }
+        Events.prototype.emit = function(data) {//发布（让所有函数依次执行，把结果传到当前函数
+            this.result.push(data)
+            this.callback.forEach(c => c(this.result))
+        }
+        let e = new Events()
+        e.on(function(arr) {
+            if(arr.length === 3) {
+
+            }
+        })
+        fs.readFile('./a.text','uft-8',function(err,data) {
+           e.emit(data)
+        })
+        fs.readFile('./b.text','uft-8',function(err,data) {
+            e.emit(data)
+        })
+        fs.readFile('./c.text','uft-8',function(err,data) {
+            e.emit(data)
+        })
+    </script>
+    <script>
+        //被观察者
+        class Subject {
+            constructor(name) {
+                this.name = name
+                this.state = '宝宝睡着了'
+                this.observers = [] //被观察者要放在观察者中
+            }
+            //被观察者要提供一个接受观察者的方法
+            attach(observer) {
+                this.observers.push(observer) //存放所有观察者
+            }
+            setState(newState){ //更改被观察者的状态
+                this.state = newState
+                this.observers.forEach(o => o.update(newState))
+            }
+        }
+        //观察者
+        class Observer{
+            update(newState) {
+                //通知所有观察者状态更新了
+                console.log(this.name+'说'+newState)
+            }
+        }
+        let sub = new Subject('宝宝')
+        let o1 = new Observer('爸爸')
+        let o2 = new Observer('妈妈')
+        sub.attach(o1)
+        sub.attach(o2)
+        sub.setState('宝宝饿了')
+
+    </script>
+</body>
+</html>

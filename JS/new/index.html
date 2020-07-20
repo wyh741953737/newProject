@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, i
+    nitial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <!-- <script>
+      function nnew(Constructor) {
+        let obj = new Object() //创建一个空对象实例
+        let args = Array.prototype.slice(1) //获取参数
+        console.log(args)
+        obj.__proto__ = Constructor.prototype //创建的新的实例对象的原型指向构造函数的原型
+        var ret = Constructor.apply(obj,args) //将构造函数中的this指向创建出来的空对象
+        console.log('rew',ret)
+        return typeof ret == 'object' ? ret : obj //如果返回值是引用类型，返回值
+      }
+      function Boss(age){
+        this.age = age
+      }
+      let employe = nnew(Boss)
+      console.log(employe)
+  </script> -->
+  <script>
+    function myNew(Constructor) {
+      let obj = {}
+      console.log(arguments)
+      let args = Array.from(arguments).shift()
+      obj.__proto__ = Constructor.prototype
+      Constructor.call(obj,args)
+      return obj
+    }
+    function Father(age) {
+      this.age = age
+    }
+    let son = myNew(Father,12)
+    let son2 = new Father(24)
+    console.log('son',son)
+    console.log(son2)
+  </script>
+</body>
+</html>

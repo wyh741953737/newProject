@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #outter{
+        width: 1000px;
+        height: 400px;
+        background-color: #f8c3c3;
+    }
+    #center{
+        width: 600px;
+        height: 200px;
+        background-color: #818dfa;
+    }
+    #inner{
+        width: 300px;
+        height: 100px;
+        background-color: #e8f792;
+    }
+</style>
+<body>
+    <div id="outter">
+        <div id="center">
+            <div id="inner"></div>
+        </div>
+    </div>
+
+
+
+    <!--事件冒泡-->
+    <script>
+        var outter = $('outter')
+        var center = $('center')
+        var inner = $('inner')
+        document.body.onclick = function () {
+            alert('document')
+        }
+        outter.onclick = function () {
+            alert('最外层')
+        }
+        center.onclick = function () {
+            alert('最center层')
+        }
+        inner.onclick = function () {
+            alert('最inner层')
+        }
+        function $(id) {
+            return document.getElementById(id)
+        }
+    </script>
+    <!--事件捕获-->
+    <script>
+        window.onclick = function(event) {
+            alert('点击窗口')
+            console.log(event)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借用父构造函数继承</title>
+</head>
+<body>
+    <script>
+        function Father(name,age) {
+            this.name = name
+            this.age = age 
+        }
+        Father.prototype.money = function() {
+            console.log(1000)
+        }
+        function Son(sname,sage,score) {
+            console.log(this)
+            Father.call(this,sname,sage)//这样只是调用了父构造函数，没有继承父原型
+            this.score = score
+        }
+        // Son.prototype = Father.prototype //这样修改子类原型，父类原型也会修改
+        Son.prototype = new Father() //这样就可以让子类继承父原型方法但是不会影响父类原型
+        //利用对象的形式改变了原型对象，要用constructor指回原来的构造函数
+        Son.prototype.constructor = Son
+        Son.prototype.sing ='sing'
+        console.log('父亲',Father.prototype)
+        let son = new Son('xixi',3,100)
+        console.log(son)
+    </script>
+</body>
+</html>

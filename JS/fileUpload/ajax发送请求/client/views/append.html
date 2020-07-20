@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul {
+      width: 300px;
+      height: 600px;
+      background-color: grey;
+      border: 1px solid black;
+    }
+
+    /* li{
+      background-color: cornsilk;
+    } */
+  </style>
+</head>
+
+<body>
+  <input type="text" exportparts="" id='word'>
+  <button id="btn">发送</button>
+  <button><a href="./user.html">返回首页</a></button>
+  <div>
+    <ul id="ul1" style="overflow: hidden;">
+      <p id="p1" style="float: right;">
+        <li>  </li>
+      </p>
+      <p id="p2" style="float: left;">
+        <!-- <li>11</li>
+        <li>22</li> -->
+      </p>
+    </ul>
+  </div>
+</body>
+<script>
+  var input = document.getElementById('word')
+  var btn = document.getElementById('btn')
+  var ul1 = document.getElementById('ul1')
+  var ul2 = document.getElementById('ul2')
+  var p1 = document.getElementById('p1')
+  var p2 = document.getElementById('p2')
+  btn.onclick = function () {
+    console.log(input.value)
+    var myli = document.createElement('li')
+    // console.log(li)
+    myli.innerHTML = input.value
+    p1.appendChild(myli)
+    var xhr = new XMLHttpRequest()
+    xhr.open('get', 'http://localhost:8080/append?word=' + input.value)
+    xhr.onload = () => {
+      const word = JSON.parse(xhr.responseText)
+      console.log(word.word1)
+      const targetli = document.createElement('li')
+      targetli.innerHTML = word.word1
+      p2.appendChild(targetli)
+    }
+    xhr.send(null)
+  }
+</script>
+
+</html>

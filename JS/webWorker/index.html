@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- worker每秒钟轮循一次数据，然后和缓存做比较，不一致就说明服务端有了新的变化，因此就要通知主线程。 -->
+    <script>
+        function createWorker(f) {
+            let bolb = new Blob(['('+f.toString()+')()'])
+            let url = window.URL.createObjectURL(blob)
+            let worker = new Worker(url)
+            return worker
+        }
+        let pollingWorker = createWorker(function(e) {
+            let cache
+            function compare(newd,old) {
+                
+            }
+            setInterval(()=> {
+                fetch('/myapi').then(function(res) {
+                    let data = res.json()
+                    if(!compare(data,cache)) {
+                        cache = data
+                        self.postMessage(data)
+                    }
+                })
+            },1000)
+        })
+        pollingWorker.onmessage = function(){}
+        pollingWorker.postMessage('init')
+    </script>
+</body>
+</html>

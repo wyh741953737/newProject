@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        定义或者修改属性
+        Object.defineProperty(对象，'属性名',{属性描述descriptor})
+        数据描述符：value，writable,enumberable
+        存取描述符：setter函数和getter函数的属性
+        二者选一，不可同时使用
+        Object.defineProperties(对象，{'属性名':{},'属性名'：{}，'属性名':{}})
+    -->
+    <script>
+        var obj = {};
+        Object.defineProperties(obj, {
+            'property1': {
+                value: true,
+                writable: true
+            },
+            'property2': {
+                value: 'Hello',
+                writable: false
+            }
+            // etc. etc.
+        });
+    </script>
+</body>
+</html>

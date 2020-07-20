@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>邮箱验证</title>
+  <script src="./ajax.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-group">
+      <div>
+        <label>邮箱地址</label>
+      </div>
+      <br>
+      <input id="email" type="email" class="form-control" placeholder="请输入邮箱地址">
+      <!-- 错误 bg-danger  正确 bg-success -->
+      <p id="info"></p>
+    </div>
+    <button>
+      <a href="./user.html">返回首页</a>
+    </button>
+  </div>
+  <script>
+    var emailInp = document.getElementById('email')
+    var info = document.getElementById('info')
+    emailInp.onblur = function () {
+      var email=this.value
+      console.log(email)
+      var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if(!reg.test(email)){
+        info.innerHTML='请输入符合规则的邮箱地址'
+        // 让提示信息显示为错误提示信息的样式
+        info.className='bg-danger'
+        // 阻止代码向下运行
+        return
+      }
+      ajax({
+        type:'get',
+        data:{
+          email
+        },
+        url:'http://localhost:8080/formInspect',
+        success:function(result){
+          console.log(result)
+          info.innerHTML=result.data
+          info.className='bg-success'
+        },
+        error:function(result){
+          console.log(result)
+          info.innerHTML=result.data
+          info.className='bg-danger'
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

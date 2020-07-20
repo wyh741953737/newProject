@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去重</title>
+</head>
+<body>
+    <!-- ES6中的set。利用set成员唯一性，不考虑兼容性，代码少，还无法去重'{}'空对象' -->
+    <script>
+        const arr = [1,2,3,2,3,4,2,4,7,1]
+        function remove(arr) {
+            return [...new Set(arr)]
+        }
+        remove(arr)        
+    </script>
+    <!--for双重循环,先定义一个包含原数组第一个元素的数组，然后遍历原数组，将原数组的每个元素与新数组的每个元素比较，相同删除-->
+    <script>
+        const arr = [1,2,3,2,3,4,2,4,7,1]
+        function newArr(arr) {
+            for(let i=0,len=arr.length;i<len; i++) {
+                for(let j=i+1;j<len;j++) {
+                    if(arr[i] === arr[j]){
+                        arr.splice(j,1)
+                        j--
+                    }
+                }
+            }
+            return arr
+        }
+        newArr(arr)
+        console.log(arr)
+    </script>
+    <!---初始化一个空数组，将需要去重处理的数组中第一项在初始化数组中查找，找不到push进去，再将这个初始化数组返回
+    reduce() 是数组的归并方法，与forEach()、map()、filter()等迭代方法一样都会对数组每一项进行遍历，
+    但是reduce() 可同时将前面数组项遍历产生的结果与当前遍历项进行运算，这一点是其他迭代方法无法企及的
+    -->
+    <script>
+        var resources = [
+            {name:'A'},
+            {name:'B'},
+            {name:'B'},
+        ]
+        let temp = {}
+        resources = resources.reduce((pre,cur) => {
+            if(temp[cur.name]) {
+
+            } else {
+                temp[cur.name] = true
+                pre.push(cur)
+            }
+            return pre
+        },[])
+        console.log(resources)
+    </script>
+    <!--利用sort（）去重 ,根据排序后结果进行遍历以及相邻元素对比-->
+    <script>
+        function unique(arr) {
+            if(!Array.isArray(arr)) {
+                console.log('type error')
+                return;
+            }
+            let array = [arr[0]]
+            for(var i=0;i<arr.length;i++) {
+                if(arr[i] != arr[i+1]) {
+                    array.push(arr[i])
+                }
+            }
+            return array
+        }
+        var arr = [1,2,true,'true','true',false,false,undefined,undefined,null,null]
+    </script>
+    <!--利用indexof去重，创建一个空数组，for循环袁术数组，判断结果数组是否存在当前元素，-->
+    <script>
+        function unique(arr) {
+            if(!Array.isArray(arr)) {
+                console.log('type error')
+                return;
+            }
+            let array = []
+            for(var i=0;i<arr.length;i++) {
+                if(array.indexof(arr[i] === -1)) {
+                    array.push(arr[i])
+                }
+            }
+            return array
+        }
+        var arr = [1,2,true,'true','true',false,false,undefined,undefined,null,null]
+    </script>
+    <!--利用includes去重，创建一个空数组，for循环原数组，判断结果数组是否存在当前元素，-->
+    <script>
+        function unique(arr) {
+            if(!Array.isArray(arr)) {
+                console.log('type error')
+                return;
+            }
+            let array = []
+            for(var i=0;i<arr.length;i++) {
+                if(!array.includes(arr[i])) {
+                    array.push(arr[i])
+                }
+            }
+            return array
+        }
+        var arr = [1,2,true,'true','true',false,false,undefined,undefined,null,null]
+    </script>
+
+</body>
+</html>

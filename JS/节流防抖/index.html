@@ -62,5 +62,35 @@
         }
         content.onmousemove = timeThrottle(count,1000)
     </script>
+    <script>
+        //防抖实际例子：电脑无操作1分后进入休眠，在此期间移动鼠标，重新计时
+        //搜索框，一段时间内，用户还输入，就重新计时
+        let input = document.getElementById('user')
+        let timeout
+        input.addEventListener('keyup',() => {
+            let data = input.data
+            clearTimeout(timeout)
+            setTimeout(() => {
+                mockAjax(data)
+            }, 2000);
+        })
+        function mockAjax(data) {
+            console.log(data)
+        }
+        // 节流
+        // 需求：在鼠标滚动的时候，每隔2秒打印一次
+        let body = document.getElementsByTagName('body')[0]
+        let timeout
+        let flag = true
+        body.onscroll = () => {
+            if(flag) {
+                console.log(1)
+                flag = false
+                setTimeout(() => {
+                    flag = true
+                }, 2000);
+            }
+        }
+    </script>
 </body>
 </html>

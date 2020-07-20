@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+       Object.entries()方法返回一个给定对象自身可枚举属性的键值对的数组，排列与用for..in循环遍历该对象时返回的顺序一致
+       区别在于for..in还会枚举原型链中的属性
+        new Map()构造函数接受一个可迭代的entries，借助Object.entries方法你可以很容易的将Object转换为Map
+    -->
+    <script>
+        const obj1 = {
+            name:'eileen',
+            age:24
+        }
+        // for(let [key,value] of Object.entries(obj1)) {
+        //     console.log(`${key}:${value}`)
+        // }
+        Object.entries(obj1).forEach(([key,value]) => {
+            console.log(key,value)
+        })
+        // const anobj = {100:'a',2:'b',7:'c'}
+        // console.log(Object.entries(anobj)) //[['2':'b'],['2':'c'],['100':'a']
+
+        var obj2 = {
+            foo:'bar',
+            baz:40
+        }
+        console.log('obj2',obj2)
+        console.log(Object.entries(obj2)) //[["foo","bar"],["baz",40]]
+        var map = new Map(Object.entries(obj2)) //{[[key:"foo",value:'bar'],[key:"baz",value:'40']]}
+        console.log(map)
+    </script>
+
+
+<!--
+    Object.fromEntries()接受一个键值对的列表参数，并且返回一个包含这些键值对的新对象
+    Object.fromEntries是Object.entries的反转(通过配合Map方法)
+
+-->
+<script>
+    const entries = new Map([
+        ['foo','bar'],
+        ['baz',42]
+    ])
+    const obj3 = Object.fromEntries(entries)
+    console.log('obj3',obj3)
+</script>
+</body>
+</html>

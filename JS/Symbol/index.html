@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*使用Sumbol来作为对象属性名
+            1:key.Symbol的key是不可以通过Object.keys(),for..in..来枚举
+            2：symbol没有包含在对象自身的属性名集合中，所以用Object.getOwnPropertyNames获取不到
+            3：利用这些特性，可以把一些不用对外操作和访问的属性用Symbol来定义
+            4:可以利用Object.getOwnPropertySymbols(obj)和Reflect.ownKeys(obj)来获取Symbol方法定义的对象属性
+            **/
+        const SYMBOL_TYPE = Symbol()
+        const SYMBOL_AGE = Symbol()
+        let obj = {
+            abc:'abc',
+            [SYMBOL_TYPE]:'symbol'
+        }
+        obj[SYMBOL_AGE] = 12
+        console.log(Object.keys(obj)) //["abc"]
+        for(var i in obj) {
+            console.log(i) //abc
+        }
+        console.log(Object.getOwnPropertyNames(obj)) //["abc"]
+        console.log(JSON.stringify(obj)) //{"abc":"abc"}
+        console.log(Object.getOwnPropertySymbols(obj)) //[Symbol(),Symbol()] 返回包含key的数组
+        console.log(Reflect.ownKeys(obj)) //["abc",Symbol(),Symbol()] 返回对象的所有key，包含Symbol
+       
+       
+       
+       
+        /**使用Symbol来替代常量**/
+        //以前 consot TYPE_AGE = "age" 希望常量唯一，常量多还得费脑取名，
+        const TYPE_AGE = Symbol() //这样可以保证唯一性
+
+
+
+        /**使用Symbol定义类的私有属性和方法*/
+        // const PASSWORD = Symbol()
+        // class Login = {
+        //     constructor(password) {
+        //         this.password = password
+        //     }
+        //     checkPwd(pwd) {
+        //         return this[PASSWORD] === pwd
+        //     }
+        // }
+        // //在外面调用checkPwd访问不到PASSWORD
+        // const login = new Login('122')
+        // login.checkPwd('122') //true
+        // login.PASSWORD //no
+        // login[PASSWORD] //no
+        // login["PASSWORD"] //no
+         /*注册和获取全局Symbol
+         1：一个浏览器窗口（Window）用Symbol函数或Symbol实例就
+         2：如果应用涉及到多个window，比如使用iframe，并想要多个window共享Symbol，就不能用Symbol（）函数了，因为不同window创建的Symbol不一样
+         3：用零一个API获取，Symbol.for()，它可以创建或者注册一个window全局Symbol实例
+         **/
+        let g1 = Symbol.for('global_symbol_1') //注册全局Symbol
+        let g2 = Symbol.for('global_symbol_1')   //获取全局Symbol
+            g1 === g2 //true
+    </script>
+    <script>
+        (function() {
+            var root = this
+            var SymbolPolyfill = function Symbol(description) {
+                if(this instanceof SymbolPolyfill) throw new TypeError('Symbol is not a constructor')
+                var descString = description === undefined ? undefined : String(description)
+                var symbol = Object.create(null)
+                Object.defineProperties(symbol,{
+                    '__Description' : {
+                        value:descString,
+                        writable:false,
+                        enumerable:false,
+                        configuarable:false
+                    }
+                })
+                return symbol
+            }
+            root.SymbolPolyfill = SymbolPolyfill
+        })()
+    </script>
+</body>
+</html>

@@ -108,6 +108,8 @@ new Promise((resolve,reject) =>{
     value=>{},reason=>{} //这两个是回调函数，异步的。即使条件已经满足也不是立即执行的
     )
 同步操作直接在then里面return，异步操作return一个新的Promise（promise封装异步操作）。
+
+
 promise.then()返回的新promise的结果由什么决定？
 （1）简单表达：由then（）指定和回调函数的结果决定
 （2）详细
@@ -131,3 +133,9 @@ new Promise((resolve,reject) => {
 })
 中断promise链？
 在回调函数中返回一个pending状态的promise   即：return new Promise(()=>{})
+
+
+Promise
+1）状态只能改变一次，pending-》resolved，或者pending-》rejected，一旦改变不可再变
+2）then接收一个函数作为参数，如果传递的并非是一个函数，比如数字，就会发生穿透，实际上将为其解释为then(null)，这会导致前一个Promise的结果往下传
+Promise.resolve(1).then(value =>2).then(value=>Promise.resolve(3)).then(value =>console.log(value)) //1

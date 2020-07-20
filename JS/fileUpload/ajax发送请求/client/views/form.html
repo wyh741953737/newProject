@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>FORM</title>
+   <script src="./ajax.js"></script>
+</head>
+
+<body>
+   <h1>用户注册</h1>
+   <p id="p"></p>
+   <form id="form">
+      <input type="text" name="username" placeholder="请输入用户名"></p>
+      <input type="password" name="password" placeholder="请输入密码"></p>
+      <input id="btn" type="button" value="登录">
+   </form>
+   <script type="text/javascript">
+      var form = document.getElementById('form')
+      var btn = document.getElementById('btn')
+      var p = document.getElementById('p')
+      btn.onclick =function () {
+         var formData=new FormData(form)
+         console.log(formData)
+         var xhr =new XMLHttpRequest
+         xhr.open('post','http://localhost:8080/ajaxForm')
+         xhr.send(formData)
+         xhr.onload=function(){
+            if(xhr.status===200){
+               var result = JSON.parse(xhr.responseText)
+               if(result.code===0){
+                  p.innerHTML=`恭喜你注册成功了你的名字是：${result.username}`
+                  window.location.href='./user.html'
+               }else if(result.code===1){
+                  p.innerHTML='啊哦！注册失败了'
+               }
+            }
+         }
+      }
+   </script>
+</body>
+
+</html>

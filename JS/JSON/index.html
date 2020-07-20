@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var obj1 = {username:'Eila',age:12}
+        var obj2 = Object.create(obj1)
+        // console.log(obj2) //__proto__:{age:12,username:'Eila'}
+
+        var obj3 = Object.create(obj1,{
+            mobile:{
+                value:'男',
+                writable:false,
+                enumberable:true
+            }
+        }) 
+
+
+        var user = {
+            firstname:'wu',
+            lastname:'yihong',
+            age:18
+        }
+        Object.defineProperties(user,{
+            fullname:{
+                //获取属性值的时候调用的函数
+                get:function() {
+                    return this.firstname + "-" + this.lastname
+                },
+                set:function(data) {
+                }
+            }
+        })
+        var teacher = {
+            firstname:'ni',
+            lastname:'hao',
+            get fullname() {
+                return this.firstname+this.lastname
+            },
+            set fullname(data) {
+                this.firstname = 'dcx'
+            }
+        }
+        var arr1 = ['A','B','C','D']
+        var arr2 = [...arr1]
+        var arr3 = arr1
+        arr3[0] = 'AA'
+        console.log(arr1)
+        console.log(arr2)
+        console.log(arr3)
+    </script>
+</body>
+</html>
