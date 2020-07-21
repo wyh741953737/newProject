@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取消请求</title>
+</head>
+<body>
+    <!-- axios.create(config)根据指定配置创建一个新的axios(如下面instance），每个新的axios都有自己的配置
+        新的axios没有取消请求和批量发送请求的方法，其他一致
+        需求，项目中有部分接口需要的配置与另一部分接口需要的配置不一样，如何处理？
+        解决：创建2个axios，每个axios都有自己的配置，分别应用到不同要求的接口请求体中
+    -->
+    <button onclick="getProduct1">获取商品列表</button>
+    <button onclick="getMessage">获取用户信息</button>
+    <button onclick="cancelReq">取消请求</button>
+
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+    <script>
+        //请求拦截器
+       axios.interceptors.request.use(config => {
+            if(typeof cancel === 'function') {
+                cancel = null
+            }
+            config.cancelToken = new CancelToken(c=>{
+                cancel = c
+            })
+             return config;
+       },error => {
+         return Promise.reject(error);
+       });
+       axios.interceptors.response.use(
+          response => {
+              cancel = null
+             return response;
+          },error => {
+             if(axios.isCancel(error)) { 
+                 //源码里面封装了一个isCancel函数，比较简单，
+                 //function isCancel(value){ return !!(value && value.__CANCEL__) }
+                 //__CANCEL__是Cancel原型上的一个方法，Cancel.prototype.__CANCEL__ = true
+                return new Promise(() => {}) //中断promise链
+             } else {
+                 cancel = null
+                 return Promise.reject(error);
+             }
+        });
+        let cancel
+        function getProduct1() {
+            axios({
+                url: 'http://localhost:3000/production',
+            }).then(
+                response => {                  
+                    console.log('请求成功')
+                },
+                error => {                   
+                    console.log('请求失败',error.message)
+                }
+            )
+        }
+        function getMessage() {
+            axios({
+                url: 'http://localhost:3000/getmessage',
+            }).then(
+                response => {                  
+                    console.log('请求成功')
+                },
+                error => {                   
+                    console.log('请求失败',error.message)
+                }
+            )
+        }
+        function cancelReq() {
+            if(typeof cancel === 'function') {
+                cancel('强制取消请求') 
+            } else {
+                console.log('没有可取消请求')
+            }
+        }
+        
+    </script>
+</body>
+</html>
