@@ -21,7 +21,7 @@
          })
          fs.readFile('./age.text','utf-8',function (err,data) {
              cb(data)
-            })
+         })
     </script>
     <script>
         //多个异步请求，如何同时获取最终结果（同步‘异步的结果）
@@ -86,6 +86,150 @@
         fs.readFile('./c.text','uft-8',function(err,data) {
             e.emit(data)
         })
+
+
+        // let shoeObj = {} //定义发布者
+        // shoeObj.list = [] //缓存列表，存放订阅者的回调
+
+        // shoeObj.listen = function(key,fn) {//增加订阅者
+        //     if(!this.list[key]) {
+        //         this.list[key] = [] //如果没有订阅这件事，给该类消息创建一个缓存列表
+        //     }
+        //     this.list[key].push(fn) //订阅消息添加到缓存列表
+        // }
+        // //发布消息
+        // shoeObj.trigger = function() {
+        //     let key = Array.prototype.shift.call(arguments) //取出消息类型名称
+        //     let fns = this.list[key] //取出该消息对应的回调函数的集合
+        //     if(!fns || fns.length === 0) { //如果没订阅过这个消息就返回
+        //         return
+        //     }
+        //     for(let i=0;fn;fn=fns[i++]) {
+        //         fn.apply(this,arguments) //arguments是发布消息时附送的参数
+        //     }
+        // }
+
+        // shoeObj.listen('red',function(size) {
+        //     console.log('尺码是'+size)
+        // })
+
+        //封装上述代码
+        // let events = {
+        //     list: [],
+        //     listen: function(key,fn) {
+        //         if(!this.list[key]) {
+        //             this.list[key] = []
+        //         }
+        //         this.list[key].push(fn)
+        //     },
+        //     trigger: function() {
+        //         let key = Array.prototype.shift.call(this,arguments)
+        //         let fns = this.list[key]
+        //         if(!fns || fns.length === 0) {
+        //             return
+        //         }
+        //         for(let i=0;fn;fn=fns[i++]) {
+        //             fn.apply(this,arguments)
+        //         }
+        //     }
+        // }
+        // //定义一个initvent函数，这个函数让所有普通对象都有发布订阅功能
+        // let initEvent = function(obj) {
+        //     for(let i in events) {
+        //         obj[i] = events[i]
+        //     }
+        // }
+
+        // //给shoeObj添加发布订阅功能
+        // let shoeObj = {}
+        // initEvent(shoeObj)
+        // shoeObj.listen('red',function(size) {
+
+        // })
+        // shoeObj.listen('pink',function(size) {
+
+        // })
+        // shoeObj.trigger("red",36)
+        // shoeObj.trigger("pink",38)
+
+        // //取消订阅
+        // events.remove = function(key,fn) {
+        //     let fns = this.list[key]
+        //     if(!fns) {
+        //         return false
+        //     }
+        //     if(!fn) {
+        //         fn && (fn.length = 0) 
+        //     } else {
+        //         for(let i=fns.length-1;i>=0;i--) {
+        //             let _fn = fns[i]
+        //             if(_fn === fn) {
+        //                 fns.splice(i,1) //删除订阅者的回调
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        let Event = (function() {
+            let list = []; //存放所有的发布事件
+            let listen = function(key,fn) {
+                    if(!list[key]) {
+                        list[key] = [];
+                    }
+                    list[key].push(fn);
+            };
+            let trigger = function() {
+                const key = Array.prototype.shift.call(arguments);
+                const fns = list[key]; //获取订阅了某个事件的所有订阅者
+                if(!fns || fns.length === 0) { //如果某个事件没有订阅者
+                    return false;
+                }
+                for(let i=0;fn;fn=fns[i++]) { //如果有订阅者。遍历每个订阅者，执行fn函数
+                    fn.apply(this,arguments)
+                }
+            };
+            let remove = function(key,fn) {
+                const fns = list[key];  //获取订阅了某个事件的所有订阅者
+                if(!fns) {//如果某个事件没有订阅者
+                    return false
+                }
+                if(!fn) {
+                    fns && (fns.length = 0);
+                } else { 
+                    for(let i=0;fn;fn=fns[i++]) {
+                        let _fn = fns[i];
+                        if(_fn === fn) { //如果订阅者在某件事的所有订阅者当中，删除
+                            fns.splice(i,1)
+                        }
+                    }
+                }
+            }
+            return {
+                listen: listen,
+                trigger: trigger,
+                remove: remove
+            }
+        })()
+
+           //ajax请求
+        $.ajax('http://...',function(data) {
+            renderData(data)//渲染数据
+            getData(data)//获取数据
+        })
+        //如果还想做其他的事，写在上面耦合度很高，使用发布订阅试一下
+        $.ajax('http://...',function(data) {
+            Obj.trigger('success',data) //发布请求成功后
+        })
+        Obj.listen('success',function(data) { //订阅，success
+            renderData(data)
+        })
+        Obj.listen('success',function(data) {
+            doanimate(data)
+        })
+
+
+
     </script>
     <script>
         //被观察者
