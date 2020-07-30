@@ -1,77 +1,154 @@
-//类式继承，缺点：父类构造函数不接收参数；父类构造函数的1私有属性和方法变成公有
 
-function Father(name) {
-    this.name = name
-    this.list = [1, 2, 3]
-}
-Father.prototype.getName = function () {
-    return this.name
-}
-function Son(name) {
-    this.subname = name
-}
-Son.prototype = new Father()
-let son = new Son('Eileen')
-console.log(son.getName()) //undefined
-console.log(son.name, son.subname) //undefined Eileen
+        //原型链继承优点：实现了继承
+        //原型链继承缺点：1：不支持子构造函数实例化对象传参，2：父类构造函数里的方法和属性都会变成公有属性
+        // function Father(name) {
+        //     this.name = name
+        //     this.list = [1,2,3]
+        // }
+        // Father.prototype.getName = function () {
+        //     console.log('父类原型',this.name)
+        // }
+        // function Son1(name) {
+        //     this.subname = this.name //此时this指向son1
+        // }
+        // Son1.prototype = new Father()
+        // let son1 = new Son1('John')
+        // console.log(son1.getName) //f() {console.log('父类原型',this.name)}
+        // console.log(son1.name,son1.subname) //undefined undefined
+
+        //构造函数继承优点：实现实例化对象的独立性；支持子构造函数实例化对象传参
+        //构造函数继承缺点：方法都在构造函数中定义，每次实例化对象都要创建一遍方法，无法实现函数复用，
+                    //通过call只是调用父构造函数的属性和方法，父构造函数的原型方法没有继承过来
+        // function Father(name) {
+        //     this.name = () => name
+        //     this.list = [1,2,3]
+        // }
+        // Father.prototype.getName = function () {
+        //     console.log('父类原型',this.name)
+        // }
+        // function Son2(name) {
+        //     Father.call(this,name)
+        //     this.subname = this.name
+        // }
+        // let son2 = new Son2('Eileen')
+        // console.log(son2.getName) //undefined
+        // console.log(son2.name()) //Eileen
+  
+        //组合继承优点：通过原型链继承实现原型对象方法的继承，利用构造函数继承实现属性的继承，而且可传参
+        //组合继承问题：__proto__里属性没有用，2，执行了两次构造函数，一次在创建子级原型的时候，一次在子级构造函数内部
+        // function Father(name) {
+        //     this.name = name
+        //     this.list = [1,2,3]
+        // }
+        // Father.prototype.getName = function() {
+        //     console.log('Father原型getName',this.name)
+        // }
+        // function Son3 (name) {
+        //     Father.call(this,name)
+        //     this.subname = this.name
+        // }
+        // Son3.prototype = new Father()
+        // let son3 = new Son3('Eileen')
+        // console.log(son3.getName()) //f() {console.log('父类原型',this.name)}
+        // console.log(son3.name)//Eileen
+        // console.log(son3.subname) //Eileen
+
+        //原型式继承优点：和原型链继承类似，实现了继承
+        //原型式继承缺点：和原型链继承类似，每次实例化对象都要创建方法，无法实现函数复用，
+        //通过call只是调用构造函数的属性和方法，父构造函数原型上的方法没继承到
+        function fun(obj) {
+            function Son() {}
+            Son.prototype = obj
+            return new Son()
+        }
+        let objProto = {
+            name: 'Eileen'
+        }
+        let so1 = fun(objProto)
+        let so2 = fun(objProto)
+        console.log(so1.name)//'Eileen'
+        console.log(so2.name) //'Eileen'
+  
+        //寄生继承优点：和构造函数继承类似：支持子构造函数传参，
+        //寄生继承缺点：和构造函数继承类似：调用一次函数就得创建一遍方法，无法实现函数复用，效率低
+        // function fun2(obj) {
+        //     function Son(){}
+        //     Son.prototype = obj
+        //     return new Son()
+        // }
+        // function JiSheng(obj) {
+        //     let clone = fun(obj)
+        //     clone.say = function() {
+        //         console.log('我是新增的方法')
+        //     }
+        //     return clone
+        // }
+        // let objJiS ={
+        //     name: 'Eileen'
+        // }
+        // let o1 = JiSheng(objs)
+        // let o2 = JiSheng(objJiS)
+        // console.log(o1.say == o2.say) //false
+        //在原型式继承基础上封装一个JiSheng函数将fun返回的对象进行增强，
+
+        //es5有一个方法Object.create相当于封装了原型式继承，接收两个参数，第一个新对象的原型对象，第二个是新对象新增属性
+        //上述代码写为
+        function JiSheng(obj) {
+            let clone = Object.create(obj)
+            clone.say = function() {
+                console.log('我是新增的方法')
+            }
+            return clone
+        }
+        let objJiS ={
+            name: 'Eileen'
+        }
+        let o1 = JiSheng(objs)
+        let o2 = JiSheng(objJiS)
+        console.log(o1.say == o2.say) //false
+ 
+        //寄生组合继承,利用组合继承和寄生继承各自优势,优点：组合继承优点，寄生继承优点，目前js继承用的都是这个继承方法
+        //组合继承缺点：调用了两次构造函数，只需要减少一次就可以，正好利用寄生继承的特性
+        function JiSheng(Son,Parent) {
+            let clone = Object.create(Parent.prototype) //创建对象
+            Son.prototype = clone //指定对象
+            clone.constructor = Son //增强对象
+        }
+        function Parent(name) {
+            this.name = name
+            this.type = ['js','css']
+        }
+        Parent.prototype.say = function() {
+            console.log(this.name)
+        }
+        function Son(name) {
+            Parent.call(this,name)
+        }
+        JiSheng(Son,Parent)
+        let son1 = new Son('张三')
+        let son2 = new Son('李四')
+        son1.type.push('vue') //['js','css','vue']
+        son2.type.push('react')//['js','css','react']
 
 
-
-//构造函数继承，缺点：父类构造函数原型上的方法获取不到
-function Father2(name) {
-    this.name = name
-    this.list = [1,2,3]
-}
-Father2.prototype.getName = function () {
-    return this.name
-}
-function Son2(name) {
-    Father2.call(this,name)
-    this.subname = name
-}
-let son2 = new Son2('Hello')
-// console.log(son2.getName()) //报错
-console.log(son2.name, son2.subname) //Hello Hello
-
-
-
-//组合继承 缺点：__proto__上的属性没有用；执行了两次构造函数
-function Father3(name) {
-    this.name = name
-    this.list = [1,2,3]
-}
-Father3.prototype.getName = function () {
-    return this.name
-}
-function Son3(name) {
-    Father3.call(this,name)
-    this.subname = name
-}
-Son3.prototype = new Father3()
-let son3 = new Son3('Son3') 
-console.log(son3.getName())//Son3
-console.log(son3.name, son3.subname) //Son3,Son3
-
-
-//寄生组合继承
-function Father4(name) {
-    this.name = name
-    this.list = [1,2,3]
-}
-Father4.prototype.getName = function () {
-    return this.name
-}
-function Son4(name) {
-    Father4.call(this,name)
-    this.subname = name
-}
-function inhert(SonC, FatherC) {
-    function F() { }
-    F.prototype = FatherC.prototype
-    SonC.prototype = new F()
-    SonC.prototype.constructor = SonC
-}
-inhert(Son4, Father4)
-let son4 = new Son4('Son4')
-console.log(son4.getName()) //Son4
-console.log(son4.name, son4.subname) //Son4 Son4
+        function Father(name) {
+            this.name = name
+        }
+        Father.prototype.getName = function() {
+            console.log(this.name)
+        }
+        function Son (name){
+            Father.call(this,name)
+            this.subname = name
+        }
+        function inhertProto(sonClass,FatherClass) {
+            function F(){}
+            F.prototype = FatherClass.prototype
+            sonClass.prototype = new F()
+            sonClass.prototype.constructor = Son
+        }
+        inhertProto(Son,Father)
+        let son = new Son('eileen')
+        console.log(son.getName()) //eileen
+        console.log(son.subname,son.name) //eileen eileen
+        // son.getName()
