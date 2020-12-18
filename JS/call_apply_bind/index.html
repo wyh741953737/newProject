@@ -48,7 +48,7 @@
             const bindFn = function() {
                 const args2 = [...arguments]
                 console.log(this)
-                self.apply(this instanceof bindFn ? this :ctx,args.concat(args2))
+                self.apply(this instanceof self ? this : ctx, args.concat(args2))
             }
             function ProFn() {}
             ProFn.prototype = self.prototype
